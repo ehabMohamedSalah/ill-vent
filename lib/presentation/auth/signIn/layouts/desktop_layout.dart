@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+ import 'package:flutter/material.dart';
 
 class LoginDesktopLayout extends StatelessWidget {
   const LoginDesktopLayout({super.key});
@@ -7,8 +7,9 @@ class LoginDesktopLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-            Center(child: Text("Desktop Layout"))
-      ],
+  Center(child: Text("The tablet layout has not been implemented yet.",style: TextStyle(color: Colors.white,fontSize: 30),)),
+
+    ],
     );
   }
 }
