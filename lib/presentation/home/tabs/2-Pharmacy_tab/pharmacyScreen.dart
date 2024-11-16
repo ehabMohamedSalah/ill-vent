@@ -16,7 +16,7 @@ class PharmacyScreen extends StatelessWidget {
       key: scaffoldKey,
       backgroundColor:   ColorManager.primaryColor,
       body: AdaptiveLayout(
-        mobileLayout: (context) => const PharmacyMobileLayout(),
+        mobileLayout: (context) =>    PharmacyMobileLayout(),
         tabletLayout: (context) => const PharmacyTabletLayout() ,
         desktopLayout: (context) => const PharmacyDesktopLayout(),
       ),

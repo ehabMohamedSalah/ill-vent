@@ -29,6 +29,14 @@ abstract class Appstyle{
       fontSize: getResponsiveFontSize(context, fontSize: 15),
     );
   }
+  static TextStyle VerySmall15(BuildContext context) {
+    return TextStyle(
+      fontWeight: FontWeight.w700,
+      color: Colors.white38,
+      overflow:TextOverflow.ellipsis ,
+      fontSize: getResponsiveFontSize(context, fontSize: 10),
+    );
+  }
 
   static TextStyle medium25(BuildContext context) {
     return TextStyle(

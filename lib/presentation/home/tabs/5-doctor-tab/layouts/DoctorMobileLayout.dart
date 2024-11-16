@@ -4,7 +4,17 @@ import '../../../../../core/resuable_component/Widgets-Tab/TabVertItem.dart';
 import '../../../../../core/resuable_component/Widgets-Tab/tab_horz_item.dart';
 import '../../../../../core/resuable_component/Widgets-Tab/widgets/Text_Widget.dart';
 import '../../../../../core/utils/strings_manager.dart';
+import '../../../../../data_layer/model/widget_model.dart';
 
+List<WidgetModel>model=[
+  WidgetModel(image:'assets/images/6_doctorScreen/dr1.png' ,desc: 'asssssssssaaadddddddddddddddddddddddddddddddddddddddddddddddaasssssssssss',title:'Dr/ Ehab' ),
+  WidgetModel(image:'assets/images/6_doctorScreen/dr2.png' ,desc: 'asssssssssaadaaasssssssssss',title:'Dr/ esraa' ),
+  WidgetModel(image:'assets/images/6_doctorScreen/dr3.png' ,desc: 'asssssssssaaaaasssssssssss',title:'Dr/ Ehab' ),
+  WidgetModel(image:'assets/images/6_doctorScreen/dr4.png' ,desc: 'asssssssssaaaaasssssssssss',title:'Dr/ Ehab'),
+  WidgetModel(image:'assets/images/6_doctorScreen/dr5.png' ,desc: 'asssssssssaaaaasssssssssss',title:'Dr/ Ehab'),
+  WidgetModel(image:'assets/images/6_doctorScreen/dr6.png' ,desc: 'asssssssssaaadddddddddddddddddddddddddddddddddddddddddddddddaasssssssssss',title:'Dr/ aser' ),
+
+];
 class DoctorMobileLayout extends StatelessWidget {
   const DoctorMobileLayout({super.key});
 
@@ -22,7 +32,7 @@ class DoctorMobileLayout extends StatelessWidget {
               child: TabHorzItem()),
           SizedBox(height: 13,),
           TextWidget( text:StringsManager.hospital,),
-          TabVertItem(),
+          TabVertItem(modelList: model,),
 
         ],
       ),

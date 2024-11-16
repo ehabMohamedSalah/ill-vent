@@ -4,8 +4,8 @@ import 'package:ill_vent/presentation/home/tabs/1-shop_tab/shop_screen.dart';
 import 'package:ill_vent/presentation/home/tabs/2-Pharmacy_tab/pharmacyScreen.dart';
 import '../../../core/utils/colors_manager.dart';
  import '../tabs/3_home_tab/homeTabScreen.dart';
-import '../tabs/4-doctor-tab/dr_Screen.dart';
-import '../tabs/5-hospital_tab/hospital_screen.dart';
+ import '../tabs/4-hospital_tab/hospital_screen.dart';
+import '../tabs/5-doctor-tab/dr_Screen.dart';
 
 class HomeMobileLayout extends StatefulWidget {
   const HomeMobileLayout({super.key});
@@ -13,15 +13,16 @@ class HomeMobileLayout extends StatefulWidget {
   @override
   State<HomeMobileLayout> createState() => _HomeMobileLayoutState();
 }
-int _currentIndex = 3;
+int _currentIndex = 2;
 
 // List of widgets corresponding to each item in the CurvedNavigationBar
 final List<Widget> _pages = [
   ShopScreen(),
   PharmacyScreen(),
   HomeTabScreen(),
-  DoctorScreen(),
   HospitalScreen(),
+  DoctorScreen(),
+
 ];
 class _HomeMobileLayoutState extends State<HomeMobileLayout> {
   @override

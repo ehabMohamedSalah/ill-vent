@@ -32,7 +32,7 @@ class VerItemWidget extends StatelessWidget {
           children: [
             Expanded(
                 flex: 1,
-                child: Image.asset('assets/images/5_hospitalScreen/cleopatra-hospitals.png',fit: BoxFit.fill ,height: height*0.16,)),
+                child: Image.asset(model.image,fit: BoxFit.fill ,height: height*0.16,)),
             SizedBox(width: 10,),
             Expanded(
               flex: 3,

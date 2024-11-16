@@ -59,6 +59,15 @@ class StringsManager{
   static const String painKillers="Pain Killers";
   static const String shop="shop";
 
+//===================-Pharmacy-===============================================================
+  static const String cataflarm="Cataflarm";
+  static const String alcofan="Alcofan";
+  static const String burfen="Burfen";
+  static const String panadol="Panadol";
+  static const String adol="Adol";
+  static const String comtrex="Comtrex";
+
+
 
 
 }
