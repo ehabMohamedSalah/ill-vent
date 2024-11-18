@@ -1,5 +1,6 @@
  import 'package:flutter/material.dart';
 import 'package:ill_vent/core/utils/Appstyle.dart';
+import 'package:ill_vent/core/utils/routes_manager.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../../core/resuable_component/LottieWidget.dart';
@@ -20,7 +21,9 @@ class HomeTabMobileLayout extends StatelessWidget {
           children: [
             Text('Click Here' ,style: Appstyle.small20(context) ),
             IconButton(
-                onPressed:(){} ,
+                onPressed:(){
+                  Navigator.pushNamed(context, RouteManager.scanScreen);
+                } ,
                 icon: Icon(Icons.local_hospital,color: Colors.white,size: height*0.35,),
             ),
           ],

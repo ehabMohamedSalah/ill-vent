@@ -6,6 +6,8 @@ import 'package:ill_vent/presentation/auth/signIn/login_screen.dart';
 import 'package:ill_vent/presentation/auth/signUp/register_Screen.dart';
 import 'package:ill_vent/presentation/home/home_screen.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:ill_vent/presentation/home/home_tab_screenss/Scan_Patient/scan_screen.dart';
+import 'package:ill_vent/presentation/home/home_tab_screenss/photo_of_sit/photo_Screen.dart';
 
 void main() => runApp(
   DevicePreview(
@@ -31,11 +33,12 @@ class MyApp extends StatelessWidget {
         RouteManager.homeScreenRoutes:(context) => HomeScreen(),
         RouteManager.loginRoutes:(context) => LoginScreen(),
         RouteManager.signUpRoutes:(context) => SignUp(),
-
+        RouteManager.scanScreen:(context) => ScanScreen(),
+         RouteManager.photoScreen:(context) => PhotoScreen(),
 
       },
       theme:AppTheme.lightTheme ,
-      initialRoute: RouteManager.loginRoutes ,
+      initialRoute: RouteManager.scanScreen  ,
 
 
     );

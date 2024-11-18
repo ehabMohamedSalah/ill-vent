@@ -78,6 +78,7 @@ flutter:
     - assets/images/9_mdeical_history/
     - assets/images/10_cart/
     - assets/images/lottie/
+    - assets/images/3_home&bottoms/afterScan/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
