@@ -1,0 +1,57 @@
+[
+  {
+    "name": "Al Shifa Hospital",
+    "description": "A leading multi-specialty hospital providing world-class healthcare services.",
+    "thumbnail": "https://tse4.mm.bing.net/th?id=OIP.oEJ6DNf7xQfRaVXYnqJ3RgHaEo&pid=Api",
+    "imageUrl": "https://tse4.mm.bing.net/th?id=OIP.oEJ6DNf7xQfRaVXYnqJ3RgHaEo&pid=Api",
+    "location": "Cairo, Egypt",
+    "rating": 4.8,
+    "contactNumber": "+201234567890",
+    "established": "1995",
+    "specialties": ["Cardiology", "Neurology", "Orthopedics", "Dermatology"]
+  },
+  {
+    "name": "Dar Al Fouad Hospital",
+    "description": "Renowned for advanced medical treatments and state-of-the-art facilities.",
+    "thumbnail": "https://tse4.mm.bing.net/th?id=OIP.pM8Y-wIh9gE3Kr7IKXjVggHaD1&pid=Api",
+    "imageUrl": "https://tse4.mm.bing.net/th?id=OIP.pM8Y-wIh9gE3Kr7IKXjVggHaD1&pid=Api",
+    "location": "Giza, Egypt",
+    "rating": 4.7,
+    "contactNumber": "+201987654321",
+    "established": "2000",
+    "specialties": ["Oncology", "Pediatrics", "ENT", "Urology"]
+  },
+  {
+    "name": "As-Salam International Hospital",
+    "description": "Delivering exceptional healthcare services with a focus on patient care.",
+    "thumbnail": "https://tse4.mm.bing.net/th?id=OIP.Xp7FnT2OLx4IGfgGbIW2lgHaF0&pid=Api",
+    "imageUrl": "https://tse4.mm.bing.net/th?id=OIP.Xp7FnT2OLx4IGfgGbIW2lgHaF0&pid=Api",
+    "location": "Alexandria, Egypt",
+    "rating": 4.6,
+    "contactNumber": "+201112233445",
+    "established": "1987",
+    "specialties": ["General Surgery", "Gynecology", "Radiology", "Nephrology"]
+  },
+  {
+    "name": "Cleopatra Hospital",
+    "description": "Top-tier hospital offering comprehensive medical and surgical care.",
+    "thumbnail": "https://tse4.mm.bing.net/th?id=OIP.ZhWJQgDzc0lqFmfgVsHEhQHaE3&pid=Api",
+    "imageUrl": "https://tse4.mm.bing.net/th?id=OIP.ZhWJQgDzc0lqFmfgVsHEhQHaE3&pid=Api",
+    "location": "Nasr City, Cairo, Egypt",
+    "rating": 4.9,
+    "contactNumber": "+201223344556",
+    "established": "1990",
+    "specialties": ["Cardiac Surgery", "Emergency Care", "Plastic Surgery", "Ophthalmology"]
+  },
+  {
+    "name": "El Gouna Hospital",
+    "description": "Modern healthcare facility catering to residents and tourists.",
+    "thumbnail": "https://tse2.mm.bing.net/th?id=OIP.f3LXRyAWDyyvlJ7w0FO2dgHaFc&pid=Api",
+    "imageUrl": "https://tse2.mm.bing.net/th?id=OIP.f3LXRyAWDyyvlJ7w0FO2dgHaFc&pid=Api",
+    "location": "Hurghada, Egypt",
+    "rating": 4.5,
+    "contactNumber": "+201334455667",
+    "established": "2010",
+    "specialties": ["Trauma Care", "Internal Medicine", "Dermatology", "Psychiatry"]
+  }
+]

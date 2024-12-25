@@ -22,7 +22,7 @@ class PhotoScreen extends StatelessWidget {
       backgroundColor:   ColorManager.primaryColor,
 
       body: AdaptiveLayout(
-        mobileLayout: (context) => const PhotoMobileLayout(),
+        mobileLayout: (context) =>   PhotoMobileLayout(),
         tabletLayout: (context) => const PhotoTabletLayout() ,
         desktopLayout: (context) => const PhotoDesktopLayout(),
       ),

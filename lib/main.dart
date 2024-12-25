@@ -6,15 +6,24 @@ import 'package:ill_vent/presentation/auth/signIn/login_screen.dart';
 import 'package:ill_vent/presentation/auth/signUp/register_Screen.dart';
 import 'package:ill_vent/presentation/home/home_screen.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:ill_vent/presentation/home/home_tab_screenss/FindHospital/FindingHospitalScreen.dart';
 import 'package:ill_vent/presentation/home/home_tab_screenss/Scan_Patient/scan_screen.dart';
 import 'package:ill_vent/presentation/home/home_tab_screenss/photo_of_sit/photo_Screen.dart';
 
-void main() => runApp(
-  DevicePreview(
-    enabled: !kReleaseMode,
-    builder: (context) => MyApp(), // Wrap your app
-  ),
-);
+import 'core/di/di.dart';
+
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();//law fe ay haga future m3molha await lazm tkhls abl mdkhol 3ala al runapp
+  configureDependencies();
+  runApp(
+      DevicePreview(
+        enabled: !kReleaseMode,
+        builder: (context) => MyApp(), // Wrap your app
+      ));
+}
+
+
 
 
 
@@ -25,6 +34,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
       useInheritedMediaQuery: true,
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
@@ -35,11 +45,12 @@ class MyApp extends StatelessWidget {
         RouteManager.signUpRoutes:(context) => SignUp(),
         RouteManager.scanScreen:(context) => ScanScreen(),
          RouteManager.photoScreen:(context) => PhotoScreen(),
+        RouteManager.findingScreen:(context) => FindingScreen(),
+
 
       },
       theme:AppTheme.lightTheme ,
-      initialRoute: RouteManager.scanScreen  ,
-
+      initialRoute:   RouteManager.homeScreenRoutes  ,
 
     );
   }

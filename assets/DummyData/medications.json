@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Panadol Extra",
+    "description": "Pain reliever and fever reducer containing paracetamol and caffeine.",
+    "thumbnail": "https://tse4.mm.bing.net/th?id=OIP.lrG7cjGpRo4Ieob4vZz1EgHaHa&pid=Api",
+    "imageUrl": "https://tse4.mm.bing.net/th?id=OIP.lrG7cjGpRo4Ieob4vZz1EgHaHa&pid=Api",
+    "price": 30,
+    "category": "Pain Relievers",
+    "rating": 4.8,
+    "stock": 200,
+    "expiryDate": "2025-12-31",
+    "sku": "MED-PA-001"
+  },
+  {
+    "name": "Amoxicillin 500mg",
+    "description": "Antibiotic used to treat bacterial infections.",
+    "thumbnail": "https://tse2.mm.bing.net/th?id=OIP.bKkFHXfuAFgIxHdYQ3g5IQHaHa&pid=Api",
+    "imageUrl": "https://tse2.mm.bing.net/th?id=OIP.bKkFHXfuAFgIxHdYQ3g5IQHaHa&pid=Api",
+    "price": 45,
+    "category": "Antibiotics",
+    "rating": 4.7,
+    "stock": 150,
+    "expiryDate": "2026-06-30",
+    "sku": "MED-AM-002"
+  },
+  {
+    "name": "Cetirizine 10mg",
+    "description": "Antihistamine used to treat allergies and runny nose.",
+    "thumbnail": "https://tse2.mm.bing.net/th?id=OIP.wNt5AYi7S5u-xnJvxfUErQHaHa&pid=Api",
+    "imageUrl": "https://tse2.mm.bing.net/th?id=OIP.wNt5AYi7S5u-xnJvxfUErQHaHa&pid=Api",
+    "price": 20,
+    "category": "Antihistamines",
+    "rating": 4.6,
+    "stock": 300,
+    "expiryDate": "2025-10-15",
+    "sku": "MED-CE-003"
+  },
+  {
+    "name": "Omeprazole 20mg",
+    "description": "Medication for stomach acidity and ulcers.",
+    "thumbnail": "https://tse2.mm.bing.net/th?id=OIP.onzXjk_8WXEgY0mTmIDA_AAAAA&pid=Api",
+    "imageUrl": "https://tse2.mm.bing.net/th?id=OIP.onzXjk_8WXEgY0mTmIDA_AAAAA&pid=Api",
+    "price": 35,
+    "category": "Gastrointestinal",
+    "rating": 4.7,
+    "stock": 100,
+    "expiryDate": "2026-03-20",
+    "sku": "MED-OM-004"
+  },
+  {
+    "name": "Vitamin C 1000mg",
+    "description": "Dietary supplement to boost immunity and overall health.",
+    "thumbnail": "https://tse3.mm.bing.net/th?id=OIP.hMCy0L0LxeNde3hFnoyUjgHaHa&pid=Api",
+    "imageUrl": "https://tse3.mm.bing.net/th?id=OIP.hMCy0L0LxeNde3hFnoyUjgHaHa&pid=Api",
+    "price": 50,
+    "category": "Supplements",
+    "rating": 4.9,
+    "stock": 250,
+    "expiryDate": "2027-01-01",
+    "sku": "MED-VC-005"
+  }
+]
