@@ -1,34 +1,37 @@
 import '../../Domain/entity/deal_entity.dart';
 
-class DealModel {
+class DealModel extends DealEntity {
   DealModel({
-    this.dealName,
-    this.dealDescription,
-    this.dealPrice,
-    this.validUntil,
-  });
+    String? dealName,
+    String? dealDescription,
+    int? dealPrice,
+    String? validUntil,
+  }) : super(
+    dealName: dealName,
+    dealDescription: dealDescription,
+    dealPrice: dealPrice,
+    validUntil: validUntil,
+  );
 
-  DealModel.fromJson(dynamic json) {
-    dealName = json['dealName'];
-    dealDescription = json['dealDescription'];
-    dealPrice = json['dealPrice'];
-    validUntil = json['validUntil'];
+  factory DealModel.fromJson(Map<String, dynamic> json) {
+    return DealModel(
+      dealName: json['dealName'] as String?,
+      dealDescription: json['dealDescription'] as String?,
+      dealPrice: json['dealPrice'] != null ? int.tryParse(json['dealPrice'].toString()) : null,
+      validUntil: json['validUntil'] as String?,
+    );
   }
-
-  String? dealName;
-  String? dealDescription;
-  int? dealPrice;
-  String? validUntil;
 
   Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['dealName'] = dealName;
-    map['dealDescription'] = dealDescription;
-    map['dealPrice'] = dealPrice;
-    map['validUntil'] = validUntil;
-    return map;
+    return {
+      'dealName': dealName,
+      'dealDescription': dealDescription,
+      'dealPrice': dealPrice,
+      'validUntil': validUntil,
+    };
   }
 
+  /// ✅ Converts DealModel to DealEntity
   DealEntity toDealEntity() {
     return DealEntity(
       dealName: dealName,

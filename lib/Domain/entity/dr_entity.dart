@@ -1,6 +1,19 @@
 import 'deal_entity.dart';
 
 class DrEntity {
+  final String? name;
+  final int? price;
+  final String? thumbnail;
+  final String? imageUrl;
+  final String? description;
+  final String? availableDate;
+  final double? rate;
+  final String? phoneNumber;
+  final String? location;
+  final List<String>? availableDays;
+  final Map<String, String>? workingHours;
+  final DealEntity? deals;
+
   DrEntity({
     this.name,
     this.price,
@@ -15,17 +28,4 @@ class DrEntity {
     this.workingHours,
     this.deals,
   });
-
-  String? name;
-  int? price;
-  String? thumbnail;
-  String? imageUrl;
-  String? description;
-  String? availableDate;
-  double? rate;
-  String? phoneNumber;
-  String? location;
-  List<String>? availableDays;
-  Map<String, String>? workingHours;
-  List<DealEntity>? deals;
 }

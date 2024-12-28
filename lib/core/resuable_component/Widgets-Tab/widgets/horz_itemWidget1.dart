@@ -47,7 +47,7 @@ class HorItemWidget1 extends StatelessWidget {
               child: ListView.builder(
                 itemCount: 1,
                 itemBuilder: (context, index) => Text(
-                  "${entity.deals?.first.dealName}", // عرض أسماء العروض مفصولة بفواصل
+                  "${entity.deals?.dealName}", // عرض أسماء العروض مفصولة بفواصل
                   style: Appstyle.small15(context).copyWith(
                     color: Colors.yellow,
                   ),

@@ -1,54 +1,8 @@
 import '../../Domain/entity/dr_entity.dart';
 import 'deal_model.dart';
 
-class DrModel {
+class DrModel extends DrEntity {
   DrModel({
-    this.name,
-    this.price,
-    this.thumbnail,
-    this.imageUrl,
-    this.description,
-    this.availableDate,
-    this.rate,
-    this.phoneNumber,
-    this.location,
-    this.availableDays,
-    this.workingHours,
-    this.deals,
-  });
-
-  DrModel.fromJson(dynamic json) {
-    name = json['name'];
-    price = json['price'];
-    thumbnail = json['thumbnail'];
-    imageUrl = json['imageUrl'];
-    description = json['description'];
-    availableDate = json['availableDate'];
-    rate = json['rate'];
-    phoneNumber = json['phoneNumber'];
-    location = json['location'];
-    availableDays = List<String>.from(json['availableDays'] ?? []);
-    workingHours = Map<String, String>.from(json['workingHours'] ?? {});
-
-    if (json['deals'] != null && json['deals'].isNotEmpty) {
-      deals = List<DealModel>.from(json['deals'].map((x) => DealModel.fromJson(x)));
-    }
-  }
-
-  String? name;
-  int? price;
-  String? thumbnail;
-  String? imageUrl;
-  String? description;
-  String? availableDate;
-  double? rate;
-  String? phoneNumber;
-  String? location;
-  List<String>? availableDays;
-  Map<String, String>? workingHours;
-  List<DealModel>? deals;
-
-  DrModel copyWith({
     String? name,
     int? price,
     String? thumbnail,
@@ -60,55 +14,78 @@ class DrModel {
     String? location,
     List<String>? availableDays,
     Map<String, String>? workingHours,
-    List<DealModel>? deals,
-  }) => DrModel(
-    name: name ?? this.name,
-    price: price ?? this.price,
-    thumbnail: thumbnail ?? this.thumbnail,
-    imageUrl: imageUrl ?? this.imageUrl,
-    description: description ?? this.description,
-    availableDate: availableDate ?? this.availableDate,
-    rate: rate ?? this.rate,
-    phoneNumber: phoneNumber ?? this.phoneNumber,
-    location: location ?? this.location,
-    availableDays: availableDays ?? this.availableDays,
-    workingHours: workingHours ?? this.workingHours,
-    deals: deals ?? this.deals,
+    DealModel? deals,
+  }) : super(
+    name: name,
+    price: price,
+    thumbnail: thumbnail,
+    imageUrl: imageUrl,
+    description: description,
+    availableDate: availableDate,
+    rate: rate,
+    phoneNumber: phoneNumber,
+    location: location,
+    availableDays: availableDays,
+    workingHours: workingHours,
+    deals: deals,
   );
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['name'] = name;
-    map['price'] = price;
-    map['thumbnail'] = thumbnail;
-    map['imageUrl'] = imageUrl;
-    map['description'] = description;
-    map['availableDate'] = availableDate;
-    map['rate'] = rate;
-    map['phoneNumber'] = phoneNumber;
-    map['location'] = location;
-    map['availableDays'] = availableDays;
-    map['workingHours'] = workingHours;
-    if (deals != null) {
-      map['deals'] = deals!.map((x) => x.toJson()).toList();
-    }
-    return map;
+  factory DrModel.fromJson(Map<String, dynamic> json) {
+    return DrModel(
+      name: json['name'] as String?,
+      price: json['price'] as int?,
+      thumbnail: json['thumbnail'] as String?,
+      imageUrl: json['imageUrl'] as String?,
+      description: json['description'] as String?,
+      availableDate: json['availableDate'] as String?,
+      rate: json['rate'] != null ? double.tryParse(json['rate'].toString()) : null,
+      phoneNumber: json['phoneNumber'] as String?,
+      location: json['location'] as String?,
+      availableDays: (json['availableDays'] as List<dynamic>?)
+          ?.map((e) => e.toString())
+          .toList(),
+      workingHours: (json['workingHours'] as Map<String, dynamic>?)
+          ?.map((key, value) => MapEntry(key, value.toString())),
+      deals: json['deals'] != null && json['deals'].isNotEmpty
+          ? DealModel.fromJson(json['deals'] as Map<String, dynamic>)
+          : null,
+    );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'price': price,
+      'thumbnail': thumbnail,
+      'imageUrl': imageUrl,
+      'description': description,
+      'availableDate': availableDate,
+      'rate': rate,
+      'phoneNumber': phoneNumber,
+      'location': location,
+      'availableDays': availableDays,
+      'workingHours': workingHours,
+      'deals': deals
+    };
+  }
+
+  /// ✅ Converts DrModel to DrEntity
   DrEntity toDrEntity() {
     return DrEntity(
+      name: name,
+      price: price,
+      thumbnail: thumbnail,
       imageUrl: imageUrl,
       description: description,
-      price: price,
-      name: name,
       availableDate: availableDate,
-      phoneNumber: phoneNumber,
       rate: rate,
-      thumbnail: thumbnail,
+      phoneNumber: phoneNumber,
       location: location,
       availableDays: availableDays,
       workingHours: workingHours,
-      deals: deals?.map((deal) => deal.toDealEntity()).toList(),
+      deals: deals
+      //deals: deals?.map((deal) => deal.toDealEntity()).toList(),
+
     );
   }
 }
