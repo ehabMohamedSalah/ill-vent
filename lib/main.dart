@@ -9,6 +9,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:ill_vent/presentation/home/home_tab_screenss/FindHospital/FindingHospitalScreen.dart';
 import 'package:ill_vent/presentation/home/home_tab_screenss/Scan_Patient/scan_screen.dart';
 import 'package:ill_vent/presentation/home/home_tab_screenss/photo_of_sit/photo_Screen.dart';
+import 'package:ill_vent/presentation/home/tabs/resuable_widgets/Widget/deals/deal_list/dealCardWidget/DealDetailsScreen/DealDetailsScreen.dart';
 
 import 'core/di/di.dart';
 
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         RouteManager.scanScreen:(context) => ScanScreen(),
          RouteManager.photoScreen:(context) => PhotoScreen(),
         RouteManager.findingScreen:(context) => FindingScreen(),
+
 
 
       },

@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ill_vent/core/utils/Appstyle.dart';
 
-import '../../../../data_layer/model/widget_model.dart';
+import '../../../../../data_layer/model/widget_model.dart';
 
 class VerItemWidget extends StatelessWidget {
   WidgetModel model;
