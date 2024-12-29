@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ill_vent/core/utils/strings_manager.dart';
 
-import '../../../../../core/resuable_component/Widgets-Tab/TabVertItem.dart';
-import '../../../../../core/resuable_component/Widgets-Tab/tab_horz_item.dart';
-import '../../../../../core/resuable_component/Widgets-Tab/widgets/Text_Widget.dart';
-import '../../../../../core/utils/Appstyle.dart';
+import '../../../../../core/resuable_component/Dummy_widgets/Widgets-Tab/TabVertItem.dart';
+import '../../../../../core/resuable_component/Dummy_widgets/Widgets-Tab/tab_horz_item.dart';
+import '../../resuable_widgets/Text_widget/Text_Widget.dart';
+ import '../../../../../core/utils/Appstyle.dart';
 import '../../../../../data_layer/model/widget_model.dart';
 
 List<WidgetModel>model=[

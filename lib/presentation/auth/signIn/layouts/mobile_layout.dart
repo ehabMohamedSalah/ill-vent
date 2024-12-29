@@ -100,14 +100,14 @@ class _LoginMobileLayoutState extends State<LoginMobileLayout> {
                           Navigator.pushNamed(context, RouteManager.homeScreenRoutes,);
                         }
                       },
-                      child: SignButton(text: StringsManager.lOGIN,TextColor: ColorManager.black,borderColor: Colors.blue, linearGradient: false,)),
+                      child: SignButton(text: StringsManager.lOGIN,TextColor: ColorManager.black,borderColor: Colors.blue, linearGradient: false,onTap: (){},)),
                   SizedBox(width: 0,),
                   InkWell(
                       onTap: () {
                         Navigator.pushNamed(context, RouteManager.signUpRoutes,);
 
                       },
-                      child: SignButton(text:StringsManager.signUP ,TextColor: ColorManager.white,borderColor:Colors.transparent   ,linearGradient: true,)),
+                      child: SignButton(text:StringsManager.signUP ,TextColor: ColorManager.white,borderColor:Colors.transparent   ,linearGradient: true,onTap: (){},)),
                 ],
               ),
             ),

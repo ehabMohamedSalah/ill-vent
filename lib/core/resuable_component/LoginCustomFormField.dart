@@ -31,29 +31,29 @@ class CustomFormField extends StatelessWidget {
         controller: controller,
         maxLength:maxLength ,
         obscureText: obsecureText,
-      style:Appstyle.smallLabelText(context).copyWith(color: Colors.white) ,
+      style:Appstyle.smallLabelTextBlack(context).copyWith(color: Colors.white) ,
         decoration: InputDecoration(
           fillColor: filledColor?ColorManager.primaryColor:Colors.transparent,
           suffixIcon: suffixIcon,
           filled: true,
-          label:  Text(title,style: Appstyle.smallLabelText(context).copyWith(color: Colors.white)),
+          label:  Text(title,style: Appstyle.smallLabelTextBlack(context).copyWith(color: Colors.white)),
           hintText:hintText ,
 
-          hintStyle: Appstyle.smallLabelText(context).copyWith(color: Colors.white),
+          hintStyle: Appstyle.smallLabelTextBlack(context).copyWith(color: Colors.white),
           border: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black,width: 2,style: BorderStyle.solid),
+            borderSide: BorderSide(color: ColorManager.headlineColor,width: 2,style: BorderStyle.solid),
             borderRadius: BorderRadius.circular(10),
           ),
           enabledBorder:OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black,width: 2,style: BorderStyle.solid),
+            borderSide: BorderSide(color: ColorManager.headlineColor,width: 2,style: BorderStyle.solid),
             borderRadius: BorderRadius.circular(10),
           ),
           focusedBorder:  OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black,width: 2,style: BorderStyle.solid),
+            borderSide: BorderSide(color: ColorManager.headlineColor,width: 2,style: BorderStyle.solid),
             borderRadius: BorderRadius.circular(10),
           ),
           disabledBorder:  OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black,width: 2,style: BorderStyle.solid),
+            borderSide: BorderSide(color: ColorManager.headlineColor,width: 2,style: BorderStyle.solid),
             borderRadius: BorderRadius.circular(10),
           ),
         ),

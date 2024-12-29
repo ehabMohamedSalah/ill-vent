@@ -20,36 +20,33 @@ class RegisterCustomFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     var height =MediaQuery.of(context).size.height;
 
-    return Container(
-      height: height*.05,
-      child: TextFormField(
+    return TextFormField(
 
-        cursorColor: Colors.white,
-        keyboardType:keyboard ,
-        validator: validator,
-        controller: controller,
+      cursorColor: Colors.white,
+      keyboardType:keyboard ,
+      validator: validator,
+      controller: controller,
 
-        obscureText: obsecureText,
-        decoration: InputDecoration(
-          fillColor: ColorManager.primaryColor,
-          suffixIcon:suffixIcon,
+      obscureText: obsecureText,
+      decoration: InputDecoration(
+        fillColor: ColorManager.secondaryColor,
+        suffixIcon:suffixIcon,
 
-          filled: true,
-          label:  Text(title,style: Appstyle.labelRegisterStyle(context)),
-          hintText:hintText ,
-          hintStyle: Appstyle.labelRegisterStyle(context).copyWith(color: Colors.black),hintMaxLines: 1,
-          border: OutlineInputBorder(
-           ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(0),
-            borderSide: BorderSide(color:ColorManager.primaryColor ),
-          ),
-          focusedBorder:    OutlineInputBorder(
-            borderRadius: BorderRadius.circular(0),
-          ),
-          disabledBorder:   OutlineInputBorder(
-            borderRadius: BorderRadius.circular(0),
-          ),
+        filled: true,
+        label:  Text(title,style: Appstyle.labelRegisterStyle(context)),
+        hintText:hintText ,
+        hintStyle: Appstyle.labelRegisterStyle(context).copyWith(color: Colors.black),hintMaxLines: 1,
+        border: OutlineInputBorder(
+         ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide(color:ColorManager.headlineColor ),
+        ),
+        focusedBorder:    OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        disabledBorder:   OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
         ),
       ),
     );

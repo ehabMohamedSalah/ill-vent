@@ -9,7 +9,7 @@ class StringsManager{
   static const String lOGIN="Log in";
   static const String signUP="Sign Up";
   static const String quickRescue="Quick Rescue";
-
+static const String repasswordScreen='repassword';
   //===================SIGN UP SCREEN===============================================================
   //label
   static const String register="Register";

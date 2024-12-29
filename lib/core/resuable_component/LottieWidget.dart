@@ -36,9 +36,9 @@ class _LottieWidgetState extends State<LottieWidget> with SingleTickerProviderSt
         Center(
           child: _showImage
               ? Image.asset(
-            widget.StaticImage,width: double.infinity,height: height*0.33,fit: BoxFit.fill,) // Show this image after 5 iterations
+            widget.StaticImage,width: double.infinity,height: height*0.31,fit: BoxFit.fill,) // Show this image after 5 iterations
               : Lottie.asset(
-            widget.Animation,width: double.infinity,height: height*0.33,fit: BoxFit.fill,
+            widget.Animation,width: double.infinity,height: height*0.31,fit: BoxFit.fill,
             controller: _controller,
             onLoaded: (composition) {
               _controller.duration = composition.duration;

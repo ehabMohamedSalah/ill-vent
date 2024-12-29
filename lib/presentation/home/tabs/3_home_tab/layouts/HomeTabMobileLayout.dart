@@ -24,7 +24,7 @@ class HomeTabMobileLayout extends StatelessWidget {
                 onPressed:(){
                   Navigator.pushNamed(context, RouteManager.scanScreen);
                 } ,
-                icon: Icon(Icons.local_hospital,color: Colors.white,size: height*0.35,),
+                icon: Icon(Icons.local_hospital,color: Colors.white,size: height*0.31,),
             ),
           ],
         ),

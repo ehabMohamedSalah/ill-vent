@@ -7,11 +7,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ill_vent/Domain/entity/dr_entity.dart';
 import 'package:ill_vent/core/utils/Appstyle.dart';
 
-import '../../../../data_layer/model/widget_model.dart';
 
-class VerItemWidget1 extends StatelessWidget {
+class CardWidget extends StatelessWidget {
   DrEntity model;
-  VerItemWidget1({required this.model});
+  CardWidget({required this.model});
   @override
   Widget build(BuildContext context) {
     double height=MediaQuery.sizeOf(context).height;

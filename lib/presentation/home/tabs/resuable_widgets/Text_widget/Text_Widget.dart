@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../../utils/Appstyle.dart';
+import '../../../../../core/utils/Appstyle.dart';
 
 class TextWidget extends StatelessWidget {
   TextWidget(  {required this.text});

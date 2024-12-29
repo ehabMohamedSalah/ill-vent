@@ -31,7 +31,7 @@ class IdCustomFormField extends StatelessWidget {
         controller: controller,
         maxLength:maxLength ,
         obscureText: obsecureText,
-        style:Appstyle.smallLabelText(context).copyWith(color: Colors.white) ,
+        style:Appstyle.smallLabelTextBlack(context).copyWith(color: Colors.white) ,
         decoration: InputDecoration(
           fillColor: filledColor?ColorManager.primaryColor:Colors.transparent,
           suffixIcon: suffixIcon,

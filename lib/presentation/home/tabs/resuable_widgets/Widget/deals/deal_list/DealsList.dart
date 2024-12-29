@@ -1,15 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ill_vent/Domain/entity/dr_entity.dart';
-import 'package:ill_vent/core/resuable_component/Widgets-Tab/widgets/horz-itemWidget.dart';
-import 'package:ill_vent/core/resuable_component/Widgets-Tab/widgets/horz_itemWidget1.dart';
-import 'package:ill_vent/core/utils/Appstyle.dart';
-import 'package:ill_vent/core/utils/colors_manager.dart';
 
-class TabHorzItem1 extends StatelessWidget {
+import 'dealCardWidget/DealCardWidget.dart';
+
+class DealsList extends StatelessWidget {
   List<DrEntity>modelList;
 
-  TabHorzItem1(this.modelList);
+  DealsList(this.modelList);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -21,7 +19,7 @@ class TabHorzItem1 extends StatelessWidget {
               itemBuilder:  (context, index) {
                 DrEntity entity = modelList[index];
                 if (entity.deals != null) {
-                  return HorItemWidget1(entity: entity);
+                  return DealCardWidget(entity: entity);
                 }   else if(entity.deals == 0) {
                   return Text("Currently, no deals are available.");
                 }

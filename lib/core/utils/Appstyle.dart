@@ -5,12 +5,15 @@ import 'colors_manager.dart';
 
 abstract class Appstyle{
 
-  static TextStyle smallLabelText(BuildContext context) {
+  static TextStyle smallLabelTextBlack(BuildContext context) {
     return TextStyle(
-      color: Colors.black,
-      fontSize: getResponsiveFontSize(context, fontSize: 20),
+      color: Colors.black54,
+      fontSize: getResponsiveFontSize(context, fontSize: 22),
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.w700,
+      decoration: TextDecoration.underline,
+      decorationColor: Colors.white,
+      decorationThickness: 1
     );
   }
 
@@ -26,6 +29,7 @@ abstract class Appstyle{
       fontWeight: FontWeight.w700,
       color: Colors.white,
       overflow:TextOverflow.ellipsis ,
+
       fontSize: getResponsiveFontSize(context, fontSize: 15),
     );
   }
@@ -94,6 +98,3 @@ double getScaleFactor(context) {
     return width / 1000;
   }
 }
-
-
-

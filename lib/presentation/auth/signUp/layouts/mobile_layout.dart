@@ -264,7 +264,7 @@ class _RegisterMobileLayoutState extends State<RegisterMobileLayout> {
                                           }
 
                                     },
-                                    child: SignButton(text:StringsManager.signUP ,TextColor: ColorManager.white,borderColor:Colors.transparent   ,linearGradient: true,)),
+                                    child: SignButton(text:StringsManager.signUP ,TextColor: ColorManager.white,borderColor:Colors.transparent   ,linearGradient: true,onTap: (){},)),
                               ],
                             ),
                           ),

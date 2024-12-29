@@ -7,16 +7,16 @@ import '../../../core/utils/shared/adaptive_layout/adaptive_layout.dart';
 import '../../../core/utils/size_config.dart';
 import 'layouts/mobile_layout.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen2 extends StatefulWidget {
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LoginScreen2> createState() => _LoginScreen2State();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreen2State extends State<LoginScreen2> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext coxntext) {
     SizeConfig.init(context);
     return Scaffold(
       key: scaffoldKey,
