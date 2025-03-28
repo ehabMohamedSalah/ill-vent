@@ -1,0 +1,48 @@
+com.example.ill_vent.app-lifecycle-livedata-2.7.0-0 C:\Users\acer\.gradle\caches\8.9\transforms\073654457fa2a50ed2cd74076e014c1c\transformed\lifecycle-livedata-2.7.0\res
+com.example.ill_vent.app-jetified-annotation-experimental-1.4.0-1 C:\Users\acer\.gradle\caches\8.9\transforms\08f24f9e1f8d6a0ebf69d2550a96da04\transformed\jetified-annotation-experimental-1.4.0\res
+com.example.ill_vent.app-jetified-activity-1.9.3-2 C:\Users\acer\.gradle\caches\8.9\transforms\0b3906bfb7830effd3f0d80809cc9107\transformed\jetified-activity-1.9.3\res
+com.example.ill_vent.app-jetified-tracing-1.2.0-3 C:\Users\acer\.gradle\caches\8.9\transforms\0e78b346af54a23ee50a42ad6fc131f4\transformed\jetified-tracing-1.2.0\res
+com.example.ill_vent.app-core-runtime-2.2.0-4 C:\Users\acer\.gradle\caches\8.9\transforms\24d27b4991ccbdd4dbd784a2c504c6af\transformed\core-runtime-2.2.0\res
+com.example.ill_vent.app-jetified-profileinstaller-1.3.1-5 C:\Users\acer\.gradle\caches\8.9\transforms\2cd96bbcc9577f059f909a4e0f06e034\transformed\jetified-profileinstaller-1.3.1\res
+com.example.ill_vent.app-jetified-savedstate-1.2.1-6 C:\Users\acer\.gradle\caches\8.9\transforms\2ce784773804238ac25ef2e5a39bb426\transformed\jetified-savedstate-1.2.1\res
+com.example.ill_vent.app-lifecycle-livedata-core-2.7.0-7 C:\Users\acer\.gradle\caches\8.9\transforms\2f63c24b690d24c604f2034d955f7b41\transformed\lifecycle-livedata-core-2.7.0\res
+com.example.ill_vent.app-jetified-datastore-preferences-release-8 C:\Users\acer\.gradle\caches\8.9\transforms\4c0a6c9445d40aec507c414b4ecff83f\transformed\jetified-datastore-preferences-release\res
+com.example.ill_vent.app-jetified-lifecycle-process-2.7.0-9 C:\Users\acer\.gradle\caches\8.9\transforms\4f4f1fc44165672432fe5d6a77e56e55\transformed\jetified-lifecycle-process-2.7.0\res
+com.example.ill_vent.app-jetified-lifecycle-runtime-ktx-2.7.0-10 C:\Users\acer\.gradle\caches\8.9\transforms\6487b258264653a0037d3a70ab5d0bea\transformed\jetified-lifecycle-runtime-ktx-2.7.0\res
+com.example.ill_vent.app-jetified-savedstate-ktx-1.2.1-11 C:\Users\acer\.gradle\caches\8.9\transforms\68174da77fd642ad5f3716308c457740\transformed\jetified-savedstate-ktx-1.2.1\res
+com.example.ill_vent.app-recyclerview-1.0.0-12 C:\Users\acer\.gradle\caches\8.9\transforms\6bc4be5bb39413cc6b2476351c51b353\transformed\recyclerview-1.0.0\res
+com.example.ill_vent.app-jetified-activity-ktx-1.9.3-13 C:\Users\acer\.gradle\caches\8.9\transforms\6ccec1f0fa8aaf8572e06cbd00c581c4\transformed\jetified-activity-ktx-1.9.3\res
+com.example.ill_vent.app-lifecycle-runtime-2.7.0-14 C:\Users\acer\.gradle\caches\8.9\transforms\754d4f89366bdcd1182430b5f809881d\transformed\lifecycle-runtime-2.7.0\res
+com.example.ill_vent.app-jetified-core-ktx-1.13.1-15 C:\Users\acer\.gradle\caches\8.9\transforms\775ad71d3501e4c9ca4d1e3ae2e21e64\transformed\jetified-core-ktx-1.13.1\res
+com.example.ill_vent.app-transition-1.4.1-16 C:\Users\acer\.gradle\caches\8.9\transforms\7b98a1d944858dc6e4d9e5e314d82f22\transformed\transition-1.4.1\res
+com.example.ill_vent.app-slidingpanelayout-1.2.0-17 C:\Users\acer\.gradle\caches\8.9\transforms\828b477a961269a0d4f7bdb1c25631cf\transformed\slidingpanelayout-1.2.0\res
+com.example.ill_vent.app-jetified-lifecycle-viewmodel-savedstate-2.7.0-18 C:\Users\acer\.gradle\caches\8.9\transforms\84c5a982b40036a53267b6a1809baad3\transformed\jetified-lifecycle-viewmodel-savedstate-2.7.0\res
+com.example.ill_vent.app-jetified-window-1.2.0-19 C:\Users\acer\.gradle\caches\8.9\transforms\8ff1cfebff3968734352c07cfe3f0ee2\transformed\jetified-window-1.2.0\res
+com.example.ill_vent.app-preference-1.2.1-20 C:\Users\acer\.gradle\caches\8.9\transforms\90076ccbac8df61ea4c4b1d55f75fa49\transformed\preference-1.2.1\res
+com.example.ill_vent.app-jetified-fragment-ktx-1.7.1-21 C:\Users\acer\.gradle\caches\8.9\transforms\a3516043108f78ee5ff1972bc3b06fc6\transformed\jetified-fragment-ktx-1.7.1\res
+com.example.ill_vent.app-jetified-lifecycle-viewmodel-ktx-2.7.0-22 C:\Users\acer\.gradle\caches\8.9\transforms\a3abbe1efc62ffff7d82f7eaf966f906\transformed\jetified-lifecycle-viewmodel-ktx-2.7.0\res
+com.example.ill_vent.app-jetified-appcompat-resources-1.1.0-23 C:\Users\acer\.gradle\caches\8.9\transforms\a8abcae07373e4fec579c0c15b0e66e3\transformed\jetified-appcompat-resources-1.1.0\res
+com.example.ill_vent.app-fragment-1.7.1-24 C:\Users\acer\.gradle\caches\8.9\transforms\ae1d71072cf87305d28489ee5aa7426f\transformed\fragment-1.7.1\res
+com.example.ill_vent.app-jetified-datastore-core-release-25 C:\Users\acer\.gradle\caches\8.9\transforms\b4d076b9141c0b91fd697a5877530f90\transformed\jetified-datastore-core-release\res
+com.example.ill_vent.app-coordinatorlayout-1.0.0-26 C:\Users\acer\.gradle\caches\8.9\transforms\b6258192cf5b65f42a82ba6a57983919\transformed\coordinatorlayout-1.0.0\res
+com.example.ill_vent.app-jetified-window-java-1.2.0-27 C:\Users\acer\.gradle\caches\8.9\transforms\b62c2a95755d4511486858abbaa1bc89\transformed\jetified-window-java-1.2.0\res
+com.example.ill_vent.app-jetified-startup-runtime-1.1.1-28 C:\Users\acer\.gradle\caches\8.9\transforms\c01db38942c984f4390ea21164a1f6a4\transformed\jetified-startup-runtime-1.1.1\res
+com.example.ill_vent.app-core-1.13.1-29 C:\Users\acer\.gradle\caches\8.9\transforms\c3bd8e2d6ddcd72844acaa9123d4a478\transformed\core-1.13.1\res
+com.example.ill_vent.app-jetified-lifecycle-livedata-core-ktx-2.7.0-30 C:\Users\acer\.gradle\caches\8.9\transforms\c8e2c6a674e4948e2b848a6383605ee1\transformed\jetified-lifecycle-livedata-core-ktx-2.7.0\res
+com.example.ill_vent.app-lifecycle-viewmodel-2.7.0-31 C:\Users\acer\.gradle\caches\8.9\transforms\d7ac84e34f4e6531581e9475bb3e0645\transformed\lifecycle-viewmodel-2.7.0\res
+com.example.ill_vent.app-appcompat-1.1.0-32 C:\Users\acer\.gradle\caches\8.9\transforms\d99359de71ba81fcbe22e4d2943adf7a\transformed\appcompat-1.1.0\res
+com.example.ill_vent.app-jetified-core-1.0.0-33 C:\Users\acer\.gradle\caches\8.9\transforms\dea541bf257b6139f448f9532697b6e7\transformed\jetified-core-1.0.0\res
+com.example.ill_vent.app-jetified-datastore-release-34 C:\Users\acer\.gradle\caches\8.9\transforms\fab4bbf559f41fc78f84098fa53735a6\transformed\jetified-datastore-release\res
+com.example.ill_vent.app-debug-35 C:\Users\acer\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_native_splash-2.4.5\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.example.ill_vent.app-debug-36 C:\Users\acer\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_plugin_android_lifecycle-2.0.27\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.example.ill_vent.app-debug-37 C:\Users\acer\AppData\Local\Pub\Cache\hosted\pub.dev\image_picker_android-0.8.12+22\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.example.ill_vent.app-debug-38 C:\Users\acer\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_android-2.2.16\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.example.ill_vent.app-debug-39 C:\Users\acer\AppData\Local\Pub\Cache\hosted\pub.dev\shared_preferences_android-2.4.8\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.example.ill_vent.app-debug-40 C:\Users\acer\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite_android-2.4.1\android\build\intermediates\packaged_res\debug\packageDebugResources
+com.example.ill_vent.app-pngs-41 F:\route project\ill_vent\android\app\build\generated\res\pngs\debug
+com.example.ill_vent.app-resValues-42 F:\route project\ill_vent\android\app\build\generated\res\resValues\debug
+com.example.ill_vent.app-packageDebugResources-43 F:\route project\ill_vent\android\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.example.ill_vent.app-packageDebugResources-44 F:\route project\ill_vent\android\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.example.ill_vent.app-debug-45 F:\route project\ill_vent\android\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.example.ill_vent.app-debug-46 F:\route project\ill_vent\android\app\src\debug\res
+com.example.ill_vent.app-main-47 F:\route project\ill_vent\android\app\src\main\res

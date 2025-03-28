@@ -1,0 +1,2 @@
+F:/route project/ill_vent/android/app/.cxx/Debug/6q3k344l/x86_64/CMakeFiles/edit_cache.dir
+F:/route project/ill_vent/android/app/.cxx/Debug/6q3k344l/x86_64/CMakeFiles/rebuild_cache.dir
