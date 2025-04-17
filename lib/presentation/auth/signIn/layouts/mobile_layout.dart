@@ -10,9 +10,9 @@ import 'package:ill_vent/core/utils/Appstyle.dart';
 import 'package:ill_vent/core/utils/colors_manager.dart';
 import 'package:ill_vent/core/utils/routes_manager.dart';
 
+import '../../../../core/constant.dart';
 import '../../../../core/resuable_component/LoginCustomFormField.dart';
-import '../../../../core/utils/constants/constant.dart';
-import '../../../../core/utils/strings_manager.dart';
+ import '../../../../core/utils/strings_manager.dart';
 import '../widgets/logo_widget/logo_widget.dart';
 
 class LoginMobileLayout extends StatefulWidget {
@@ -63,7 +63,7 @@ class _LoginMobileLayoutState extends State<LoginMobileLayout> {
             SliverToBoxAdapter(
               child: CustomFormField( maxLength: 50,title: StringsManager.email,controller: emailContrller,hintText: StringsManager.enterYourEmail,keyboard:TextInputType.emailAddress ,
                 validator: (value){
-                  if(!Constant.regexEmail.hasMatch(value??"")){
+                  if (!RegExp(Constant.regExValidateEmail).hasMatch(value ?? "")) {
                     return StringsManager.notValidEmail;
                   }
                 },),

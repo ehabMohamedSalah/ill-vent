@@ -5,7 +5,7 @@ class StringsManager{
   static const String notValidPassword="Password should be at least 8 character";
   static const String email="Email";
   static const String password="Password";
-  static const String enterYourEmail="ehabsalah52t@gmail.com";
+  static const String enterYourEmail="ehabmohamed52t@gmail.com";
   static const String lOGIN="Log in";
   static const String signUP="Sign Up";
   static const String quickRescue="Quick Rescue";
@@ -29,7 +29,7 @@ static const String repasswordScreen='repassword';
   static const String genderHint="male";
   static const String emailHint="ehabsalah52t@gmail.com";
   static const String passHint="Salah1234";
-  static const String rePassHint="Salah1234";
+  static const String rePassHint="Ehab@1234";
   static const String birthYHint="2002";
   static const String birthMHint="4";
   static const String birthDHint="24";

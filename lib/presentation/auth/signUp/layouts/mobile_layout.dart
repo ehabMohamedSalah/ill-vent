@@ -9,10 +9,10 @@ import 'package:ill_vent/core/utils/Appstyle.dart';
 import 'package:ill_vent/core/utils/colors_manager.dart';
 import 'package:ill_vent/core/utils/routes_manager.dart';
 
+import '../../../../core/constant.dart';
 import '../../../../core/resuable_component/LoginCustomFormField.dart';
 import '../../../../core/resuable_component/RegisterCustomField.dart';
-import '../../../../core/utils/constants/constant.dart';
-import '../../../../core/utils/strings_manager.dart';
+ import '../../../../core/utils/strings_manager.dart';
 import '../widgets/register_Widget.dart';
 
 class RegisterMobileLayout extends StatefulWidget {
@@ -147,10 +147,8 @@ class _RegisterMobileLayoutState extends State<RegisterMobileLayout> {
                                       flex: 2,
                                       child: RegisterCustomFormField(title: StringsManager.emailAddress, hintText:  StringsManager.emailHint, keyboard: TextInputType.emailAddress, controller: emailController, maxLength: 30,
                                               validator: (value) {
-                                                if (!Constant.regexEmail.hasMatch(
-                                                    value ?? "")) {
-                                                  return StringsManager
-                                                      .notValidEmail;
+                                                if (!RegExp(Constant.regExValidateEmail).hasMatch(value ?? "")) {
+                                                  return StringsManager.notValidEmail;
                                                 }
                                               }
                                       ),

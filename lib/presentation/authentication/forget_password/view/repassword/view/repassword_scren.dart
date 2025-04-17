@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../core/constant.dart';
 import '../../../../../../core/resuable_component/LoginCustomFormField.dart';
 import '../../../../../../core/resuable_component/sign_buttom.dart';
 import '../../../../../../core/utils/Appstyle.dart';
 import '../../../../../../core/utils/colors_manager.dart';
-import '../../../../../../core/utils/constants/constant.dart';
-import '../../../../../../core/utils/routes_manager.dart';
+ import '../../../../../../core/utils/routes_manager.dart';
 import '../../../../../../core/utils/strings_manager.dart';
 
 class RepasswordScren extends StatefulWidget {
@@ -83,7 +83,7 @@ class _RepasswordScrenState extends State<RepasswordScren> {
 
                         CustomFormField( maxLength: 50,title: StringsManager.email,controller: emailContrller,hintText: StringsManager.enterYourEmail,keyboard:TextInputType.emailAddress ,
                           validator: (value){
-                            if(!Constant.regexEmail.hasMatch(value??"")){
+                            if (!RegExp(Constant.regExValidateEmail).hasMatch(value ?? "")) {
                               return StringsManager.notValidEmail;
                             }
                           },),
@@ -116,7 +116,9 @@ class _RepasswordScrenState extends State<RepasswordScren> {
                             backgroundColor: ColorManager.headlineColor,
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, RouteManager.homeScreenRoutes);
+                                  context, RouteManager.homeScreenRoutes
+
+                              );
                             },
                           ),
                         ),

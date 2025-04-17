@@ -1,3 +1,4 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ill_vent/config/theme/appTheme.dart';
@@ -6,7 +7,7 @@ import 'package:ill_vent/presentation/auth/signIn/layouts/mobile_layout.dart';
 import 'package:ill_vent/presentation/auth/signIn/login_screen.dart';
 import 'package:ill_vent/presentation/auth/signUp/layouts/mobile_layout.dart';
 import 'package:ill_vent/presentation/auth/signUp/register_Screen.dart';
-import 'package:ill_vent/presentation/authentication/auth_screen.dart';
+  import 'package:ill_vent/presentation/authentication/auth_screen.dart';
 import 'package:ill_vent/presentation/authentication/forget_password/view/forget_password_screen.dart';
 import 'package:ill_vent/presentation/authentication/forget_password/view/otp_forgetpass/forget_otp.dart';
 import 'package:ill_vent/presentation/authentication/forget_password/view/repassword/view/repassword_scren.dart';
@@ -24,12 +25,17 @@ import 'package:ill_vent/presentation/home/home_tab_screenss/photo_of_sit/layout
 import 'package:ill_vent/presentation/home/home_tab_screenss/photo_of_sit/photo_Screen.dart';
 import 'package:ill_vent/presentation/home/tabs/resuable_widgets/Widget/deals/deal_list/dealCardWidget/DealDetailsScreen/DealDetailsScreen.dart';
 
+import 'core/api/api_manager.dart';
 import 'core/di/di.dart';
+import 'core/myobserver.dart';
 
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();//law fe ay haga future m3molha await lazm tkhls abl mdkhol 3ala al runapp
   configureDependencies();
+  Bloc.observer = MyBlocObserver();
+  ApiManager.init();
+
   runApp(
       DevicePreview(
         enabled: !kReleaseMode,
@@ -62,19 +68,19 @@ class MyApp extends StatelessWidget {
         RouteManager.scanScreen:(context) => ScanScreen(),
          RouteManager.photoScreen:(context) => PhotoScreen(),
         RouteManager.findingScreen:(context) => FindingScreen(),
-RouteManager.forgetPassword:(context)=>ForgetPassword(),
+        RouteManager.forgetPassword:(context)=>ForgetPassword(),
         RouteManager.homeMobileLayout:(context) => HomeMobileLayout(),
         RouteManager.loginRoutesMobileLayout:(context) => LoginMobileLayout(),
         RouteManager.signUpRoutesMobileLayout:(context) => RegisterMobileLayout(),
         RouteManager.scanScreenMobileLayout:(context) => ScanMobileLayout(),
         RouteManager.photoScreenMobileLayout:(context) => PhotoMobileLayout(),
         RouteManager.findingScreenMobileLayout:(context) => FindingMobileLayout(),
-RouteManager.forgetOTP:(context)=>ForgetOtpScreen(),
+        RouteManager.forgetOTP:(context)=>ForgetOtpScreen(),
         RouteManager.repasswordScreen:(context)=>RepasswordScren(),
 
       },
       theme:AppTheme.lightTheme ,
-      initialRoute:   RouteManager.authScreen  ,
+      initialRoute: RouteManager.authScreen ,
 
     );
   }
