@@ -1,21 +1,17 @@
 import 'package:injectable/injectable.dart';
 import 'dart:developer';
-
- import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../constant.dart';
 
-
- @singleton
+@singleton
 class CacheHelper {
   static SharedPreferences? _sharedPrefs;
-  // we can save the keys over here
-  // so that we can use them in the app like this 👇👇
-  //  >>  static const String _tokenKey = 'auth_token';
+
   CacheHelper() {
     init();
     log("Constructor called shared prefs");
   }
+
   static void initForTest(SharedPreferences prefs) {
     _sharedPrefs = prefs;
   }
@@ -36,11 +32,7 @@ class CacheHelper {
     try {
       await _ensureInitialized();
       var guest = _sharedPrefs!.getBool(Constant.questCacheKey);
-      if (guest == true) {
-        return true;
-      } else {
-        return false;
-      }
+      return guest ?? false;
     } catch (e) {
       log("CacheHelper.isQuest() error: $e");
       return false;
@@ -52,7 +44,6 @@ class CacheHelper {
     return _sharedPrefs!.getBool(Constant.isRememberMe) as T?;
   }
 
-  //========USAGE=========\\
   Future<bool> setData<T>(String key, T value) async {
     await _ensureInitialized();
     if (value is String) {
@@ -70,10 +61,8 @@ class CacheHelper {
     }
   }
 
-  //========USAGE=========\\
   Future<T> getData<T>(String key) async {
     await _ensureInitialized();
-
     if (T == String) {
       return (_sharedPrefs!.getString(key) as T?) ?? "" as T;
     } else if (T == bool) {
