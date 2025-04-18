@@ -5,6 +5,8 @@ import 'package:ill_vent/data_layer/datasource_contract/auth_datasource.dart';
 import 'package:ill_vent/data_layer/model/auth_response/RegisterResponse.dart';
 import 'package:ill_vent/data_layer/model/auth_response/email_confirm/ConfirmEmail.dart';
 import 'package:ill_vent/data_layer/model/auth_response/login_response/LoginResponse.dart';
+import 'package:ill_vent/data_layer/model/auth_response/reset_password/ReqResetPassResponse.dart';
+import 'package:ill_vent/data_layer/model/auth_response/reset_password/ResetPassResponse.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../core/api/endpoints.dart';
@@ -82,6 +84,55 @@ class AuthDatasourceImpl extends AuthDatasource{
 
  }
  }
+
+  @override
+  Future<ApiResult<ReqResetPassResponse>> reqResetPassword({required String email}) async {
+    try {
+      var response = await apiManager.postRequest(
+        endpoint: Endpoints.reqPasswordReset,
+        body: '"$email"', // <-- لاحظ إن الإيميل جوّه double quotes
+        isRaw: true,
+      );
+      var result = ReqResetPassResponse.fromJson(response.data);
+
+      if (result.success == true) {
+        return SuccessApiResult(result);
+      }
+      return ErrorApiResult(
+        Exception(result.message ?? "An unknown error occurred"),
+      );
+    } catch (err) {
+      return ErrorApiResult(
+        Exception("Server connection error: ${err.toString()}"),
+      );
+    }
+  }
+
+  @override
+  Future<ApiResult<ResetPassResponse>> resetPassword({required String email, required String pass, required String otp})async {
+  try{
+    var response=  await apiManager.postRequest(
+        endpoint: Endpoints.resetPassword,
+        body: {
+    "email": email,
+    "newPassword": pass,
+    "confirmNewPassword": pass,
+    "otp": otp
+    });
+    var res=ResetPassResponse.fromJson(response.data);
+    if(res.success==true){
+      return SuccessApiResult(res);
+    }
+      return ErrorApiResult(Exception(res.message.toString()));
+
+  } catch(err){
+    return ErrorApiResult(Exception(err.toString()));
+  }
+
+  }
+
+
+
   }
 
 

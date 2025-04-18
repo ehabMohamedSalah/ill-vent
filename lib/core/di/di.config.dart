@@ -24,6 +24,9 @@ import '../../Domain/repo_contract/dr_repo.dart' as _i578;
 import '../../Domain/usecase/auth_usecase/confirm_email.dart' as _i584;
 import '../../Domain/usecase/auth_usecase/login_usecase.dart' as _i970;
 import '../../Domain/usecase/auth_usecase/register_usecase.dart' as _i757;
+import '../../Domain/usecase/auth_usecase/reqResetPasswordUsecase.dart'
+    as _i349;
+import '../../Domain/usecase/auth_usecase/reset_password_usecase.dart' as _i289;
 import '../../Domain/usecase/dr_usecase.dart' as _i176;
 import '../../presentation/authentication/view_model/cubit/auth_cubit.dart'
     as _i358;
@@ -59,10 +62,16 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i584.ConfirmEmailUsecase(gh<_i765.AuthRepo>()));
     gh.factory<_i970.LoginUsecase>(
         () => _i970.LoginUsecase(gh<_i765.AuthRepo>()));
+    gh.factory<_i349.ReqResetPasswordUsecase>(
+        () => _i349.ReqResetPasswordUsecase(gh<_i765.AuthRepo>()));
+    gh.factory<_i289.ResetPasswordUsecase>(
+        () => _i289.ResetPasswordUsecase(gh<_i765.AuthRepo>()));
     gh.factory<_i358.AuthCubit>(() => _i358.AuthCubit(
           gh<_i757.RegisterUsecase>(),
           gh<_i584.ConfirmEmailUsecase>(),
           gh<_i970.LoginUsecase>(),
+          gh<_i349.ReqResetPasswordUsecase>(),
+          gh<_i289.ResetPasswordUsecase>(),
         ));
     gh.factory<_i578.DoctorRepo>(() => _i580.DoctorRepoImpl(
         dummyDatasource: gh<_i563.DoctorDatasourceContract>()));

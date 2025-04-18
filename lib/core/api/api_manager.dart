@@ -20,11 +20,17 @@ class ApiManager{
     return response;
   }
 
-  Future<Response> postRequest({required String endpoint, Map<String, dynamic>? body, Map<String, dynamic>? headers}) async {
-    var response = await dio.post(endpoint, data: body, options: Options(
-        headers: headers
-    ));
-    return response;
+  Future<Response> postRequest({
+    required String endpoint,
+    dynamic body, // <-- dynamic عشان نستقبل Map أو String
+    Map<String, dynamic>? headers,
+    bool isRaw = false, // <-- default false
+  }) async {
+    return await dio.post(
+      endpoint,
+      data: isRaw ? body : (body ?? {}),
+      options: Options(headers: headers),
+    );
   }
 
   Future<Response> put({

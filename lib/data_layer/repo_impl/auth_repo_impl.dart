@@ -6,6 +6,8 @@ import 'package:ill_vent/data_layer/datasource_contract/auth_datasource.dart';
 import 'package:ill_vent/data_layer/model/auth_response/RegisterResponse.dart';
 import 'package:ill_vent/data_layer/model/auth_response/email_confirm/ConfirmEmail.dart';
 import 'package:ill_vent/data_layer/model/auth_response/login_response/LoginResponse.dart';
+import 'package:ill_vent/data_layer/model/auth_response/reset_password/ReqResetPassResponse.dart';
+import 'package:ill_vent/data_layer/model/auth_response/reset_password/ResetPassResponse.dart';
 import 'package:injectable/injectable.dart';
 @Injectable(as:AuthRepo )
 class AuthRepoImpl extends AuthRepo{
@@ -26,5 +28,15 @@ class AuthRepoImpl extends AuthRepo{
 
       return authDatasource.login(email: email, password: password);
    }
+
+  @override
+  Future<ApiResult<ReqResetPassResponse>> reqResetPassword({required String email}) {
+    return authDatasource.reqResetPassword(email: email);
+  }
+
+  @override
+  Future<ApiResult<ResetPassResponse>> resetPassword({required String email, required String pass, required String otp}) {
+   return authDatasource.resetPassword(email: email, pass: pass, otp: otp);
+  }
 
 }
