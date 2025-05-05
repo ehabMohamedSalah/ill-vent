@@ -34,7 +34,7 @@ class ShopMobileLayout extends StatelessWidget {
               child: TabHorzItem()),
           SizedBox(height: 13,),
           TextWidget( text:StringsManager.shop,),
-          TabVertItem(modelList: model,),
+          //TabVertItem(modelList: model,),
 
         ],
       ),

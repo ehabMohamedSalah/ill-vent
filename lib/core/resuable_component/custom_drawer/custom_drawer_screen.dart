@@ -60,7 +60,7 @@ class CustomDrawer extends StatelessWidget {
                       Driver(),
 
                       RowItem(Image:"assets/images/4_drawer/log-out.svg" ,text: "Log Out",
-                        onTap: (){Navigator.pushNamed(context, RouteManager.loginRoutes);
+                        onTap: (){Navigator.pushNamed(context, RouteManager.authScreen);
                         },),
 
 

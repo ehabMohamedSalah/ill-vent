@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ill_vent/core/di/di.dart';
 import 'package:ill_vent/core/utils/strings_manager.dart';
+import 'package:ill_vent/data_layer/model/Hospital_response.dart';
+import 'package:ill_vent/presentation/home/tabs/4-hospital_tab/ViewModel/hospital_intent.dart';
+import 'package:ill_vent/presentation/home/tabs/4-hospital_tab/ViewModel/hospital_view_model_cubit.dart';
 
 import '../../../../../core/resuable_component/Dummy_widgets/Widgets-Tab/TabVertItem.dart';
 import '../../../../../core/resuable_component/Dummy_widgets/Widgets-Tab/tab_horz_item.dart';
@@ -9,34 +14,71 @@ import '../../resuable_widgets/Text_widget/Text_Widget.dart';
 import '../../../../../data_layer/model/widget_model.dart';
 
 List<WidgetModel>model=[
-  WidgetModel(image:'assets/images/5_hospitalScreen/cleopatra-hospitals.png' ,desc: 'asssssssssaaadddddddddddddddddddddddddddddddddddddddddddddddaasssssssssss',title:StringsManager.cataflarm ),
-  WidgetModel(image:'assets/images/5_hospitalScreen/cleopatra-hospitals.png' ,desc: 'asssssssssaadaaasssssssssss',title:StringsManager.alcofan ),
-  WidgetModel(image:'assets/images/5_hospitalScreen/cleopatra-hospitals.png' ,desc: 'asssssssssaaaaasssssssssss',title:StringsManager.burfen ),
-  WidgetModel(image:'assets/images/5_hospitalScreen/cleopatra-hospitals.png' ,desc: 'asssssssssaaaaasssssssssss',title:StringsManager.panadol),
-  WidgetModel(image:'assets/images/5_hospitalScreen/cleopatra-hospitals.png' ,desc: 'asssssssssaaaaasssssssssss',title:StringsManager.adol),
-  WidgetModel(image:'assets/images/5_hospitalScreen/cleopatra-hospitals.png' ,desc: 'asssssssssaaadddddddddddddddddddddddddddddddddddddddddddddddaasssssssssss',title:StringsManager.comtrex ),
-
+  WidgetModel(image:'assets/images/5_hospitalScreen/cleopatra-hospitals.png' ,desc: 'One of the Partners of Cleopatra Group Hospitals Located in Salah El-Din Sq. in Heliopolis ',title:StringsManager.cataflarm,location: "39 Cleopatra، Maidan Salahuddin Square, Almazah, Heliopolis",profile: "Accept Private Medical Insurance",rate: "4.0" ),
+  WidgetModel(image:'assets/images/5_hospitalScreen/cleopatra-hospitals.png' ,desc: 'One of the Partners of Cleopatra Group Hospitals Located in Salah El-Din Sq. in Heliopolis ',title:StringsManager.cataflarm,location: "39 Cleopatra، Maidan Salahuddin Square, Almazah, Heliopolis",profile: "Accept Private Medical Insurance",rate: "4.0" ),
+  WidgetModel(image:'assets/images/5_hospitalScreen/cleopatra-hospitals.png' ,desc: 'One of the Partners of Cleopatra Group Hospitals Located in Salah El-Din Sq. in Heliopolis ',title:StringsManager.cataflarm,location: "39 Cleopatra، Maidan Salahuddin Square, Almazah, Heliopolis",profile: "Accept Private Medical Insurance",rate: "4.0" ),
+  WidgetModel(image:'assets/images/5_hospitalScreen/cleopatra-hospitals.png' ,desc: 'One of the Partners of Cleopatra Group Hospitals Located in Salah El-Din Sq. in Heliopolis ',title:StringsManager.cataflarm,location: "39 Cleopatra، Maidan Salahuddin Square, Almazah, Heliopolis",profile: "Accept Private Medical Insurance",rate: "4.0" ),
+  WidgetModel(image:'assets/images/5_hospitalScreen/cleopatra-hospitals.png' ,desc: 'One of the Partners of Cleopatra Group Hospitals Located in Salah El-Din Sq. in Heliopolis ',title:StringsManager.cataflarm,location: "39 Cleopatra، Maidan Salahuddin Square, Almazah, Heliopolis",profile: "Accept Private Medical Insurance",rate: "4.0" ),
+  WidgetModel(image:'assets/images/5_hospitalScreen/cleopatra-hospitals.png' ,desc: 'One of the Partners of Cleopatra Group Hospitals Located in Salah El-Din Sq. in Heliopolis ',title:StringsManager.cataflarm,location: "39 Cleopatra، Maidan Salahuddin Square, Almazah, Heliopolis",profile: "Accept Private Medical Insurance",rate: "4.0" ),
 ];
 class HospitalMobileLayout extends StatelessWidget {
-  const HospitalMobileLayout({super.key});
-
   @override
   Widget build(BuildContext context) {
-    double height=MediaQuery.sizeOf(context).height;
     return Padding(
       padding: const EdgeInsets.all(10),
-      child: Column(
-        children: [
-          TextWidget( text: StringsManager.deals,),
-          Container(
-             width: MediaQuery.sizeOf(context).width,
-              height: height*0.2 ,
-              child: TabHorzItem()),
-          SizedBox(height: 13,),
-          TextWidget( text:StringsManager.hospital,),
-           TabVertItem(modelList: model,),
+      child: BlocProvider(
+        create: (context) {
+          final cubit = getIt<HospitalViewModelCubit>();
+          cubit.doIntent(GetHospitalIntent());
+          return cubit;
+        },
+        child: BlocBuilder<HospitalViewModelCubit, HospitalViewModelState>(
+          builder: (context, state) {
+            if (state is HospitalViewModelLoading) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("تحميل البيانات..."),
+                    CircularProgressIndicator(color: Colors.black),
+                  ],
+                ),
+              );
+            } else if (state is HospitalViewModelSuccess) {
+              final hospitals = state.response;
 
-        ],
+              if (hospitals.isEmpty) {
+                return Center(child: Text("لا توجد مستشفيات حالياً."));
+              }
+
+              return Column(
+                children: [
+                  const SizedBox(height: 13),
+                  TextWidget(text: StringsManager.hospital),
+                  TabVertItem(modelList: hospitals),
+                ],
+              );
+            } else if (state is HospitalViewModelError) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("حدث خطأ: ${state.errorMsg}"),
+                    ElevatedButton(
+                      onPressed: () {
+                        HospitalViewModelCubit.get(context)
+                            .doIntent(GetHospitalIntent());
+                      },
+                      child: Text("إعادة المحاولة"),
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              return const Center(child: Text("لا توجد بيانات."));
+            }
+          },
+        ),
       ),
     );
   }

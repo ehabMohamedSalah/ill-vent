@@ -18,7 +18,7 @@ class HospitalScreen extends StatelessWidget {
       key: scaffoldKey,
       backgroundColor:   ColorManager.primaryColor,
       body: AdaptiveLayout(
-        mobileLayout: (context) => const HospitalMobileLayout(),
+        mobileLayout: (context) =>   HospitalMobileLayout(),
         tabletLayout: (context) => const HospitalTabletLayout() ,
         desktopLayout: (context) => const HospitalDesktopLayout(),
       ),

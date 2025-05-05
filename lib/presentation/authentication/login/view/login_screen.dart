@@ -5,6 +5,7 @@ import 'package:ill_vent/core/utils/Appstyle.dart';
 import 'package:ill_vent/core/utils/colors_manager.dart';
 import 'package:ill_vent/presentation/authentication/view_model/cubit/auth_intent.dart';
 
+import '../../../../core/cache/shared_pref.dart';
 import '../../../../core/constant.dart';
 import '../../../../core/di/di.dart';
 import '../../../../core/resuable_component/sign_buttom.dart';
@@ -25,6 +26,8 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isObsecure=true;
   late TextEditingController emailContrller;
   late TextEditingController passwordContrller;
+  late final CacheHelper cacheHelper;
+
 
   @override
   void initState() {
@@ -32,6 +35,8 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
     emailContrller=TextEditingController();
     passwordContrller=TextEditingController();
+    cacheHelper = getIt<CacheHelper>();
+
 
   }
   @override
@@ -129,9 +134,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 );
 
                               },
-                              listener: (context, state) {
+                              listener: (context, state) async{
                                 if (state is LoginSuccess) {
                                   Navigator.pushNamed(context, RouteManager.homeScreenRoutes, );
+                                  await cacheHelper.setData<String>(Constant.tokenKey, state.response.token??"");
 
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(

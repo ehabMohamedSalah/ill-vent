@@ -10,6 +10,6 @@ class DrError extends DrViewModelState{
   DrError(this.errorMsg);
 }
 class DrSuccess extends DrViewModelState{
-  List<DrEntity> drEntity;
+  List<GetDrResponse> drEntity;
   DrSuccess(this.drEntity);
 }

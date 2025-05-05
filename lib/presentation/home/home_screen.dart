@@ -17,10 +17,12 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig.init(context);
     return Scaffold(
+
       key: scaffoldKey,
       appBar: MediaQuery.sizeOf(context).width < SizeConfig.tablet
           ? AppBar(
         elevation: 0,
+
         backgroundColor:   ColorManager.secondaryColor,
         leading: IconButton(
             onPressed: () {
@@ -30,20 +32,20 @@ class HomeScreen extends StatelessWidget {
         title: Text(StringsManager.illVent,style: Appstyle.large30(context),),
         actions: [
 
-          Image.asset('assets/images/3_home&bottoms/ill-vent (1) 1.png' ),
+          Image.asset('assets/images/4_drawer/ill-vent .png' ,color: Colors.black,),
         ],
-      )
-          : null,
-       backgroundColor:   ColorManager.primaryColor,
-      drawer: MediaQuery.sizeOf(context).width < SizeConfig.tablet
+      ) : null,
+       drawer: MediaQuery.sizeOf(context).width < SizeConfig.tablet
           ? const CustomDrawer()
           : null,
 
-      body: AdaptiveLayout(
-        mobileLayout: (context) => const HomeMobileLayout(),
-        tabletLayout: (context) => const HomeTabletLayout(),
-        desktopLayout: (context) => const HomeDesktopLayout(),
+      body: Stack(
+        children: [
+           HomeMobileLayout(),
+
+        ],
       ),
+
     );
 
   }

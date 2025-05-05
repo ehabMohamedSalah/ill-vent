@@ -38,7 +38,7 @@ class IdCustomFormField extends StatelessWidget {
           filled: true,
            hintText:hintText ,
 
-          hintStyle: Appstyle.small15(context).copyWith(color: Colors.white70),
+          hintStyle: Appstyle.small15(context).copyWith(color: ColorManager.secondaryColor),
           border: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black,width: 2,style: BorderStyle.solid),
             borderRadius: BorderRadius.circular(10),
