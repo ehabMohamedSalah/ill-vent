@@ -19,6 +19,7 @@ static const String repasswordScreen='/RepasswordScren';
   static const String  photoScreenMobileLayout='/photoScreenMobileLayout';
   static const String  scanScreenMobileLayout='/scanScreenMobileLayout';
   static const String  findingScreenMobileLayout='/findingScreenMobileLayout';
-  static const String dealDetailsScreenMobileLayout='/dealDetailsScreenMobileLayout';
+  static const String doctorAppointmentsScreen='/doctorAppointmentsScreen';
+
 
 }

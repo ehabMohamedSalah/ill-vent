@@ -8,5 +8,12 @@ class Endpoints{
   static const String getPharmacy="Pharmacy";
   static const String getDrEndpoint="Doctor";
   static String getDrById({required String id}) => "Doctor/$id";
-  static String avaialbleTime({required String date}) => "Doctor/31/schedule?date=$date";
- }
+  static String avaialbleTime({required String date,required String drID}) {
+    return "Doctor/${drID}/schedule?date=$date";
+  }
+  static const String createAppoitmentEndpoint="Doctor/appointment";
+  static const String getUserAppoitmentEndpoint="Doctor/appointments";
+   static String cancelAppointmentEndpoint({required String drID}) {
+    return "Doctor/appointment/${drID}/cancel";
+  }
+}

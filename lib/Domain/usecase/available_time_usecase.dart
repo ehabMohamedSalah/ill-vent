@@ -9,7 +9,7 @@ class AvailableTimeUsecase{
   DrDatasource drDatasource;
   AvailableTimeUsecase(this.drDatasource);
 
-  Future<ApiResult<List<AvailableTimeResponse>>> call({required String date}){
-    return drDatasource.availableTime(date: date);
+  Future<ApiResult<List<AvailableTimeResponse>>> call({required String date,required String drID}){
+    return drDatasource.availableTime(date: date,drID: drID);
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../../../../core/di/di.dart';
 import '../../../../../core/resuable_component/Dummy_widgets/Widgets-Tab/TabVertItem.dart';
 import '../../../../../core/resuable_component/Dummy_widgets/Widgets-Tab/widgets/VerItemWidget.dart';
+import '../../../../../core/utils/routes_manager.dart';
 import '../../resuable_widgets/Text_widget/Text_Widget.dart';
  import '../../../../../core/utils/strings_manager.dart';
 import '../../../../../data_layer/model/widget_model.dart';
@@ -36,19 +37,29 @@ import '../Widgets/doctor_card.dart';
                 );
               }
               if(state is DrSuccess){
-                return Column(
-                  children: [
-
-                    TextWidget( text:StringsManager.doctor,),
-                    Expanded(
-                      child: ListView.separated(
-                      itemBuilder:  (context, index) => DoctorCard(model: state.drEntity[index],),
-                      separatorBuilder: (context, index) => SizedBox(height: 8,),
-                      itemCount: state.drEntity.length,
-                      ),
+                return Scaffold(
+                  backgroundColor:Colors.transparent,
+                  floatingActionButton: FloatingActionButton(
+                    backgroundColor: Colors.pinkAccent,
+                    onPressed: () {
+                      Navigator.pushNamed(context, RouteManager.doctorAppointmentsScreen);
+                    },
+                    child: Icon(Icons.calendar_today), // or any icon you prefer
                   ),
+                  body: Column(
+                    children: [
 
-                  ],
+                      TextWidget( text:StringsManager.doctor,),
+                      Expanded(
+                        child: ListView.separated(
+                        itemBuilder:  (context, index) => DoctorCard(model: state.drEntity[index],),
+                        separatorBuilder: (context, index) => SizedBox(height: 8,),
+                        itemCount: state.drEntity.length,
+                        ),
+                    ),
+
+                    ],
+                  ),
                 );
               }
               if(state is DrError){

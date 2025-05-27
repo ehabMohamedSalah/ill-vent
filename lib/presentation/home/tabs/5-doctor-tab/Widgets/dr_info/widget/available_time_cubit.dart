@@ -17,11 +17,11 @@ class AvailableTimeCubit extends Cubit<AvailableTimeState> {
   static AvailableTimeCubit get(context) => BlocProvider.of(context);
 
 
-  Future<void> availableTime({required String date}) async {
+  Future<void> availableTime({required String date,required String drID}) async {
 
     if (!isClosed) emit(AvailableTimeLoading());
 
-    final response = await availableTimeUsecase.call(date: date);
+    final response = await availableTimeUsecase.call(date: date,drID: drID);
 
     if (response is SuccessApiResult<List<AvailableTimeResponse>>) {
       emit(AvailableTimeSuccess(response.data ?? []));
