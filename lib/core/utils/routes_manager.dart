@@ -21,5 +21,6 @@ static const String repasswordScreen='/RepasswordScren';
   static const String  findingScreenMobileLayout='/findingScreenMobileLayout';
   static const String doctorAppointmentsScreen='/doctorAppointmentsScreen';
 
+  static const String cartScreen='/cartScreen';
 
 }

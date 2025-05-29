@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:ill_vent/core/resuable_component/loading_circle.dart';
  import 'package:ill_vent/presentation/home/tabs/5-doctor-tab/ViewModel/dr_view_model_cubit.dart';
 import '../../../../../core/di/di.dart';
 import '../../../../../core/resuable_component/Dummy_widgets/Widgets-Tab/TabVertItem.dart';
 import '../../../../../core/resuable_component/Dummy_widgets/Widgets-Tab/widgets/VerItemWidget.dart';
+import '../../../../../core/resuable_component/error_message.dart';
 import '../../../../../core/utils/routes_manager.dart';
 import '../../resuable_widgets/Text_widget/Text_Widget.dart';
  import '../../../../../core/utils/strings_manager.dart';
@@ -29,12 +31,7 @@ import '../Widgets/doctor_card.dart';
 
             builder: (context, state) {
               if (state is DrLoading) {
-                return Center(
-                  child: SpinKitFadingCircle(
-                    color: Colors.red,
-                    size: 50.0,
-                  ),
-                );
+                return LoadingCircle();
               }
               if(state is DrSuccess){
                 return Scaffold(
@@ -63,9 +60,12 @@ import '../Widgets/doctor_card.dart';
                 );
               }
               if(state is DrError){
-               return Center(child: Text(state.errorMsg),);
+                return ErrorWidgett( onPressed: () {
+                  final cubit = DrViewModelCubit.get(context);
+                  cubit..fetchDr();
+                },message: state.errorMsg);
               }
-              return Center(child: CircularProgressIndicator(),);
+              return Center(child: LoadingCircle(),);
  
   },
 ),

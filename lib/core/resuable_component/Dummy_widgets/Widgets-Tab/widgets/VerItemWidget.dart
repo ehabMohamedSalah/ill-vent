@@ -24,7 +24,7 @@ class _VerItemWidgetState extends State<VerItemWidget>
     double width = MediaQuery.sizeOf(context).width;
 
     return Container(
-      height: height * 0.30,
+
       width: width,
       decoration: BoxDecoration(
         color: Colors.white,

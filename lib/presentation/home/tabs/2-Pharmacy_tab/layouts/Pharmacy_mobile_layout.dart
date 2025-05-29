@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ill_vent/core/resuable_component/error_message.dart';
 import 'package:ill_vent/presentation/home/tabs/2-Pharmacy_tab/ViewModel/pharmcy_intent.dart';
 import 'package:ill_vent/presentation/home/tabs/2-Pharmacy_tab/ViewModel/pharmcy_view_model_cubit.dart';
 import '../../../../../core/di/di.dart';
 import '../../../../../core/resuable_component/Dummy_widgets/Widgets-Tab/TabVertItem.dart';
+import '../../../../../core/resuable_component/loading_circle.dart';
 import '../../resuable_widgets/Text_widget/Text_Widget.dart';
 
 class PharmacyMobileLayout extends StatelessWidget {
@@ -25,19 +27,13 @@ class PharmacyMobileLayout extends StatelessWidget {
           builder: (context, state) {
             if (state is PharmcyViewModelLoading) {
               return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("تحميل البيانات..."),
-                    CircularProgressIndicator(color: Colors.black),
-                  ],
-                ),
+                child:LoadingCircle(),
               );
             } else if (state is PharmcyViewModelSuccess) {
               final pharmcy = state.response;
 
               if (pharmcy.isEmpty) {
-                return Center(child: Text("لا توجد صيدليات حالياً."));
+                return Center(child: Text("No Pharmcy Available"));
               }
 
               return Column(
@@ -48,23 +44,13 @@ class PharmacyMobileLayout extends StatelessWidget {
                 ],
               );
             } else if (state is PharmcyViewModelError) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("حدث خطأ: ${state.message}"),
-                    ElevatedButton(
-                      onPressed: () {
-                        final cubit = PharmcyViewModelCubit.get(context);
-                        cubit.doIntent(GetPharmcyIntent());
-                      },
-                      child: Text("إعادة المحاولة"),
-                    ),
-                  ],
-                ),
-              );
+              return ErrorWidgett( onPressed: () {
+                final cubit = PharmcyViewModelCubit.get(context);
+                cubit.doIntent(GetPharmcyIntent());
+              },message: state.message);
+
             } else {
-              return Center(child: Text('لا توجد بيانات.'));
+              return Center(child: Text('No Available Data'));
             }
           },
         ),

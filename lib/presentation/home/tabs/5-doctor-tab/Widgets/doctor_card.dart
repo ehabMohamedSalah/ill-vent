@@ -39,7 +39,7 @@ class _DoctorCardState extends State<DoctorCard>
         .width;
 
     return Container(
-      height: height * 0.30,
+
       width: width,
       decoration: BoxDecoration(
         color: Colors.white,

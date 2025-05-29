@@ -150,9 +150,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                           ),
                           SizedBox(height: 10,),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Text(StringsManager.quickRescue,style: Appstyle.small20(context).copyWith(color: Colors.white),
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, RouteManager.homeScreenRoutes);
+                            },
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(StringsManager.quickRescue,style: Appstyle.small20(context).copyWith(color: Colors.white),
+                              ),
                             ),
                           )
                         ],

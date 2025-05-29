@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:ill_vent/core/di/di.dart';
 import 'package:ill_vent/core/resuable_component/LoginCustomFormField.dart';
+import 'package:ill_vent/core/resuable_component/custom_button.dart';
 import 'package:ill_vent/core/utils/Appstyle.dart';
 import 'package:ill_vent/core/utils/colors_manager.dart';
 import 'package:ill_vent/core/utils/routes_manager.dart';
@@ -165,46 +166,43 @@ class _CreateApointmentState extends State<CreateApointment> {
                   builder: (context, state) {
                     return SizedBox(
                       width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.pinkAccent,
-                        ),
-                        onPressed: () {
-                          final patientModel = PatientModel(
-                            doctorId: int.parse(widget.drID),
-                            appointmentDate: widget.appointmentDate,
-                            patientAge: int.parse(patientAgeController.text),
-                            patientGender: selectedGender ?? "male",
-                            startTime: widget.startTime,
-                            patientName: nameController.text,
-                            patientPhoneNumber: phoneContrller.text,
-                          );
+                      child:CustomButton(
+                              (){
+                      final patientModel = PatientModel(
+                        doctorId: int.parse(widget.drID),
+                        appointmentDate: widget.appointmentDate,
+                        patientAge: int.parse(patientAgeController.text),
+                        patientGender: selectedGender ?? "male",
+                        startTime: widget.startTime,
+                        patientName: nameController.text,
+                        patientPhoneNumber: phoneContrller.text,
+                      );
 
-                          if (_formKey.currentState!.validate()) {
-                            // Print all values before submission
-                            print("doctorId: ${patientModel.doctorId}");
-                            print("appointmentDate: ${patientModel.appointmentDate}");
-                            print("patientAge: ${patientModel.patientAge}");
-                            print("patientGender: ${patientModel.patientGender}");
-                            print("startTime: ${patientModel.startTime}");
-                            print("patientName: ${patientModel.patientName}");
-                            print("patientPhoneNumber: ${patientModel.patientPhoneNumber}");
+                      if (_formKey.currentState!.validate()) {
+                        // Print all values before submission
+                        print("doctorId: ${patientModel.doctorId}");
+                        print("appointmentDate: ${patientModel.appointmentDate}");
+                        print("patientAge: ${patientModel.patientAge}");
+                        print("patientGender: ${patientModel.patientGender}");
+                        print("startTime: ${patientModel.startTime}");
+                        print("patientName: ${patientModel.patientName}");
+                        print("patientPhoneNumber: ${patientModel.patientPhoneNumber}");
 
-                            DrViewModelCubit.get(context)
-                                .createAppointment(patientModel);
-                          } else {
-                            Fluttertoast.showToast(
-                              msg: "Please correct the errors.",
-                              backgroundColor: Colors.orange,
-                              textColor: Colors.white,
-                            );
-                          }
-                        },
-                        child: Text("Appointment"),
-                      ),
-                    );
-                  },
-                ),
+                        DrViewModelCubit.get(context)
+                            .createAppointment(patientModel);
+                      } else {
+                        Fluttertoast.showToast(
+                          msg: "Please correct the errors.",
+                          backgroundColor: Colors.orange,
+                          textColor: Colors.white,
+                        );
+                      }
+                    }
+
+                          , "Appointment"));})
+
+
+
               ],
             ),
           ),

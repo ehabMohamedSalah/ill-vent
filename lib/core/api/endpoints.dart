@@ -16,4 +16,18 @@ class Endpoints{
    static String cancelAppointmentEndpoint({required String drID}) {
     return "Doctor/appointment/${drID}/cancel";
   }
+  static String getProductsEndpoint="Product";
+  static String getProductsByIdEndpoint({required String productId}){
+   return "Product/${productId}";
+  }
+  static String addToCart({required String productId,required String quantity}){
+    return"Cart/add?productId=${productId}&quantity=${quantity}";
+  }
+  static String cartEndpoint="Cart";
+  static String updateCartItem({required String id,required String quantity}){
+    return "Cart/$id?quantity=$quantity";
+  }
+  static String deleteCartItem({required String cartItemId}){
+    return "Cart/${cartItemId}";
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ill_vent/core/utils/colors_manager.dart';
 
 class CustomButton extends StatelessWidget {
     void Function()? onPressed;
@@ -11,7 +12,7 @@ class CustomButton extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.pinkAccent,
+          backgroundColor: ColorManager.secondaryColor,
         ),
         onPressed:  onPressed,
         child: Text(text),

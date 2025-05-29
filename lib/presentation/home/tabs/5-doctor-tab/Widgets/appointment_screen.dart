@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:ill_vent/core/resuable_component/error_message.dart';
+import 'package:ill_vent/core/resuable_component/loading_circle.dart';
 import 'package:ill_vent/core/utils/Appstyle.dart';
 import 'package:ill_vent/core/utils/colors_manager.dart';
 import 'package:ill_vent/core/utils/routes_manager.dart';
@@ -16,19 +18,27 @@ class DoctorAppointmentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        final cubit = getIt<DrViewModelCubit>();
+        final cubit = getIt<DrViewModelCubit>()..getAppointment();
         cubit.getAppointment(); // fetch data
         return cubit;
       },
       child: BlocBuilder<DrViewModelCubit, DrViewModelState>(
         builder: (context, state) {
 
-          if (state is GetAppointmentLoading) {
-            return Center(child: CircularProgressIndicator());
+          if (state is GetAppointmentError) {
+            return ErrorWidgett(
+                message: state.errorMsg,
+                onPressed:  () {
+                  final cubit = DrViewModelCubit.get(context);
+                  cubit..getAppointment();
+                },
+            );
           }
 
           if(state is GetAppointmentSuccess){
             var appointments=state.appointment;
+            print("===========================appointment");
+            print(appointments?.length??0);
 
            return Scaffold(
              appBar: AppBar(
@@ -44,7 +54,7 @@ class DoctorAppointmentScreen extends StatelessWidget {
                centerTitle: true,
                title: Text("Appointment",style: Appstyle.small20(context).copyWith(color: ColorManager.secondaryColor),),
              ),
-              body: (appointments!.length==null)?ListView.builder(
+              body: (appointments!.length!=0)?ListView.builder(
                 itemCount: appointments!.length,
                 itemBuilder: (context, index) {
                   final appointment = appointments[index];
@@ -98,7 +108,7 @@ class DoctorAppointmentScreen extends StatelessWidget {
                  style: Appstyle.small20(context).copyWith(color: ColorManager.secondaryColor),),),
             );
           }
-return Center(child: CircularProgressIndicator());
+return LoadingCircle();
         },
       ),
     );

@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:ill_vent/core/resuable_component/custom_button.dart';
+import 'package:ill_vent/core/resuable_component/error_message.dart';
+import 'package:ill_vent/core/resuable_component/loading_circle.dart';
 import 'package:ill_vent/presentation/home/tabs/5-doctor-tab/Widgets/dr_info/view_model/specific_doctor_cubit.dart';
 import 'package:ill_vent/presentation/home/tabs/5-doctor-tab/Widgets/dr_info/widget/available_time_cubit.dart';
 import 'package:ill_vent/presentation/home/tabs/5-doctor-tab/Widgets/dr_info/widget/create_apointment.dart';
@@ -171,15 +174,15 @@ class _DoctorInfoScreenState extends State<DoctorInfoScreen> {
                         ],
                       ),
                     );
-                  } else if (state is SpecificDrError) {
-                    return Center(child: Text("Error loading doctor info"));
                   }
-                  return Center(
-                    child: SpinKitFadingCircle(
-                      color: Colors.red,
-                      size: 50.0,
-                    ),
-                  );
+                  else if (state is SpecificDrError) {
+                    return ErrorWidgett(
+                        message: state.errorMsg,
+                        onPressed: () {
+                          getIt<SpecificDoctorCubit>()..fetchDr(id: widget.drId);
+                        },);
+                  }
+                  return LoadingCircle();
                 },
               ),
               BlocBuilder<AvailableTimeCubit, AvailableTimeState>(
@@ -228,32 +231,34 @@ class _DoctorInfoScreenState extends State<DoctorInfoScreen> {
                               : SizedBox(
                             height: 30.h,
                             width: double.infinity,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CreateApointment(
-                                      startTime: startTime ?? "",
-                                      drID: widget.drId,
-                                      appointmentDate: appointmentDate ?? "",
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: Text("Appointment"),
-                            ),
+                            child:CustomButton(
+                                    (){
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => CreateApointment(
+                                            startTime: startTime ?? "",
+                                            drID: widget.drId,
+                                            appointmentDate: appointmentDate ?? "",
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                    , "Appointment"
+                            )
+
+
                           )
                         ],
                       ),
                     );
-                  }  else if (state is AvailableTimeError) {
-                    return Center(
-                      child: Text(
-                        "Error: ${state.errorMsg}",
-                        style: TextStyle(color: Colors.white),
-                      ),
+                  }
+                  else if (state is AvailableTimeError) {
+                    return ErrorWidgett(
+                        message: state.errorMsg,
+                        onPressed:  () async{
+                          await AvailableTimeCubit.get(context).availableTime(drID: widget.drId, date: appointmentDate??"");
+                        },
                     );
                   }
                   return SizedBox();
