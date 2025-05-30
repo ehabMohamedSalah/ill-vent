@@ -9,8 +9,6 @@ import 'package:ill_vent/core/utils/colors_manager.dart';
 import 'package:ill_vent/presentation/home/tabs/1-shop_tab/cart/view/widget/product_cart_widget.dart';
 import 'package:ill_vent/presentation/home/tabs/1-shop_tab/cart/view_model/cart_view_model_cubit.dart';
 import 'package:ill_vent/presentation/home/tabs/1-shop_tab/cart/view_model/delete_item_cart_view_model/delete_item_view_model_cubit.dart';
-import 'package:injectable/injectable.dart';
-
 import '../../../../../../core/resuable_component/toast_message.dart';
 import '../../checkout/checkout_screen.dart';
 import '../view_model/update_cart_view_model/update_cart_view_model_cubit.dart';
@@ -21,7 +19,7 @@ class CartScreen extends StatefulWidget {
   @override
   State<CartScreen> createState() => _CartScreenState();
 }
-
+List<int> ?allCartItemIds;
 class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
@@ -58,6 +56,7 @@ class _CartScreenState extends State<CartScreen> {
                     child: ListView.separated(
                       itemBuilder: (context, index) {
                         var product = products[index];
+                      allCartItemIds = products.map((e) => e.cartItemId!.toInt()).toList();
                         return ProductCartWidget(
                           onTapDeleted: (String cartItemId) {
                             DeleteItemViewModelCubit.get(context).deleteCartItem(cartItemId: cartItemId);
@@ -108,8 +107,11 @@ class _CartScreenState extends State<CartScreen> {
                         SizedBox(height: 10.h),
                         CustomButton(() {
                           // Uncomment when checkout is ready
-                         Navigator.push(context, MaterialPageRoute(builder: (context) => CheckoutScreen(
-                            " ${total}")));
+                          (total==0)?   toastMessage(
+                          message: "Please Add At Least One Product",
+                          tybeMessage: TybeMessage.negative,
+                          ):Navigator.push(context, MaterialPageRoute(builder: (context) => CheckoutScreen(
+                            " ${total}",allCartItemIds??[])));
                         }, "CheckOut"),
                       ],
                     ),

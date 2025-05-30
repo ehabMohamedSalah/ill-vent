@@ -22,5 +22,7 @@ static const String repasswordScreen='/RepasswordScren';
   static const String doctorAppointmentsScreen='/doctorAppointmentsScreen';
 
   static const String cartScreen='/cartScreen';
+  static const String ordersScreen="ordersScreen";
+
 
 }

@@ -25,6 +25,7 @@ import 'package:ill_vent/presentation/home/home_tab_screenss/Scan_Patient/scan_s
 import 'package:ill_vent/presentation/home/home_tab_screenss/photo_of_sit/layouts/PhotoMobileLayout.dart';
 import 'package:ill_vent/presentation/home/home_tab_screenss/photo_of_sit/photo_Screen.dart';
 import 'package:ill_vent/presentation/home/tabs/1-shop_tab/cart/view/cart_screen.dart';
+import 'package:ill_vent/presentation/home/tabs/1-shop_tab/checkout/order_screen.dart';
 import 'package:ill_vent/presentation/home/tabs/5-doctor-tab/Widgets/appointment_screen.dart';
 
 import 'core/cache/shared_pref.dart';
@@ -85,6 +86,7 @@ class MyApp extends StatelessWidget {
             RouteManager.homeMobileLayout: (context) => HomeMobileLayout(),
             RouteManager.doctorAppointmentsScreen: (context) => DoctorAppointmentScreen(),
             RouteManager.cartScreen: (context) => CartScreen(),
+            RouteManager.ordersScreen: (context) => OrderScreen(),
 
 
             RouteManager.scanScreenMobileLayout: (context) => ScanMobileLayout(),

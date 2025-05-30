@@ -13,7 +13,8 @@ class CustomFormField extends StatelessWidget {
   bool obsecureText;
   bool filledColor;
   Widget? suffixIcon;
-  CustomFormField({super.key,required this.title,required this.hintText,required this.keyboard,required this.controller,required this.validator,required this.maxLength,  this.obsecureText=false,this.filledColor=false,this.suffixIcon});
+  bool? checkout;
+  CustomFormField({super.key,required this.title,required this.hintText,required this.keyboard,required this.controller,required this.validator,required this.maxLength,  this.obsecureText=false,this.filledColor=false,this.suffixIcon,this.checkout=false});
 
 
   @override
@@ -31,15 +32,15 @@ class CustomFormField extends StatelessWidget {
         controller: controller,
         maxLength:maxLength ,
         obscureText: obsecureText,
-      style:Appstyle.smallLabelTextBlack(context).copyWith(color: Colors.white) ,
+      style:Appstyle.smallLabelTextBlack(context).copyWith(color:(checkout=true)?Colors.black: Colors.white),
         decoration: InputDecoration(
           fillColor: filledColor?ColorManager.primaryColor:Colors.transparent,
           suffixIcon: suffixIcon,
           filled: true,
-          label:  Text(title,style: Appstyle.smallLabelTextBlack(context).copyWith(color: Colors.white)),
+          label:  Text(title,style: Appstyle.smallLabelTextBlack(context).copyWith(color:(checkout=true)?Colors.black: Colors.white)),
           hintText:hintText ,
 
-          hintStyle: Appstyle.smallLabelTextBlack(context).copyWith(color: Colors.white),
+          hintStyle:(checkout=true)?Appstyle.smallLabelTextBlack(context).copyWith(color: Colors.grey): Appstyle.smallLabelTextBlack(context).copyWith(color: Colors.white),
           border: OutlineInputBorder(
             borderSide: BorderSide(color: ColorManager.headlineColor,width: 2,style: BorderStyle.solid),
             borderRadius: BorderRadius.circular(10),

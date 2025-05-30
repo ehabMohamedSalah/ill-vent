@@ -30,4 +30,10 @@ class Endpoints{
   static String deleteCartItem({required String cartItemId}){
     return "Cart/${cartItemId}";
   }
+  static String chechkout="Order/checkout";
+  static String getOrders="Order";
+  static String deleteOrder({required String orderId}){
+    return "Order/${orderId}/cancel";
+  }
+
 }

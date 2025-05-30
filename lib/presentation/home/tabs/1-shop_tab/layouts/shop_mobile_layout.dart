@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:ill_vent/core/di/di.dart';
 import 'package:ill_vent/core/resuable_component/loading_circle.dart';
 import 'package:ill_vent/data_layer/model/get_product_response/ProductsResponse.dart';
@@ -32,14 +33,26 @@ class ShopMobileLayout extends StatelessWidget {
         create: (context) => getIt<ProductViewModelCubit>()..getProducts(),
         child: Scaffold(
           backgroundColor: ColorManager.primaryColor,
-          floatingActionButton: FloatingActionButton(
-
-            heroTag: "cart_fab", // أي اسم مميز
+          floatingActionButton: SpeedDial(
             backgroundColor: Colors.pinkAccent,
-            onPressed: () {
-              Navigator.pushNamed(context, RouteManager.cartScreen);
-            },
-            child: Icon(Icons.add_shopping_cart), // or any icon you prefer
+            icon: Icons.menu,
+            activeIcon: Icons.close,
+            children: [
+              SpeedDialChild(
+                child: Icon(Icons.add_shopping_cart,),
+                label: 'Cart',
+                onTap: () {
+                  Navigator.pushNamed(context, RouteManager.cartScreen);
+                },
+              ),
+              SpeedDialChild(
+                child: Icon(Icons.receipt_long),
+                label: 'Orders',
+                onTap: () {
+                  Navigator.pushNamed(context, RouteManager.ordersScreen); // لازم تكون عامل الـ route ده
+                },
+              ),
+            ],
           ),
 
           body: Column(
