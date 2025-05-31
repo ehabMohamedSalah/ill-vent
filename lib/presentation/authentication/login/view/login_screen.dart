@@ -9,12 +9,12 @@ import '../../../../core/cache/shared_pref.dart';
 import '../../../../core/constant.dart';
 import '../../../../core/di/di.dart';
 import '../../../../core/resuable_component/sign_buttom.dart';
- import '../../../../core/utils/routes_manager.dart';
+import '../../../../core/utils/routes_manager.dart';
 import '../../../../core/utils/strings_manager.dart';
 import '../../view_model/cubit/auth_cubit.dart';
 
 class LoginScreen extends StatefulWidget {
-    LoginScreen({super.key});
+  LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -23,38 +23,36 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  bool isObsecure=true;
+  bool isObsecure = true;
   late TextEditingController emailContrller;
   late TextEditingController passwordContrller;
   late final CacheHelper cacheHelper;
 
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    emailContrller=TextEditingController();
-    passwordContrller=TextEditingController();
+    emailContrller = TextEditingController();
+    passwordContrller = TextEditingController();
     cacheHelper = getIt<CacheHelper>();
-
-
   }
+
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
     emailContrller.dispose();
+    passwordContrller.dispose();
+    super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-    var height=MediaQuery.of(context).size.height;
-    var width=MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     return BlocProvider(
       create: (context) => getIt<AuthCubit>(),
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-              onPressed: (){
+              onPressed: () {
                 Navigator.pop(context);
               },
               icon: Icon(Icons.arrow_back)),
@@ -64,99 +62,134 @@ class _LoginScreenState extends State<LoginScreen> {
           key: formKey,
           child: Column(
             children: [
-               SizedBox(
-                  height:height * 0.35,
+              SizedBox(
+                  height: height * 0.35,
                   width: double.infinity,
                   child: Image.asset("assets/images/auth/login&email.png")),
               Expanded(
                 child: Container(
-
                   width: double.infinity,
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color:  ColorManager.secondaryColor,
+                      color: ColorManager.secondaryColor,
                     ),
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(40),topRight: Radius.circular(40) ),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(40),
+                        topRight: Radius.circular(40)),
                     color: ColorManager.secondaryColor,
                   ),
                   child: SingleChildScrollView(
-
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 16,right: 16,top: 16),
+                      padding:
+                      const EdgeInsets.only(left: 16, right: 16, top: 16),
                       child: Column(
                         children: [
-                          SizedBox(height: 30,),
+                          SizedBox(height: 30),
                           Align(
                               alignment: Alignment.center,
-                              child: Text("Enter your E-mail and\n password",style: Appstyle.medium25(context),)),
-                          CustomFormField( maxLength: 50,title: StringsManager.email,controller: emailContrller,hintText: StringsManager.enterYourEmail,keyboard:TextInputType.emailAddress ,
-                            validator: (value){
-                              if (!RegExp(Constant.regExValidateEmail).hasMatch(value ?? "")) {
+                              child: Text(
+                                "Enter your E-mail and\n password",
+                                style: Appstyle.medium25(context),
+                              )),
+                          CustomFormField(
+                            maxLength: 50,
+                            title: StringsManager.email,
+                            controller: emailContrller,
+                            hintText: StringsManager.enterYourEmail,
+                            keyboard: TextInputType.emailAddress,
+                            validator: (value) {
+                              if (!RegExp(Constant.regExValidateEmail)
+                                  .hasMatch(value ?? "")) {
                                 return StringsManager.notValidEmail;
                               }
-                            },),
-                          CustomFormField( maxLength: 50,title: StringsManager.password,controller: passwordContrller,hintText: "",keyboard:TextInputType.visiblePassword ,
+                            },
+                          ),
+                          CustomFormField(
+                            maxLength: 50,
+                            title: StringsManager.password,
+                            controller: passwordContrller,
+                            hintText: "",
+                            keyboard: TextInputType.visiblePassword,
                             obsecureText: isObsecure,
-                            suffixIcon:IconButton( onPressed:(){
-
-                              setState(() {
-                                isObsecure=!isObsecure;
-                              });
-                            } ,
-                                icon:Icon(
-                                  isObsecure? Icons.visibility_off:Icons.visibility,
+                            suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    isObsecure = !isObsecure;
+                                  });
+                                },
+                                icon: Icon(
+                                  isObsecure
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
                                   size: 24,
                                   color: Colors.white,
-                                ) ) ,
-                            validator: (value){
-                              if(value!.length < 8){
+                                )),
+                            validator: (value) {
+                              if (value!.length < 8) {
                                 return StringsManager.notValidPassword;
                               }
-                            },),
-                          BlocConsumer<AuthCubit,AuthState>(
-                              builder: (context, state) {
-                                return    SizedBox(
-                                  width: 150,
-                                  height: 50,
-                                  child: SignButton(
-                                    text: "Log In",
-                                    TextColor: ColorManager.white,
-                                    borderColor: Colors.transparent,
-                                    linearGradient: false,
-                                    backgroundColor: ColorManager.headlineColor,
-                                      onTap: () {
-                                        if (formKey.currentState!.validate()) {
-                                          context.read<AuthCubit>().doIntent(
-                                          LoginIntent(email: emailContrller.text,password: passwordContrller.text)
-                                          );
-                                          }}
-                                  ),
-                                );
-
-                              },
-                              listener: (context, state) async{
-                                if (state is LoginSuccess) {
-                                  Navigator.pushNamed(context, RouteManager.homeScreenRoutes, );
-                                  await cacheHelper.setData<String>(Constant.tokenKey, state.response.token??"");
-
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text("Login Successful!")));
-                                      () {};
-                                } else if (state is LoginError) {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(content: Text(state.error)));
-                                }
-                              },
+                            },
                           ),
-                          SizedBox(height: 10,),
+                          BlocConsumer<AuthCubit, AuthState>(
+                            builder: (context, state) {
+                              return SizedBox(
+                                width: 150,
+                                height: 50,
+                                child: SignButton(
+                                  text: "Log In",
+                                  TextColor: ColorManager.white,
+                                  borderColor: Colors.transparent,
+                                  linearGradient: false,
+                                  backgroundColor: ColorManager.headlineColor,
+                                  onTap: () {
+                                    if (formKey.currentState!.validate()) {
+                                      context.read<AuthCubit>().doIntent(
+                                          LoginIntent(
+                                              email: emailContrller.text,
+                                              password:
+                                              passwordContrller.text));
+                                    }
+                                  },
+                                ),
+                              );
+                            },
+                            listener: (context, state) async {
+                              if (state is LoginSuccess) {
+                                // Save token, name, and email
+                                await cacheHelper.setData<String>(
+                                    Constant.tokenKey,
+                                    state.response.token ?? "");
+                                await cacheHelper.setData<String>(
+                                    Constant.nameKey,
+                                    state.response.userName ?? "");
+                                await cacheHelper.setData<String>(
+                                    Constant.emailKey,
+                                    state.response.email ?? "");
+
+                                Navigator.pushNamed(
+                                    context, RouteManager.homeScreenRoutes);
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text("Login Successful!")));
+                              } else if (state is LoginError) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(state.error)));
+                              }
+                            },
+                          ),
+                          SizedBox(height: 10),
                           InkWell(
                             onTap: () {
-                              Navigator.pushNamed(context, RouteManager.homeScreenRoutes);
+                              Navigator.pushNamed(
+                                  context, RouteManager.homeScreenRoutes);
                             },
                             child: Align(
                               alignment: Alignment.center,
-                              child: Text(StringsManager.quickRescue,style: Appstyle.small20(context).copyWith(color: Colors.white),
+                              child: Text(
+                                StringsManager.quickRescue,
+                                style: Appstyle.small20(context)
+                                    .copyWith(color: Colors.white),
                               ),
                             ),
                           )
@@ -167,7 +200,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ],
-
           ),
         ),
       ),

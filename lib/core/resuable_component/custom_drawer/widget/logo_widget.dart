@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ill_vent/core/utils/colors_manager.dart';
 
 class LogoWidget extends StatelessWidget {
   const LogoWidget({super.key});
@@ -15,12 +16,12 @@ class LogoWidget extends StatelessWidget {
           color: Colors.transparent,
         ),
         Container(
-            color: Colors.blue,
+            color: ColorManager.secondaryColor,
             height:height*0.25,
             width: double.infinity,
             child: Image.asset('assets/images/4_drawer/ill-vent .png', height:height*0.25,)),
 
-        Positioned(
+        /*Positioned(
           bottom:  0,
           left: 20,
           child: ClipRRect(
@@ -42,7 +43,7 @@ class LogoWidget extends StatelessWidget {
                 child: Image.asset('assets/images/4_drawer/me.png',fit:BoxFit.cover ,height: height*0.08,width: height*0.08,)),
 
           ),
-        ),
+        ),*/
         SizedBox(height: 10,),
 
       ],

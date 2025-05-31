@@ -57,6 +57,7 @@ class ShopMobileLayout extends StatelessWidget {
 
           body: Column(
             children: [
+              const SizedBox(height: 13),
               TextWidget( text:StringsManager.shop,),
           BlocBuilder<ProductViewModelCubit,ProductViewModelState>(
               builder:  (context, state) {

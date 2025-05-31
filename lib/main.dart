@@ -15,6 +15,7 @@ import 'package:ill_vent/presentation/authentication/register/view/widget/otp_sc
 import 'package:ill_vent/presentation/authentication/forget_password/view/forget_password_screen.dart';
 import 'package:ill_vent/presentation/authentication/forget_password/view/otp_forgetpass/forget_otp.dart';
 import 'package:ill_vent/presentation/authentication/forget_password/view/repassword/view/repassword_scren.dart';
+import 'package:ill_vent/presentation/home/drawer/medical_history/medical_history_screen.dart';
 import 'package:ill_vent/presentation/home/home_screen.dart';
 import 'package:ill_vent/presentation/home/home_layout/home_mobile_layout.dart';
 
@@ -95,6 +96,7 @@ class MyApp extends StatelessWidget {
                 FindingMobileLayout(),
             RouteManager.forgetOTP: (context) => ForgetOtpScreen(),
             RouteManager.repasswordScreen: (context) => RepasswordScren(),
+            RouteManager.medicalHistoryScreen: (context) => MedicalHistoryForm(),
           },
         );
       },

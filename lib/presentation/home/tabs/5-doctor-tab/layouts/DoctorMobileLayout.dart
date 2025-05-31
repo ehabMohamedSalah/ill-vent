@@ -45,7 +45,7 @@ import '../Widgets/doctor_card.dart';
                   ),
                   body: Column(
                     children: [
-
+                      const SizedBox(height: 13),
                       TextWidget( text:StringsManager.doctor,),
                       Expanded(
                         child: ListView.separated(

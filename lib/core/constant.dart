@@ -1,4 +1,8 @@
 class Constant{
+  static const String nameKey = "user_name";
+  static const String emailKey = "user_email";
+
+
   static const String tokenKey = "authToken";
   static const String isRememberMe = 'isRememberMe';
   static const String baseUrl = "https://illventapp.azurewebsites.net/api/";

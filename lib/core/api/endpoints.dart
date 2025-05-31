@@ -35,5 +35,5 @@ class Endpoints{
   static String deleteOrder({required String orderId}){
     return "Order/${orderId}/cancel";
   }
-
+ static String medicalhistoryEndpoint="medicalhistory";
 }
