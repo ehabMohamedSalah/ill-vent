@@ -15,7 +15,7 @@ part 'medical_view_model_state.dart';
 
 @injectable
 class MedicalViewModelCubit extends Cubit<MedicalViewModelState> {
-  final MedicalHistoryUsecase medicalHistoryUsecase;
+  final UpdateMedicalHistoryUsecase medicalHistoryUsecase;
   final GenerateQrUsecase generateQrUsecase;
 
   static MedicalViewModelCubit get(context) => BlocProvider.of(context);

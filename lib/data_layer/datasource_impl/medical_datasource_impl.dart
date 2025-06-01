@@ -215,5 +215,41 @@ class MedicalDatasourceImpl extends MedicalDatasource{
       return ErrorApiResult(Exception(err.toString()));
     }
   }
+
+  @override
+  Future<ApiResult<MedicalResponse>> getMedical() async{
+    try{
+      final token = await cacheHelper.getData<String>(Constant.tokenKey) ?? "";
+      var response=await apiManager.getRequest(
+          Endpoint: Endpoints.medicalhistoryEndpoint,
+        headers: {
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer $token",
+      },
+      );
+      var res= MedicalResponse.fromJson(response.data);
+      return SuccessApiResult(res);
+    }catch(err){
+      return ErrorApiResult(Exception(err.toString()));
+    }
+  }
+
+  @override
+  Future<ApiResult<QrMedicalHistoryResponse>> getQRMedical()async{
+    try{
+      final token = await cacheHelper.getData<String>(Constant.tokenKey) ?? "";
+      var response=await apiManager.getRequest(
+        Endpoint: Endpoints.getQRMedicalhistoryEndpoint,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer $token",
+        },
+      );
+      var res= QrMedicalHistoryResponse.fromJson(response.data);
+      return SuccessApiResult(res);
+    }catch(err){
+      return ErrorApiResult(Exception(err.toString()));
+    }
+  }
   
 }

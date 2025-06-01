@@ -8,9 +8,9 @@ import '../../../data_layer/model/medical_history_dataclass.dart';
 import '../../../data_layer/model/medical_response/MedicalResponse.dart';
 
 @injectable
-class MedicalHistoryUsecase{
+class UpdateMedicalHistoryUsecase{
   MedicalDatasource medicalDatasource;
-  MedicalHistoryUsecase(this.medicalDatasource);
+  UpdateMedicalHistoryUsecase(this.medicalDatasource);
 
   Future<ApiResult<MedicalResponse>> call({required MedicalHistory patientModel}){
     return medicalDatasource.sendPatientData( patientModel: patientModel);

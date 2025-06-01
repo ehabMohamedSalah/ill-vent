@@ -9,4 +9,6 @@ import '../model/medical_response/MedicalResponse.dart';
 abstract class MedicalDatasource{
   Future<ApiResult<MedicalResponse>> sendPatientData({required MedicalHistory patientModel});
   Future<ApiResult<QrMedicalHistoryResponse>> generateQr();
+  Future<ApiResult<MedicalResponse>> getMedical();
+  Future<ApiResult<QrMedicalHistoryResponse>> getQRMedical();
 }

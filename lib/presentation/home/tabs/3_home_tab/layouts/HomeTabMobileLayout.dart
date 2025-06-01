@@ -50,14 +50,14 @@ class _HomeTabMobileLayoutState extends State<HomeTabMobileLayout> {
             child: const Icon(Icons.history_edu_sharp),
             label: 'Medical History',
             onTap: () {
-              Navigator.pushNamed(context, RouteManager.cartScreen);
+              Navigator.pushNamed(context,RouteManager.medicalFloatScreen);
             },
           ),
           SpeedDialChild(
             child: const Icon(Icons.receipt_long),
             label: 'QR Code',
             onTap: () {
-              Navigator.pushNamed(context, RouteManager.ordersScreen);
+              Navigator.pushNamed(context, RouteManager.qrFloatScreen);
             },
           ),
         ],
