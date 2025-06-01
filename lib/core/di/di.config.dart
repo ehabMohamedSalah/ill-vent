@@ -63,6 +63,7 @@ import '../../Domain/usecase/get_appointment_usecase.dart' as _i262;
 import '../../Domain/usecase/get_dr_by_id_usecase.dart' as _i179;
 import '../../Domain/usecase/getProductById_usecase.dart' as _i21;
 import '../../Domain/usecase/hospital_usecase.dart' as _i181;
+import '../../Domain/usecase/medical_usecase/generate_qr_usecase.dart' as _i404;
 import '../../Domain/usecase/medical_usecase/medical_usecase.dart' as _i688;
 import '../../Domain/usecase/pharmcy_usecase.dart' as _i118;
 import '../../Domain/usecase/products_usecase.dart' as _i492;
@@ -119,12 +120,12 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i688.MedicalHistoryUsecase>(
         () => _i688.MedicalHistoryUsecase(gh<_i707.MedicalDatasource>()));
+    gh.factory<_i404.GenerateQrUsecase>(
+        () => _i404.GenerateQrUsecase(gh<_i707.MedicalDatasource>()));
     gh.factory<_i652.CheckoutDatasource>(() => _i45.CheckoutDatasourceImpl(
           gh<_i1047.ApiManager>(),
           gh<_i299.CacheHelper>(),
         ));
-    gh.factory<_i1061.MedicalViewModelCubit>(
-        () => _i1061.MedicalViewModelCubit(gh<_i688.MedicalHistoryUsecase>()));
     gh.factory<_i700.PharmacyDatasource>(() => _i1040.PharmacyDatasourceImpl(
           gh<_i1047.ApiManager>(),
           gh<_i299.CacheHelper>(),
@@ -181,6 +182,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i262.GetAppointmentUsecase(gh<_i310.DrDatasource>()));
     gh.factory<_i179.SpecificDoctorUsecase>(
         () => _i179.SpecificDoctorUsecase(gh<_i310.DrDatasource>()));
+    gh.factory<_i1061.MedicalViewModelCubit>(() => _i1061.MedicalViewModelCubit(
+          gh<_i688.MedicalHistoryUsecase>(),
+          gh<_i404.GenerateQrUsecase>(),
+        ));
     gh.factory<DeleteViewModelCubit>(
         () => DeleteViewModelCubit(gh<_i220.DeleteOrderUsecase>()));
     gh.factory<_i80.AvailableTimeCubit>(
@@ -198,7 +203,7 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i37.UpdateCartViewModelCubit(gh<_i1.UpdateCartUsecase>()));
     gh.factory<_i680.HospitalRepo>(
         () => _i990.HospitalRepoImpl(gh<_i484.HospitalDatasource>()));
-    gh.factory<_i584.ConfirmEmailUsecase>(
+    gh.factory<ConfirmEmailUsecase>(
         () => ConfirmEmailUsecase(gh<_i765.AuthRepo>()));
     gh.factory<_i970.LoginUsecase>(
         () => _i970.LoginUsecase(gh<_i765.AuthRepo>()));

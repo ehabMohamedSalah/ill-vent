@@ -3,8 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ill_vent/core/di/di.dart';
+import 'package:ill_vent/core/utils/Appstyle.dart';
+import 'package:ill_vent/core/utils/colors_manager.dart';
 import 'package:ill_vent/presentation/home/drawer/view_model/medical_view_model_cubit.dart';
-import 'package:ill_vent/presentation/home/tabs/1-shop_tab/checkout/checkout_screen.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../data_layer/model/medical_history_dataclass.dart';
@@ -41,7 +42,7 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
   final TextEditingController _newSurgeryController = TextEditingController();
   final TextEditingController _newSurgeryDetailsController = TextEditingController();
 
-  // Date fields
+  // Date fields (stored as UTC)
   DateTime? _newSurgeryDate;
   DateTime? _fluVaccineDate;
   DateTime? _tetanusVaccineDate;
@@ -52,7 +53,7 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
   // Dropdown options and values
   final List<String> _bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
   final List<String> _genders = ['Male', 'Female', 'Other'];
-  final List<String> _diabetesTypes = ['Type 1 Diabetes', 'Type 2 Diabetes', 'Gestational Diabetes', 'Other'];
+  final List<String> _diabetesTypes = ['Type 1 Diabetes', 'Type 2 Diabetes',];
   final List<String> _birthControlMethods = ['None', 'Pill', 'IUD', 'Condom', 'Implant', 'Other'];
 
   String? _selectedBloodType;
@@ -76,13 +77,26 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
     super.dispose();
   }
 
+  // Helper function to format dates to ISO 8601 UTC
+  String _formatDateToIso8601(DateTime? date) {
+    if (date == null) return '';
+    return date.toUtc().toIso8601String();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => getIt<MedicalViewModelCubit>(),
       child: Scaffold(
+        backgroundColor: ColorManager.primaryColor,
         appBar: AppBar(
-          title: Text('Medical History Form'),
+          title: Text('Medical History Form', style: Appstyle.medium25(context).copyWith(color: ColorManager.secondaryColor)),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back_ios_new_outlined, color: ColorManager.secondaryColor),
+          ),
         ),
         body: Form(
           key: _formKey,
@@ -200,58 +214,14 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
                   builder: (context, state) {
                     return Center(
                       child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(backgroundColor: ColorManager.secondaryColor),
                         onPressed: () {
+                          print("======================");
+                          print(_medicalHistory.immunizationHistory?.fluDate.toString());
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
                             MedicalViewModelCubit.get(context).sendMedicalHistory(
-                              patientModel: MedicalHistory(
-                                command: 'create',
-                                address: _addressController.text,
-                                bloodType: _selectedBloodType,
-                                age: _medicalHistory.age,
-                                weight: _medicalHistory.weight,
-                                height: _medicalHistory.height,
-                                gender: _selectedGender,
-                                hasHighBloodPressure: _medicalHistory.hasHighBloodPressure,
-                                hasLowBloodPressure: _medicalHistory.hasLowBloodPressure,
-                                hasDiabetes: _medicalHistory.hasDiabetes,
-                                diabetesType: _selectedDiabetesType,
-                                medicalConditions: _medicalHistory.medicalConditions,
-                                hasAllergies: _medicalHistory.hasAllergies,
-                                allergiesDetails: _allergiesDetailsController.text,
-                                familyHistory: FamilyHistory(
-                                  hasCancerPolyps: _medicalHistory.familyHistory?.hasCancerPolyps,
-                                  cancerPolypsRelationship: _cancerPolypsRelationshipController.text,
-                                  hasAnemia: _medicalHistory.familyHistory?.hasAnemia,
-                                  anemiaRelationship: _anemiaRelationshipController.text,
-                                  hasDiabetes: _medicalHistory.familyHistory?.hasDiabetes,
-                                  hasBloodClots: _medicalHistory.familyHistory?.hasBloodClots,
-                                  hasHeartDisease: _medicalHistory.familyHistory?.hasHeartDisease,
-                                ),
-                                hasSurgeryHistory: _medicalHistory.hasSurgeryHistory,
-                                surgicalHistories: _medicalHistory.surgicalHistories,
-                                birthControlMethod: _selectedBirthControlMethod,
-                                hasBloodTransfusionObjection: _medicalHistory.hasBloodTransfusionObjection,
-                                immunizationHistory: ImmunizationHistory(
-                                  hasFlu: _medicalHistory.immunizationHistory?.hasFlu,
-                                  fluDate: _fluVaccineDate,
-                                  hasTetanus: _medicalHistory.immunizationHistory?.hasTetanus,
-                                  tetanusDate: _tetanusVaccineDate,
-                                  hasPneumonia: _medicalHistory.immunizationHistory?.hasPneumonia,
-                                  pneumoniaDate: _pneumoniaVaccineDate,
-                                  hasHepA: _medicalHistory.immunizationHistory?.hasHepA,
-                                  hepADate: _hepAVaccineDate,
-                                  hasHepB: _medicalHistory.immunizationHistory?.hasHepB,
-                                  hepBDate: _hepBVaccineDate,
-                                ),
-                                socialHistory: SocialHistory(
-                                  exerciseType: _exerciseTypeController.text,
-                                  exerciseFrequency: _exerciseFrequencyController.text,
-                                  packsPerDay: _medicalHistory.socialHistory?.packsPerDay,
-                                  yearsSmoked: _medicalHistory.socialHistory?.yearsSmoked,
-                                  yearStopped: _medicalHistory.socialHistory?.yearStopped,
-                                ),
-                              ),
+                              patientModel: _medicalHistory,
                             );
                           }
                         },
@@ -287,7 +257,7 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
       padding: EdgeInsets.symmetric(vertical: 16.0),
       child: Text(
         title,
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blue),
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: ColorManager.secondaryColor),
       ),
     );
   }
@@ -297,7 +267,20 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
       padding: EdgeInsets.only(bottom: 12.0),
       child: TextFormField(
         controller: controller,
-        decoration: InputDecoration(labelText: label, border: OutlineInputBorder()),
+        style: TextStyle(color: ColorManager.secondaryColor),
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: TextStyle(color: ColorManager.secondaryColor),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: ColorManager.secondaryColor),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: ColorManager.secondaryColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: ColorManager.secondaryColor),
+          ),
+        ),
         maxLines: maxLines,
         validator: (value) => value?.isEmpty ?? true ? 'Please enter $label' : null,
         onSaved: onSaved,
@@ -309,7 +292,20 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
     return Padding(
       padding: EdgeInsets.only(bottom: 12.0),
       child: TextFormField(
-        decoration: InputDecoration(labelText: label, border: OutlineInputBorder()),
+        style: TextStyle(color: ColorManager.secondaryColor),
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: TextStyle(color: ColorManager.secondaryColor),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: ColorManager.secondaryColor),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: ColorManager.secondaryColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: ColorManager.secondaryColor),
+          ),
+        ),
         keyboardType: TextInputType.number,
         validator: (value) {
           if (value?.isEmpty ?? true) return 'Please enter $label';
@@ -325,9 +321,33 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
     return Padding(
       padding: EdgeInsets.only(bottom: 12.0),
       child: DropdownButtonFormField<String>(
-        decoration: InputDecoration(labelText: label, border: OutlineInputBorder()),
+        style: TextStyle(color: ColorManager.secondaryColor),
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: TextStyle(color: ColorManager.secondaryColor),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: ColorManager.secondaryColor),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: ColorManager.secondaryColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: ColorManager.secondaryColor),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.red),
+          ),
+        ),
+        dropdownColor: ColorManager.primaryColor,
+        icon: Icon(Icons.arrow_drop_down, color: ColorManager.secondaryColor),
         value: initialValue,
-        items: items.map((String value) => DropdownMenuItem<String>(value: value, child: Text(value))).toList(),
+        items: items.map((String value) => DropdownMenuItem<String>(
+          value: value,
+          child: Text(
+            value,
+            style: TextStyle(color: ColorManager.secondaryColor),
+          ),
+        )).toList(),
         validator: (value) => value?.isEmpty ?? true ? 'Please select $label' : null,
         onChanged: onChanged,
         onSaved: onChanged,
@@ -341,7 +361,7 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
       child: Row(
         children: [
           Expanded(child: Text(label)),
-          Switch(value: value, onChanged: onChanged),
+          Switch(value: value, onChanged: onChanged, activeColor: ColorManager.secondaryColor),
         ],
       ),
     );
@@ -375,7 +395,7 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
 
   Widget _buildAddMedicalConditionSection() {
     return Card(
-      color: Colors.grey[100],
+      color: ColorManager.primaryColor,
       child: Padding(
         padding: EdgeInsets.all(8.0),
         child: Column(
@@ -392,6 +412,7 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
             ),
             SizedBox(height: 8),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: ColorManager.secondaryColor),
               onPressed: () {
                 if (_newConditionController.text.isNotEmpty) {
                   setState(() {
@@ -470,7 +491,7 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(surgery.surgeryType ?? '', style: TextStyle(fontWeight: FontWeight.bold)),
-                  if (surgery.date != null) Text(DateFormat('yyyy-MM-dd').format(surgery.date!)),
+                  if (surgery.date != null) Text(DateFormat('yyyy-MM-dd').format(surgery.date!.toLocal())),
                   if (surgery.details != null) Text(surgery.details!),
                 ],
               ),
@@ -506,7 +527,7 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
             ListTile(
               title: Text(_newSurgeryDate == null
                   ? 'Select Surgery Date'
-                  : 'Date: ${DateFormat('yyyy-MM-dd').format(_newSurgeryDate!)}'),
+                  : 'Date: ${DateFormat('yyyy-MM-dd').format(_newSurgeryDate!.toLocal())}'),
               trailing: Icon(Icons.calendar_today),
               onTap: () async {
                 final selectedDate = await showDatePicker(
@@ -516,18 +537,23 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
                   lastDate: DateTime.now(),
                 );
                 if (selectedDate != null) {
-                  setState(() => _newSurgeryDate = selectedDate);
+                  setState(() => _newSurgeryDate = DateTime.utc(
+                    selectedDate.year,
+                    selectedDate.month,
+                    selectedDate.day,
+                  ));
                 }
               },
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: ColorManager.secondaryColor),
               onPressed: () {
                 if (_newSurgeryController.text.isNotEmpty && _newSurgeryDate != null) {
                   setState(() {
                     _medicalHistory.surgicalHistories?.add(SurgicalHistory(
                       surgeryType: _newSurgeryController.text,
                       details: _newSurgeryDetailsController.text,
-                      date: _newSurgeryDate,
+                      date: _newSurgeryDate, // Already in UTC format
                     ));
                     _newSurgeryController.clear();
                     _newSurgeryDetailsController.clear();
@@ -636,17 +662,40 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
             lastDate: DateTime.now(),
           );
           if (selectedDate != null) {
-            onSaved(selectedDate);
+            // Convert to UTC midnight
+            final utcDate = DateTime.utc(
+              selectedDate.year,
+              selectedDate.month,
+              selectedDate.day,
+            );
+            onSaved(utcDate);
             setState(() {});
           }
         },
         child: InputDecorator(
-          decoration: InputDecoration(labelText: label, border: OutlineInputBorder()),
+          decoration: InputDecoration(
+            labelText: label,
+            labelStyle: TextStyle(color: ColorManager.secondaryColor),
+            border: OutlineInputBorder(
+              borderSide: BorderSide(color: ColorManager.secondaryColor),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: ColorManager.secondaryColor),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: ColorManager.secondaryColor),
+            ),
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(initialDate == null ? 'Select Date' : DateFormat('yyyy-MM-dd').format(initialDate)),
-              Icon(Icons.calendar_today),
+              Text(
+                initialDate == null
+                    ? 'Select Date'
+                    : DateFormat('yyyy-MM-dd').format(initialDate.toLocal()),
+                style: TextStyle(color: ColorManager.secondaryColor),
+              ),
+              Icon(Icons.calendar_today, color: ColorManager.secondaryColor),
             ],
           ),
         ),

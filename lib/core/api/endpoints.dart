@@ -36,4 +36,5 @@ class Endpoints{
     return "Order/${orderId}/cancel";
   }
  static String medicalhistoryEndpoint="medicalhistory";
+ static String qrMedicalhistoryEndpoint="medicalhistory/qr";
 }

@@ -1,0 +1,41 @@
+/// success : true
+/// message : "QR code generated successfully"
+/// qrCodeData : "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"
+/// userFriendlyToken : "300BCB8C"
+
+class QrMedicalHistoryResponse {
+  QrMedicalHistoryResponse({
+      this.success, 
+      this.message, 
+      this.qrCodeData, 
+      this.userFriendlyToken,});
+
+  QrMedicalHistoryResponse.fromJson(dynamic json) {
+    success = json['success'];
+    message = json['message'];
+    qrCodeData = json['qrCodeData'];
+    userFriendlyToken = json['userFriendlyToken'];
+  }
+  bool? success;
+  String? message;
+  String? qrCodeData;
+  String? userFriendlyToken;
+QrMedicalHistoryResponse copyWith({  bool? success,
+  String? message,
+  String? qrCodeData,
+  String? userFriendlyToken,
+}) => QrMedicalHistoryResponse(  success: success ?? this.success,
+  message: message ?? this.message,
+  qrCodeData: qrCodeData ?? this.qrCodeData,
+  userFriendlyToken: userFriendlyToken ?? this.userFriendlyToken,
+);
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['success'] = success;
+    map['message'] = message;
+    map['qrCodeData'] = qrCodeData;
+    map['userFriendlyToken'] = userFriendlyToken;
+    return map;
+  }
+
+}

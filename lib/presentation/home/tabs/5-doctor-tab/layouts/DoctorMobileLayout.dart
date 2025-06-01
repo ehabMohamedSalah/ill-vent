@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ill_vent/core/resuable_component/loading_circle.dart';
+import 'package:ill_vent/core/utils/colors_manager.dart';
  import 'package:ill_vent/presentation/home/tabs/5-doctor-tab/ViewModel/dr_view_model_cubit.dart';
 import '../../../../../core/di/di.dart';
 import '../../../../../core/resuable_component/Dummy_widgets/Widgets-Tab/TabVertItem.dart';
@@ -37,7 +38,7 @@ import '../Widgets/doctor_card.dart';
                 return Scaffold(
                   backgroundColor:Colors.transparent,
                   floatingActionButton: FloatingActionButton(
-                    backgroundColor: Colors.pinkAccent,
+                    backgroundColor: ColorManager.secondaryColor,
                     onPressed: () {
                       Navigator.pushNamed(context, RouteManager.doctorAppointmentsScreen);
                     },

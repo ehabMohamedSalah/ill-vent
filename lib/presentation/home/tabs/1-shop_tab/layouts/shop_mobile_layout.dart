@@ -34,7 +34,7 @@ class ShopMobileLayout extends StatelessWidget {
         child: Scaffold(
           backgroundColor: ColorManager.primaryColor,
           floatingActionButton: SpeedDial(
-            backgroundColor: Colors.pinkAccent,
+            backgroundColor: ColorManager.secondaryColor,
             icon: Icons.menu,
             activeIcon: Icons.close,
             children: [

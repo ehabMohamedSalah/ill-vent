@@ -17,7 +17,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig.init(context);
     return Scaffold(
-
       key: scaffoldKey,
       appBar: MediaQuery.sizeOf(context).width < SizeConfig.tablet
           ? AppBar(
@@ -39,12 +38,7 @@ class HomeScreen extends StatelessWidget {
           ? const CustomDrawer()
           : null,
 
-      body: Stack(
-        children: [
-           HomeMobileLayout(),
-
-        ],
-      ),
+      body: HomeMobileLayout(),
 
     );
 
