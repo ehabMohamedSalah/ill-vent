@@ -34,8 +34,8 @@ class RegisterCustomFormField extends StatelessWidget {
 
         filled: true,
         label:  Text(title,style: Appstyle.labelRegisterStyle(context)),
-        hintText:hintText ,
-        hintStyle: Appstyle.labelRegisterStyle(context).copyWith(color: Colors.black),hintMaxLines: 1,
+        //hintText:hintText ,
+        //hintStyle: Appstyle.labelRegisterStyle(context).copyWith(color: Colors.black),hintMaxLines: 1,
         border: OutlineInputBorder(
          ),
         enabledBorder: OutlineInputBorder(

@@ -6,6 +6,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ill_vent/core/di/di.dart';
 import 'package:ill_vent/core/resuable_component/LoginCustomFormField.dart';
 import 'package:ill_vent/core/resuable_component/custom_button.dart';
+import 'package:ill_vent/core/resuable_component/loading_circle.dart';
+import 'package:ill_vent/core/resuable_component/toast_message.dart';
 import 'package:ill_vent/core/utils/Appstyle.dart';
 import 'package:ill_vent/core/utils/colors_manager.dart';
 import 'package:ill_vent/core/utils/routes_manager.dart';
@@ -79,7 +81,7 @@ class _CreateApointmentState extends State<CreateApointment> {
                   maxLength: 50,
                   title: "Name",
                   controller: nameController,
-                  hintText: "Ehab",
+                  hintText: "",
                   keyboard: TextInputType.name,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -92,7 +94,7 @@ class _CreateApointmentState extends State<CreateApointment> {
                   maxLength: 11,
                   title: "Phone Number",
                   controller: phoneContrller,
-                  hintText: "01143668719",
+                  hintText: "",
                   keyboard: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -105,7 +107,7 @@ class _CreateApointmentState extends State<CreateApointment> {
                   maxLength: 2,
                   title: "Age",
                   controller: patientAgeController,
-                  hintText: "22",
+                  hintText: "",
                   keyboard: TextInputType.datetime,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -153,17 +155,20 @@ class _CreateApointmentState extends State<CreateApointment> {
                     if (state is CreateAppointMentSuccess) {
                       Navigator.pushNamed(context, RouteManager.homeScreenRoutes, );
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text("book Successful!")));
-                          () {};
+                      toastMessage(
+                          message:"Book Successful" ,
+                          tybeMessage: TybeMessage.positive);
 
                     } else if (state is CreateAppointMentError) {
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(SnackBar(content: Text(state.errorMsg)));
+                      toastMessage(
+                          message: "Already Booked",
+                          tybeMessage: TybeMessage.negative);
                     }
                   },
                   builder: (context, state) {
+                    if(state is CreateAppointMentLoading){
+                      return Center(child: LoadingCircle(),);
+                    }
                     return SizedBox(
                       width: double.infinity,
                       child:CustomButton(

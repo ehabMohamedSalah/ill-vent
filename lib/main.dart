@@ -21,11 +21,10 @@ import 'package:ill_vent/presentation/home/home_layout/home_mobile_layout.dart';
 
 import 'package:ill_vent/presentation/home/home_tab_screenss/FindHospital/FindingHospitalScreen.dart';
 import 'package:ill_vent/presentation/home/home_tab_screenss/FindHospital/layouts/FindingMobileLayout.dart';
-import 'package:ill_vent/presentation/home/home_tab_screenss/Scan_Patient/layouts/ScanMobileLayout.dart';
 import 'package:ill_vent/presentation/home/home_tab_screenss/Scan_Patient/scan_screen.dart';
-import 'package:ill_vent/presentation/home/home_tab_screenss/photo_of_sit/layouts/PhotoMobileLayout.dart';
-import 'package:ill_vent/presentation/home/home_tab_screenss/photo_of_sit/photo_Screen.dart';
-import 'package:ill_vent/presentation/home/medical_history/view/medical_screen.dart';
+import 'package:ill_vent/presentation/home/home_tab_screenss/Scan_Patient/scan_screen.dart';
+import 'package:ill_vent/presentation/home/home_tab_screenss/photo_of_sit/photo_screen.dart';
+ import 'package:ill_vent/presentation/home/medical_history/view/medical_screen.dart';
 import 'package:ill_vent/presentation/home/medical_history/view/qr_screen.dart';
 import 'package:ill_vent/presentation/home/tabs/1-shop_tab/cart/view/cart_screen.dart';
 import 'package:ill_vent/presentation/home/tabs/1-shop_tab/checkout/order_screen.dart';
@@ -82,7 +81,7 @@ class MyApp extends StatelessWidget {
             RouteManager.loginRoutes: (context) => LoginScreen(),
             RouteManager.registerOTP: (context) => OtpScreen(),
             RouteManager.signUpRoutes: (context) => RegisterScreen(),
-            RouteManager.scanScreen: (context) => ScanScreen(),
+          //  RouteManager.scanScreen: (context) => ScanScreen(),
             RouteManager.photoScreen: (context) => PhotoScreen(),
             RouteManager.findingScreen: (context) => FindingScreen(),
             RouteManager.forgetPassword: (context) => ForgetPassword(),
@@ -92,8 +91,7 @@ class MyApp extends StatelessWidget {
             RouteManager.ordersScreen: (context) => OrderScreen(),
 
 
-            RouteManager.scanScreenMobileLayout: (context) => ScanMobileLayout(),
-            RouteManager.photoScreenMobileLayout: (context) => PhotoMobileLayout(),
+             RouteManager.photoScreenMobileLayout: (context) => PhotoScreen(),
             RouteManager.findingScreenMobileLayout: (context) =>
                 FindingMobileLayout(),
             RouteManager.forgetOTP: (context) => ForgetOtpScreen(),

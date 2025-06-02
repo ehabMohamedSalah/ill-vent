@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ill_vent/core/di/di.dart';
 import 'package:ill_vent/core/resuable_component/custom_button.dart';
+import 'package:ill_vent/core/resuable_component/error_message.dart';
 import 'package:ill_vent/core/resuable_component/loading_circle.dart';
 import 'package:ill_vent/core/utils/Appstyle.dart';
 import 'package:ill_vent/core/utils/colors_manager.dart';
@@ -118,8 +119,15 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ],
               );
-            } else if (state is GetCartViewModelError) {
-              return Center(child: Text(state.err));
+            }
+            else if (state is GetCartViewModelError) {
+              return Center(child: ErrorWidgett
+                (
+                  message: state.err,
+                  onPressed:  () {
+                    getIt<CartViewModelCubit>()..getCart();
+                  },
+              ));
             }
             return LoadingCircle();
           },

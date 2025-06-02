@@ -38,9 +38,9 @@ class CustomFormField extends StatelessWidget {
           suffixIcon: suffixIcon,
           filled: true,
           label:  Text(title,style: Appstyle.smallLabelTextBlack(context).copyWith(color:(checkout=true)?Colors.black: Colors.white)),
-          hintText:hintText ,
+          //hintText:hintText ,
 
-          hintStyle:(checkout=true)?Appstyle.smallLabelTextBlack(context).copyWith(color: Colors.grey): Appstyle.smallLabelTextBlack(context).copyWith(color: Colors.white),
+          //hintStyle:(checkout=true)?Appstyle.smallLabelTextBlack(context).copyWith(color: Colors.grey): Appstyle.smallLabelTextBlack(context).copyWith(color: Colors.white),
           border: OutlineInputBorder(
             borderSide: BorderSide(color: ColorManager.headlineColor,width: 2,style: BorderStyle.solid),
             borderRadius: BorderRadius.circular(10),

@@ -38,4 +38,5 @@ class Endpoints{
  static String medicalhistoryEndpoint="medicalhistory";
  static String qrMedicalhistoryEndpoint="medicalhistory/qr";
  static String getQRMedicalhistoryEndpoint="MedicalHistory/qr/existing";
+ static String emergencyRequestEndpoint="Emergency/request";
 }

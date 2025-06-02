@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ill_vent/core/di/di.dart';
+import 'package:ill_vent/core/resuable_component/loading_circle.dart';
 import 'package:ill_vent/core/utils/Appstyle.dart';
 import 'package:ill_vent/presentation/authentication/view_model/cubit/auth_cubit.dart';
 
 import '../../../../core/constant.dart';
 import '../../../../core/resuable_component/LoginCustomFormField.dart';
 import '../../../../core/resuable_component/sign_buttom.dart';
+import '../../../../core/resuable_component/toast_message.dart';
 import '../../../../core/utils/colors_manager.dart';
  import '../../../../core/utils/routes_manager.dart';
 import '../../../../core/utils/strings_manager.dart';
@@ -94,6 +96,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                               }
                             },),BlocConsumer<AuthCubit,AuthState>(
                               builder: (context, state) {
+                                if(state is ReqPasswordResetLoading){
+                                  return Center(child: LoadingCircle(),);
+                                }
                                 return SizedBox(
                                   width: 150,
                                   height: 50,
@@ -116,13 +121,15 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                               listener: (context, state) {
                                 if(state is ReqPasswordResetSuccess){
                                   Navigator.pushNamed(context, RouteManager.forgetOTP,arguments:emailContrller.text  );
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                  content: Text("Successful!")));
-                                  () {};
+                                  toastMessage(
+                                      message: "Correct Email",
+                                      tybeMessage:  TybeMessage.positive
+                                  );
                                   } else if (state is ReqPasswordResetError) {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(content: Text(state.error)));
+                                  toastMessage(
+                                      message: state.error,
+                                      tybeMessage:  TybeMessage.negative
+                                  );
                                 }
                               },
                           ),

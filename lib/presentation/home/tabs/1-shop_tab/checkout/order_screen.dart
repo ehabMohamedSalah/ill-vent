@@ -53,11 +53,15 @@ class OrderScreen extends StatelessWidget {
           return BlocBuilder<CheckoutViewmodelCubit, ChechkoutViewmodelState>(
             builder: (context, state) {
               if (state is GetorderViewmodelError) {
-                return ErrorWidgett(
-                  message: state.err,
-                  onPressed: () {
-                    context.read<CheckoutViewmodelCubit>().getOrder();
-                  },
+                return Scaffold(
+                  backgroundColor: ColorManager.primaryColor,
+
+                  body: ErrorWidgett(
+                    message: state.err,
+                    onPressed: () {
+                      context.read<CheckoutViewmodelCubit>().getOrder();
+                    },
+                  ),
                 );
               }
               if (state is GetorderViewmodelSuccess) {
@@ -115,7 +119,10 @@ class OrderScreen extends StatelessWidget {
                   ),
                 );
               }
-              return LoadingCircle();
+              return Scaffold(
+                  backgroundColor: ColorManager.primaryColor,
+
+                  body: LoadingCircle());
             },
           );
         },

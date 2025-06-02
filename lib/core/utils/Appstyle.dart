@@ -11,10 +11,7 @@ abstract class Appstyle{
       fontSize: getResponsiveFontSize(context, fontSize: 22),
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.w700,
-      decoration: TextDecoration.underline,
-      decorationColor: Colors.white,
-      decorationThickness: 1
-    );
+      );
   }
 
   static TextStyle small20(BuildContext context) {

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:ill_vent/core/resuable_component/error_message.dart';
 import 'package:ill_vent/core/resuable_component/loading_circle.dart';
+import 'package:ill_vent/core/resuable_component/toast_message.dart';
 import 'package:ill_vent/core/utils/Appstyle.dart';
 import 'package:ill_vent/core/utils/colors_manager.dart';
 import 'package:ill_vent/core/utils/routes_manager.dart';
@@ -26,12 +27,16 @@ class DoctorAppointmentScreen extends StatelessWidget {
         builder: (context, state) {
 
           if (state is GetAppointmentError) {
-            return ErrorWidgett(
-                message: state.errorMsg,
-                onPressed:  () {
-                  final cubit = DrViewModelCubit.get(context);
-                  cubit..getAppointment();
-                },
+            return Scaffold(
+              backgroundColor: ColorManager.primaryColor,
+
+              body: ErrorWidgett(
+                  message: state.errorMsg,
+                  onPressed:  () {
+                    final cubit = DrViewModelCubit.get(context);
+                    cubit..getAppointment();
+                  },
+              ),
             );
           }
 
@@ -70,10 +75,10 @@ class DoctorAppointmentScreen extends StatelessWidget {
                             context.read<DrViewModelCubit>().cancelAppointment(drID:" ${appointment.id}");
                             Navigator.pushNamed(context, RouteManager.homeScreenRoutes, );
 
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text("canceled Successful!")));
-                                () {};
+                                toastMessage(
+                                    message: "canceled Successful!",
+                                    tybeMessage: TybeMessage.positive
+                                );
                           },
                           backgroundColor: Colors.red,
                           foregroundColor: Colors.white,
@@ -108,7 +113,10 @@ class DoctorAppointmentScreen extends StatelessWidget {
                  style: Appstyle.small20(context).copyWith(color: ColorManager.secondaryColor),),),
             );
           }
-return LoadingCircle();
+return Scaffold(
+    backgroundColor: ColorManager.primaryColor,
+
+    body: LoadingCircle());
         },
       ),
     );

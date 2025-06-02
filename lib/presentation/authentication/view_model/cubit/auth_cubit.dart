@@ -105,7 +105,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   void _reqResetPassword({required ReqPasswordResetIntent Intent})async {
-    emit(RegisterViewModelLoading());
+    emit(ReqPasswordResetLoading());
     var response=await reqResetPasswordUsecase.call(email: Intent.email);
     if(response is SuccessApiResult<ReqResetPassResponse>){
       emit(ReqPasswordResetSuccess(response.data!));

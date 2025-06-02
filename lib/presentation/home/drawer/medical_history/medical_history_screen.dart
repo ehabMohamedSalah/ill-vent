@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ill_vent/core/di/di.dart';
+import 'package:ill_vent/core/resuable_component/loading_circle.dart';
+import 'package:ill_vent/core/resuable_component/toast_message.dart';
 import 'package:ill_vent/core/utils/Appstyle.dart';
 import 'package:ill_vent/core/utils/colors_manager.dart';
 import 'package:ill_vent/presentation/home/drawer/view_model/medical_view_model_cubit.dart';
@@ -212,6 +214,7 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
                 SizedBox(height: 20),
                 BlocConsumer<MedicalViewModelCubit, MedicalViewModelState>(
                   builder: (context, state) {
+
                     return Center(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(backgroundColor: ColorManager.secondaryColor),
@@ -226,21 +229,23 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
                           }
                         },
                         child: state is MedicalViewModelLoading
-                            ? CircularProgressIndicator(color: Colors.white)
+                            ? Center(child: LoadingCircle(),)
                             : Text('Submit Medical History'),
                       ),
                     );
                   },
                   listener: (context, state) {
                     if (state is MedicalViewModelSuccess) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Medical history submitted successfully')),
-                      );
+
+                      toastMessage(
+                          message: "Medical history submitted successfully",
+                          tybeMessage: TybeMessage.positive);
+                      Navigator.pop(context);
                       Navigator.pop(context);
                     } else if (state is MedicalViewModelError) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(state.err)),
-                      );
+                      toastMessage(
+                          message: "Please Enter Right Data!!!",
+                          tybeMessage: TybeMessage.negative);
                     }
                   },
                 ),

@@ -36,7 +36,7 @@ import '../Widgets/doctor_card.dart';
               }
               if(state is DrSuccess){
                 return Scaffold(
-                  backgroundColor:Colors.transparent,
+                  backgroundColor: ColorManager.primaryColor,
                   floatingActionButton: FloatingActionButton(
                     backgroundColor: ColorManager.secondaryColor,
                     onPressed: () {
@@ -61,12 +61,18 @@ import '../Widgets/doctor_card.dart';
                 );
               }
               if(state is DrError){
-                return ErrorWidgett( onPressed: () {
-                  final cubit = DrViewModelCubit.get(context);
-                  cubit..fetchDr();
-                },message: state.errorMsg);
+                return Scaffold(
+                  backgroundColor: ColorManager.primaryColor,
+
+                  body: ErrorWidgett( onPressed: () {
+                    final cubit = DrViewModelCubit.get(context);
+                    cubit..fetchDr();
+                  },message: state.errorMsg),
+                );
               }
-              return Center(child: LoadingCircle(),);
+              return Scaffold(
+                backgroundColor: ColorManager.primaryColor,
+                  body: Center(child: LoadingCircle(),));
  
   },
 ),

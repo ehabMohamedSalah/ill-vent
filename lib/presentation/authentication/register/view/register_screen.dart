@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ill_vent/core/resuable_component/toast_message.dart';
 import 'package:ill_vent/presentation/authentication/register/view/widget/otp_screen.dart';
 
 import '../../../../core/constant.dart';
 import '../../../../core/di/di.dart';
 import '../../../../core/resuable_component/LoginCustomFormField.dart';
 import '../../../../core/resuable_component/RegisterCustomField.dart';
+import '../../../../core/resuable_component/loading_circle.dart';
 import '../../../../core/resuable_component/sign_buttom.dart';
 import '../../../../core/utils/Appstyle.dart';
 import '../../../../core/utils/colors_manager.dart';
@@ -198,19 +200,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               if (state is RegisterViewModelSuccess) {
                                 Navigator.pushNamed(context, RouteManager.registerOTP,arguments:emailController.text  );
 
-                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text("Registration Successful!")));
-
-                                    () {
-
-                                };
+                                 toastMessage(
+                                     message: "Register Success",
+                                     tybeMessage:  TybeMessage.positive
+                                 );
                               } else if (state is RegisterViewModelFailure) {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(content: Text(state.error)));
+                                toastMessage(
+                                    message: state.error,
+                                    tybeMessage:  TybeMessage.negative
+                                );
                               }
                             },
                             builder: (context, state) {
+                              if(state is RegisterViewModelLoading){
+                                return Center(child: LoadingCircle());
+                              }
                               return SizedBox(
                                 width: 150,
                                 height: 50,

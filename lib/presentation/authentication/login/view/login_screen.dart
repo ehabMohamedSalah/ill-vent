@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ill_vent/core/resuable_component/LoginCustomFormField.dart';
+import 'package:ill_vent/core/resuable_component/loading_circle.dart';
 import 'package:ill_vent/core/utils/Appstyle.dart';
 import 'package:ill_vent/core/utils/colors_manager.dart';
 import 'package:ill_vent/presentation/authentication/view_model/cubit/auth_intent.dart';
@@ -9,6 +10,7 @@ import '../../../../core/cache/shared_pref.dart';
 import '../../../../core/constant.dart';
 import '../../../../core/di/di.dart';
 import '../../../../core/resuable_component/sign_buttom.dart';
+import '../../../../core/resuable_component/toast_message.dart';
 import '../../../../core/utils/routes_manager.dart';
 import '../../../../core/utils/strings_manager.dart';
 import '../../view_model/cubit/auth_cubit.dart';
@@ -132,6 +134,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           BlocConsumer<AuthCubit, AuthState>(
                             builder: (context, state) {
+                                if(state is LoginLoading){
+                              return Center(child: LoadingCircle());
+                              }
                               return SizedBox(
                                 width: 150,
                                 height: 50,
@@ -169,12 +174,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Navigator.pushNamed(
                                     context, RouteManager.homeScreenRoutes);
 
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text("Login Successful!")));
-                              } else if (state is LoginError) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(state.error)));
+                                toastMessage(
+                                    message: "Login Success",
+                                    tybeMessage:  TybeMessage.positive
+                                );
+                              }
+
+                              else if (state is LoginError) {
+                                toastMessage(
+                                    message: "You don't have an account or the password is incorrect.",
+                                    tybeMessage:  TybeMessage.negative
+                                );
                               }
                             },
                           ),

@@ -74,10 +74,10 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
               _buildErrorPlaceholder(),
         ),
         Positioned(
-          right: 0,
+          left: 0,
           top: 0,
           child: IconButton(
-            icon: Icon(Icons.delete, color: Colors.red),
+            icon: Icon(Icons.delete, color: Colors.red,size: 35,),
             onPressed: () {
               setState(() {
                 _image = null;
