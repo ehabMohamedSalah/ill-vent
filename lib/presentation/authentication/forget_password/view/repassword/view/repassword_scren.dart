@@ -116,7 +116,7 @@ class _RepasswordScrenState extends State<RepasswordScren> {
                             backgroundColor: ColorManager.headlineColor,
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, RouteManager.homeScreenRoutes
+                                  context, RouteManager.loginRoutes
 
                               );
                             },

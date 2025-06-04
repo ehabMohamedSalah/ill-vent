@@ -47,7 +47,7 @@ class OtpScreen extends StatelessWidget {
                         BlocConsumer<AuthCubit, AuthState>(
                           listener: (context, state) {
                             if (state is ConfirmEmailSuccess) {
-                              Navigator.pushNamed(context, RouteManager.homeScreenRoutes);
+                              Navigator.pushNamed(context, RouteManager.loginRoutes);
                               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Registration Successful!")));
                             } else if (state is ConfirmEmailError) {
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error)));
