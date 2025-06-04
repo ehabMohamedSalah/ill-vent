@@ -4,6 +4,7 @@ import 'package:ill_vent/core/utils/Appstyle.dart';
 import 'package:ill_vent/core/utils/colors_manager.dart';
 import 'package:ill_vent/core/utils/routes_manager.dart';
 import 'package:ill_vent/data_layer/model/emergency_response/emergency_status/EmergencyStatusResponse.dart';
+import 'package:ill_vent/presentation/home/emergency_screens/FindHospital/google_map/map_screen.dart';
 
 class AcceptedHospitalScreen extends StatelessWidget {
   final EmergencyStatusResponse hospital;
@@ -23,8 +24,10 @@ class AcceptedHospitalScreen extends StatelessWidget {
           width: double.infinity,
           child: ElevatedButton.icon(
             onPressed: () {
-              Navigator.pushNamed(context, RouteManager.mapScreen);
-            },
+                Navigator.push(context,  MaterialPageRoute(builder:  (context) {
+                  return MapScreen(hospital.data!.requestId??1);
+                },));
+              },
             icon: Icon(Icons.map, color: Colors.white),
             label: Text(
               "Show on Map",

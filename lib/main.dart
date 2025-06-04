@@ -93,8 +93,7 @@ class MyApp extends StatelessWidget {
             RouteManager.medicalHistoryScreen: (context) => MedicalHistoryForm(),
             RouteManager.medicalFloatScreen: (context) => MedicalFloatScreen(),
             RouteManager.qrFloatScreen: (context) => QrFloatScreen(),
-            RouteManager.mapScreen: (context) => MapScreen(),
-          },
+           },
         );
       },
      );
