@@ -10,6 +10,7 @@ import 'package:ill_vent/core/utils/colors_manager.dart';
 import 'package:ill_vent/presentation/home/drawer/view_model/medical_view_model_cubit.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/utils/routes_manager.dart';
 import '../../../../data_layer/model/medical_history_dataclass.dart';
 
 class MedicalHistoryForm extends StatefulWidget {
@@ -240,8 +241,7 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
                       toastMessage(
                           message: "Medical history submitted successfully",
                           tybeMessage: TybeMessage.positive);
-                      Navigator.pop(context);
-                      Navigator.pop(context);
+                      Navigator.pushNamed(context, RouteManager.homeScreenRoutes);
                     } else if (state is MedicalViewModelError) {
                       toastMessage(
                           message: "Please Enter Right Data!!!",
