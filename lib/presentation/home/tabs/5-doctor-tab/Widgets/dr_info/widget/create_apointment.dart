@@ -67,148 +67,164 @@ class _CreateApointmentState extends State<CreateApointment> {
           padding: const EdgeInsets.all(16.0),
           child: Form(
             key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(height: 30.h),
-                Text(
-                  "Please fill in your details \nto book with the doctor.",
-                  style: Appstyle.small20(context)
-                      .copyWith(color: ColorManager.secondaryColor),
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height -
+                      kToolbarHeight -
+                      MediaQuery.of(context).padding.top,
                 ),
-                CustomFormField(
-                  filledColor: true,
-                  maxLength: 50,
-                  title: "Name",
-                  controller: nameController,
-                  hintText: "",
-                  keyboard: TextInputType.name,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Not Valid Name";
-                    }
-                    return null;
-                  },
-                ),
-                CustomFormField(
-                  maxLength: 11,
-                  title: "Phone Number",
-                  controller: phoneContrller,
-                  hintText: "",
-                  keyboard: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Not Valid phone";
-                    }
-                    return null;
-                  },
-                ),
-                CustomFormField(
-                  maxLength: 2,
-                  title: "Age",
-                  controller: patientAgeController,
-                  hintText: "",
-                  keyboard: TextInputType.datetime,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Not Valid Age";
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 16),
-                DropdownButtonFormField<String>(
-                  decoration: InputDecoration(
-                    labelText: 'Gender',
-                    labelStyle: TextStyle(color: Colors.white),
-                    filled: true,
-                    fillColor: ColorManager.secondaryColor,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                child: IntrinsicHeight(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 30.h),
+                      Text(
+                        "Please fill in your details \nto book with the doctor.",
+                        style: Appstyle.small20(context)
+                            .copyWith(color: ColorManager.secondaryColor),
+                        textAlign: TextAlign.center,
+                      ),
+                      CustomFormField(
+                        filledColor: true,
+                        maxLength: 50,
+                        title: "Name",
+                        controller: nameController,
+                        hintText: "",
+                        keyboard: TextInputType.name,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Not Valid Name";
+                          }
+                          return null;
+                        },
+                      ),
+                      CustomFormField(
+                        maxLength: 11,
+                        title: "Phone Number",
+                        controller: phoneContrller,
+                        hintText: "",
+                        keyboard: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Not Valid phone";
+                          }
+                          return null;
+                        },
+                      ),
+                      CustomFormField(
+                        maxLength: 2,
+                        title: "Age",
+                        controller: patientAgeController,
+                        hintText: "",
+                        keyboard: TextInputType.datetime,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Not Valid Age";
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 16),
+                      DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          labelText: 'Gender',
+                          labelStyle: TextStyle(color: Colors.white),
+                          filled: true,
+                          fillColor: ColorManager.secondaryColor,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        iconEnabledColor: Colors.white,
+                        iconDisabledColor: Colors.white,
+                        value: selectedGender,
+                        items: ['Male', 'Female'].map((gender) {
+                          return DropdownMenuItem(
+                            value: gender,
+                            child: Text(gender),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedGender = value;
+                          });
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please select a gender';
+                          }
+                          return null;
+                        },
+                      ),
+
+                      // بدل Spacer استخدم Expanded فارغ عشان layout مش يعطل
+                      Expanded(child: Container()),
+
+                      BlocConsumer<DrViewModelCubit, DrViewModelState>(
+                        listener: (context, state) async {
+                          if (state is CreateAppointMentSuccess) {
+                            Navigator.pushNamed(
+                              context,
+                              RouteManager.homeScreenRoutes,
+                            );
+
+                            toastMessage(
+                                message: "Book Successful",
+                                tybeMessage: TybeMessage.positive);
+                          } else if (state is CreateAppointMentError) {
+                            toastMessage(
+                                message: "Already Booked",
+                                tybeMessage: TybeMessage.negative);
+                          }
+                        },
+                        builder: (context, state) {
+                          if (state is CreateAppointMentLoading) {
+                            return Center(
+                              child: LoadingCircle(),
+                            );
+                          }
+                          return SizedBox(
+                            width: double.infinity,
+                            child: CustomButton(() {
+                              final patientModel = PatientModel(
+                                doctorId: int.parse(widget.drID),
+                                appointmentDate: widget.appointmentDate,
+                                patientAge: int.parse(patientAgeController.text),
+                                patientGender: selectedGender ?? "male",
+                                startTime: widget.startTime,
+                                patientName: nameController.text,
+                                patientPhoneNumber: phoneContrller.text,
+                              );
+
+                              if (_formKey.currentState!.validate()) {
+                                // Print all values before submission
+                                print("doctorId: ${patientModel.doctorId}");
+                                print("appointmentDate: ${patientModel.appointmentDate}");
+                                print("patientAge: ${patientModel.patientAge}");
+                                print("patientGender: ${patientModel.patientGender}");
+                                print("startTime: ${patientModel.startTime}");
+                                print("patientName: ${patientModel.patientName}");
+                                print("patientPhoneNumber: ${patientModel.patientPhoneNumber}");
+
+                                DrViewModelCubit.get(context)
+                                    .createAppointment(patientModel);
+                              } else {
+                                Fluttertoast.showToast(
+                                  msg: "Please correct the errors.",
+                                  backgroundColor: Colors.orange,
+                                  textColor: Colors.white,
+                                );
+                              }
+                            }, "Appointment"),
+                          );
+                        },
+                      ),
+                    ],
                   ),
-                  iconEnabledColor: Colors.white,
-                  iconDisabledColor: Colors.white,
-                  value: selectedGender,
-                  items: ['Male', 'Female'].map((gender) {
-                    return DropdownMenuItem(
-                      value: gender,
-                      child: Text(gender),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedGender = value;
-                    });
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please select a gender';
-                    }
-                    return null;
-                  },
                 ),
-                Spacer(),
-                BlocConsumer<DrViewModelCubit, DrViewModelState>(
-
-                  listener: (context, state) async{
-                    if (state is CreateAppointMentSuccess) {
-                      Navigator.pushNamed(context, RouteManager.homeScreenRoutes, );
-
-                      toastMessage(
-                          message:"Book Successful" ,
-                          tybeMessage: TybeMessage.positive);
-
-                    } else if (state is CreateAppointMentError) {
-                      toastMessage(
-                          message: "Already Booked",
-                          tybeMessage: TybeMessage.negative);
-                    }
-                  },
-                  builder: (context, state) {
-                    if(state is CreateAppointMentLoading){
-                      return Center(child: LoadingCircle(),);
-                    }
-                    return SizedBox(
-                      width: double.infinity,
-                      child:CustomButton(
-                              (){
-                      final patientModel = PatientModel(
-                        doctorId: int.parse(widget.drID),
-                        appointmentDate: widget.appointmentDate,
-                        patientAge: int.parse(patientAgeController.text),
-                        patientGender: selectedGender ?? "male",
-                        startTime: widget.startTime,
-                        patientName: nameController.text,
-                        patientPhoneNumber: phoneContrller.text,
-                      );
-
-                      if (_formKey.currentState!.validate()) {
-                        // Print all values before submission
-                        print("doctorId: ${patientModel.doctorId}");
-                        print("appointmentDate: ${patientModel.appointmentDate}");
-                        print("patientAge: ${patientModel.patientAge}");
-                        print("patientGender: ${patientModel.patientGender}");
-                        print("startTime: ${patientModel.startTime}");
-                        print("patientName: ${patientModel.patientName}");
-                        print("patientPhoneNumber: ${patientModel.patientPhoneNumber}");
-
-                        DrViewModelCubit.get(context)
-                            .createAppointment(patientModel);
-                      } else {
-                        Fluttertoast.showToast(
-                          msg: "Please correct the errors.",
-                          backgroundColor: Colors.orange,
-                          textColor: Colors.white,
-                        );
-                      }
-                    }
-
-                          , "Appointment"));})
-
-
-
-              ],
+              ),
             ),
           ),
         ),

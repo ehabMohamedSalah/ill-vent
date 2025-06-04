@@ -144,7 +144,7 @@ class _DoctorInfoScreenState extends State<DoctorInfoScreen> {
                             ],
                           ),
                           SizedBox(
-                            height: 100.h,
+                            height: 110.h,
                             child: ListView.separated(
                               separatorBuilder: (context, index) => SizedBox(width: 10),
                               scrollDirection: Axis.horizontal,

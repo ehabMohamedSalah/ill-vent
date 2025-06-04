@@ -11,36 +11,48 @@ import '../../core/utils/strings_manager.dart';
 import 'home_layout/home_tablet_layout.dart';
 
 class HomeScreen extends StatelessWidget {
-    HomeScreen({super.key});
+  HomeScreen({super.key});
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
-    return Scaffold(
-      key: scaffoldKey,
-      appBar: MediaQuery.sizeOf(context).width < SizeConfig.tablet
-          ? AppBar(
-        elevation: 0,
-
-        backgroundColor:   ColorManager.secondaryColor,
-        leading: IconButton(
-            onPressed: () {
-              scaffoldKey.currentState!.openDrawer();
-            },
-            icon: const Icon(Icons.menu,color: Colors.white,size:37 ,)),
-        title: Text(StringsManager.illVent,style: Appstyle.large30(context),),
-        actions: [
-
-          Image.asset('assets/images/4_drawer/ill-vent .png' ,color: Colors.black,),
-        ],
-      ) : null,
-       drawer: MediaQuery.sizeOf(context).width < SizeConfig.tablet
-          ? const CustomDrawer()
-          : null,
-
-      body: HomeMobileLayout(),
-
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus(); // دي بتسكر الكيبورد لو مفتوح
+      },
+      child: Scaffold(
+        key: scaffoldKey,
+        appBar: MediaQuery.sizeOf(context).width < SizeConfig.tablet
+            ? AppBar(
+          elevation: 0,
+          backgroundColor: ColorManager.secondaryColor,
+          leading: IconButton(
+              onPressed: () {
+                scaffoldKey.currentState!.openDrawer();
+              },
+              icon: const Icon(
+                Icons.menu,
+                color: Colors.white,
+                size: 37,
+              )),
+          title: Text(
+            StringsManager.illVent,
+            style: Appstyle.large30(context),
+          ),
+          actions: [
+            Image.asset(
+              'assets/images/4_drawer/ill-vent .png',
+              color: Colors.black,
+            ),
+          ],
+        )
+            : null,
+        drawer: MediaQuery.sizeOf(context).width < SizeConfig.tablet
+            ? const CustomDrawer()
+            : null,
+        body: HomeMobileLayout(),
+      ),
     );
-
   }
 }
