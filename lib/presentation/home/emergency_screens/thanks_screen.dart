@@ -22,11 +22,11 @@ class ThanksScreen extends StatelessWidget {
               ),
               SizedBox(height: 32.h),
               Text(
-                'Thank you for saving a life ❤️',
+                'Thank you for\n saving a life ❤️',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24.sp,
-                  color: Colors.white,
+                  color: ColorManager.secondaryColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -36,7 +36,7 @@ class ThanksScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16.sp,
-                  color: Colors.white70,
+                  color: ColorManager.secondaryColor,
                 ),
               ),
               SizedBox(height: 40.h),

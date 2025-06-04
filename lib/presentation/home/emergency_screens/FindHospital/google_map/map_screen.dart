@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ill_vent/core/resuable_component/loading_circle.dart';
 import 'package:ill_vent/core/resuable_component/toast_message.dart';
 import 'package:ill_vent/core/utils/colors_manager.dart';
 import 'package:ill_vent/presentation/home/emergency_screens/FindHospital/google_map/widget/custom_google_map.dart';
@@ -42,6 +43,9 @@ class MapScreen extends StatelessWidget {
               }
             },
             builder: (context, state) {
+              if(state is CompleteEmergencyLoading){
+                return LoadingCircle();
+              }
               return SizedBox(
                 height: 55.h,
                 width: double.infinity,
