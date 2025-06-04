@@ -1,17 +1,19 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ill_vent/core/resuable_component/LoginCustomFormField.dart';
-import 'package:ill_vent/core/resuable_component/toast_message.dart';
-import 'package:ill_vent/presentation/home/home_tab_screenss/Scan_Patient/scan_screen.dart';
-import '../../../../core/resuable_component/id_CustomField.dart';
+ import 'package:ill_vent/core/resuable_component/toast_message.dart';
+ import '../../../../core/di/di.dart';
 import '../../../../core/resuable_component/image_picker_widget.dart';
 import '../../../../core/resuable_component/resuable_AppBar.dart';
 import '../../../../core/utils/Appstyle.dart';
 import '../../../../core/utils/colors_manager.dart';
 import '../../../../core/utils/routes_manager.dart';
+import '../Scan_Patient/scan_screen.dart';
 import '../resuable_component/Custom_textfield.dart';
+import '../view_model/emergency_view_model_cubit.dart';
+
 
 class PhotoScreen extends StatefulWidget {
   @override
@@ -133,8 +135,16 @@ class _PhotoScreenState extends State<PhotoScreen> {
 
           }
 
-          Navigator.push(context, MaterialPageRoute(builder:  (context) =>
-              ScanScreen(commentController.text??"", base64Image??"") ,));
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BlocProvider(
+                create: (context) => getIt<EmergencyViewModelCubit>(),
+                child: ScanScreen(commentController.text??"", pickedImage.toString()??""),
+              ),
+            ),
+          );
 
 
         }

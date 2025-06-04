@@ -12,28 +12,34 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
-import '../../Domain/usecase/auth_usecase/confirm_email.dart';
 import '../../data_layer/datasource_contract/auth_datasource.dart' as _i219;
 import '../../data_layer/datasource_contract/cart_datasource.dart' as _i335;
 import '../../data_layer/datasource_contract/checkout_datasource.dart' as _i652;
 import '../../data_layer/datasource_contract/dr_datasource.dart' as _i310;
 import '../../data_layer/datasource_contract/dr_datasource_contract.dart'
     as _i563;
+import '../../data_layer/datasource_contract/emergency_datasource/emergency_datasource.dart'
+    as _i920;
 import '../../data_layer/datasource_contract/hospital_datasource.dart' as _i484;
 import '../../data_layer/datasource_contract/medical_datasource.dart' as _i707;
 import '../../data_layer/datasource_contract/pharmacy_datasource.dart' as _i700;
 import '../../data_layer/datasource_contract/product_datasource.dart' as _i464;
 import '../../data_layer/datasource_impl/auth_datasource_impl.dart' as _i147;
-import '../../data_layer/datasource_impl/cart_datasource_impl.dart';
-import '../../data_layer/datasource_impl/checkout_datasource_Impl.dart';
-import '../../data_layer/datasource_impl/doctor-datasource_impl.dart';
+import '../../data_layer/datasource_impl/cart_datasource_impl.dart' as _i998;
+import '../../data_layer/datasource_impl/checkout_datasource_Impl.dart' as _i45;
+import '../../data_layer/datasource_impl/doctor-datasource_impl.dart' as _i578;
 import '../../data_layer/datasource_impl/dr_datasource_impl.dart' as _i1006;
-import '../../data_layer/datasource_impl/hospital_datasource_impl.dart';
-import '../../data_layer/datasource_impl/medical_datasource_impl.dart';
-import '../../data_layer/datasource_impl/pharmacy_datasource_impl.dart';
-import '../../data_layer/datasource_impl/product_datasource_impl.dart';
+import '../../data_layer/datasource_impl/emergency_datasource_impl.dart'
+    as _i48;
+import '../../data_layer/datasource_impl/hospital_datasource_impl.dart'
+    as _i355;
+import '../../data_layer/datasource_impl/medical_datasource_impl.dart' as _i680;
+import '../../data_layer/datasource_impl/pharmacy_datasource_impl.dart'
+    as _i1040;
+import '../../data_layer/datasource_impl/product_datasource_impl.dart'
+    as _i1045;
+import '../../data_layer/repo_impl/auth_repo_impl.dart' as _i654;
 import '../../data_layer/repo_impl/DoctorRepoImpl.dart' as _i580;
-import '../../data_layer/repo_impl/auth_repo_impl.dart';
 import '../../data_layer/repo_impl/hospital-datasource_impl.dart' as _i990;
 import '../../Domain/repo_contract/auth_repo.dart' as _i765;
 import '../../Domain/repo_contract/dr_repo.dart' as _i578;
@@ -53,9 +59,12 @@ import '../../Domain/usecase/cart/update_cart_usecase.dart' as _i1;
 import '../../Domain/usecase/checkout/chechkout_usecase.dart' as _i678;
 import '../../Domain/usecase/checkout/delete_order-usecase.dart' as _i220;
 import '../../Domain/usecase/checkout/getOrder_usecase.dart' as _i420;
+import '../../Domain/usecase/complete_emergency_usecase.dart' as _i749;
 import '../../Domain/usecase/create_appointment_usecase.dart' as _i989;
 import '../../Domain/usecase/doctor_usecase.dart' as _i820;
 import '../../Domain/usecase/dr_usecase.dart' as _i176;
+import '../../Domain/usecase/emergency_req_usecase.dart' as _i541;
+import '../../Domain/usecase/emergency_status_usecase.dart' as _i183;
 import '../../Domain/usecase/get_appointment_usecase.dart' as _i262;
 import '../../Domain/usecase/get_dr_by_id_usecase.dart' as _i179;
 import '../../Domain/usecase/getProductById_usecase.dart' as _i21;
@@ -71,6 +80,8 @@ import '../../presentation/authentication/view_model/cubit/auth_cubit.dart'
     as _i358;
 import '../../presentation/home/drawer/view_model/medical_view_model_cubit.dart'
     as _i1061;
+import '../../presentation/home/emergency_screens/view_model/emergency_view_model_cubit.dart'
+    as _i465;
 import '../../presentation/home/medical_history/view_model/medical_history_view_model_cubit.dart'
     as _i362;
 import '../../presentation/home/tabs/1-shop_tab/cart/view_model/cart_view_model_cubit.dart'
@@ -79,10 +90,12 @@ import '../../presentation/home/tabs/1-shop_tab/cart/view_model/delete_item_cart
     as _i820;
 import '../../presentation/home/tabs/1-shop_tab/cart/view_model/update_cart_view_model/update_cart_view_model_cubit.dart'
     as _i37;
+import '../../presentation/home/tabs/1-shop_tab/checkout/view_model/chechkout_viewmodel_cubit.dart'
+    as _i630;
+import '../../presentation/home/tabs/1-shop_tab/checkout/view_model/delete_viewmodel/delete_view_model_cubit.dart'
+    as _i199;
 import '../../presentation/home/tabs/1-shop_tab/ViewModel/product_view_model__cubit.dart'
     as _i134;
-import '../../presentation/home/tabs/1-shop_tab/checkout/view_model/chechkout_viewmodel_cubit.dart';
-import '../../presentation/home/tabs/1-shop_tab/checkout/view_model/delete_viewmodel/delete_view_model_cubit.dart';
 import '../../presentation/home/tabs/2-Pharmacy_tab/ViewModel/pharmcy_view_model_cubit.dart'
     as _i145;
 import '../../presentation/home/tabs/4-hospital_tab/ViewModel/hospital_view_model_cubit.dart'
@@ -94,9 +107,8 @@ import '../../presentation/home/tabs/5-doctor-tab/Widgets/dr_info/view_model/spe
 import '../../presentation/home/tabs/5-doctor-tab/Widgets/dr_info/widget/available_time_cubit.dart'
     as _i80;
 import '../api/api_manager.dart' as _i1047;
+import '../cache/shared_pref.dart' as _i299;
 import '../ModelService.dart' as _i594;
-import '../api/api_manager.dart';
-import '../cache/shared_pref.dart';
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -110,44 +122,75 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     gh.singleton<_i1047.ApiManager>(() => _i1047.ApiManager());
-    gh.singleton<CacheHelper>(() => CacheHelper());
+    gh.singleton<_i299.CacheHelper>(() => _i299.CacheHelper());
     gh.singleton<_i594.ModelService>(() => _i594.ModelService());
-    gh.factory<_i464.ProductDatasource>(() => ProductDatasourceImpl(
-          gh<ApiManager>(),
-          gh<CacheHelper>(),
+    gh.factory<_i464.ProductDatasource>(() => _i1045.ProductDatasourceImpl(
+          gh<_i1047.ApiManager>(),
+          gh<_i299.CacheHelper>(),
         ));
-    gh.factory<_i484.HospitalDatasource>(() => HospitalDatasourceImpl(
-          gh<ApiManager>(),
-          gh<CacheHelper>(),
+    gh.factory<_i707.MedicalDatasource>(() => _i680.MedicalDatasourceImpl(
+          gh<_i1047.ApiManager>(),
+          gh<_i299.CacheHelper>(),
         ));
-    gh.factory<_i707.MedicalDatasource>(() => MedicalDatasourceImpl(
-          gh<ApiManager>(),
-          gh<CacheHelper>(),
+    gh.factory<_i404.GenerateQrUsecase>(
+        () => _i404.GenerateQrUsecase(gh<_i707.MedicalDatasource>()));
+    gh.factory<_i890.GetQRUsecase>(
+        () => _i890.GetQRUsecase(gh<_i707.MedicalDatasource>()));
+    gh.factory<_i984.MedicalHistoryUsecase>(
+        () => _i984.MedicalHistoryUsecase(gh<_i707.MedicalDatasource>()));
+    gh.factory<_i688.UpdateMedicalHistoryUsecase>(
+        () => _i688.UpdateMedicalHistoryUsecase(gh<_i707.MedicalDatasource>()));
+    gh.factory<_i652.CheckoutDatasource>(() => _i45.CheckoutDatasourceImpl(
+          gh<_i1047.ApiManager>(),
+          gh<_i299.CacheHelper>(),
         ));
-    gh.factory<_i335.CartDatasource>(() => CartDatasourceImpl(
-          gh<ApiManager>(),
-          gh<CacheHelper>(),
+    gh.factory<_i700.PharmacyDatasource>(() => _i1040.PharmacyDatasourceImpl(
+          gh<_i1047.ApiManager>(),
+          gh<_i299.CacheHelper>(),
         ));
-    gh.factory<_i700.PharmacyDatasource>(() => PharmacyDatasourceImpl(
-          gh<ApiManager>(),
-          gh<CacheHelper>(),
+    gh.factory<_i484.HospitalDatasource>(() => _i355.HospitalDatasourceImpl(
+          gh<_i1047.ApiManager>(),
+          gh<_i299.CacheHelper>(),
         ));
+    gh.factory<_i335.CartDatasource>(() => _i998.CartDatasourceImpl(
+          gh<_i1047.ApiManager>(),
+          gh<_i299.CacheHelper>(),
+        ));
+    gh.factory<_i310.DrDatasource>(() => _i578.DrDatasourceImpl(
+          gh<_i1047.ApiManager>(),
+          gh<_i299.CacheHelper>(),
+        ));
+    gh.factory<_i920.EmergencyDatasource>(() => _i48.EmergencyDatasourceImpl(
+          gh<_i1047.ApiManager>(),
+          gh<_i299.CacheHelper>(),
+        ));
+    gh.factory<_i1061.MedicalViewModelCubit>(() => _i1061.MedicalViewModelCubit(
+          gh<_i688.UpdateMedicalHistoryUsecase>(),
+          gh<_i404.GenerateQrUsecase>(),
+        ));
+    gh.factory<_i943.AddToCartUsecase>(
+        () => _i943.AddToCartUsecase(gh<_i335.CartDatasource>()));
+    gh.factory<_i472.CartUsecase>(
+        () => _i472.CartUsecase(gh<_i335.CartDatasource>()));
+    gh.factory<_i92.DeleteCartItemUsecase>(
+        () => _i92.DeleteCartItemUsecase(gh<_i335.CartDatasource>()));
+    gh.factory<_i1.UpdateCartUsecase>(
+        () => _i1.UpdateCartUsecase(gh<_i335.CartDatasource>()));
+    gh.factory<_i362.MedicalHistoryViewModelCubit>(
+        () => _i362.MedicalHistoryViewModelCubit(
+              gh<_i984.MedicalHistoryUsecase>(),
+              gh<_i890.GetQRUsecase>(),
+            ));
+    gh.factory<_i820.DeleteItemViewModelCubit>(
+        () => _i820.DeleteItemViewModelCubit(gh<_i92.DeleteCartItemUsecase>()));
     gh.factory<_i563.DoctorDatasourceContract>(
         () => _i1006.DoctorDatasourceImpl(gh<_i594.ModelService>()));
-    gh.factory<_i310.DrDatasource>(() => DrDatasourceImpl(
-          gh<ApiManager>(),
-          gh<CacheHelper>(),
-        ));
-    gh.factory<_i652.CheckoutDatasource>(() => CheckoutDatasourceImpl(
-          gh<ApiManager>(),
-          gh<CacheHelper>(),
-        ));
     gh.factory<_i678.ChechkoutUsecase>(
         () => _i678.ChechkoutUsecase(gh<_i652.CheckoutDatasource>()));
-    gh.factory<_i420.GetOrderUsecase>(
-        () => _i420.GetOrderUsecase(gh<_i652.CheckoutDatasource>()));
     gh.factory<_i220.DeleteOrderUsecase>(
         () => _i220.DeleteOrderUsecase(gh<_i652.CheckoutDatasource>()));
+    gh.factory<_i420.GetOrderUsecase>(
+        () => _i420.GetOrderUsecase(gh<_i652.CheckoutDatasource>()));
     gh.factory<_i219.AuthDatasource>(
         () => _i147.AuthDatasourceImpl(gh<_i1047.ApiManager>()));
     gh.factory<_i21.GetProductByIdUsecase>(
@@ -158,6 +201,12 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i492.ProductUsecase>(),
           gh<_i21.GetProductByIdUsecase>(),
         ));
+    gh.factory<_i749.CompleteEmergencyRequestUsecase>(() =>
+        _i749.CompleteEmergencyRequestUsecase(gh<_i920.EmergencyDatasource>()));
+    gh.factory<_i541.EmergencyRequestUsecase>(
+        () => _i541.EmergencyRequestUsecase(gh<_i920.EmergencyDatasource>()));
+    gh.factory<_i183.EmergencyStatusUsecase>(
+        () => _i183.EmergencyStatusUsecase(gh<_i920.EmergencyDatasource>()));
     gh.factory<_i198.AvailableTimeUsecase>(
         () => _i198.AvailableTimeUsecase(gh<_i310.DrDatasource>()));
     gh.factory<_i858.CancelAppointmentUsecase>(
@@ -170,27 +219,26 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i262.GetAppointmentUsecase(gh<_i310.DrDatasource>()));
     gh.factory<_i179.SpecificDoctorUsecase>(
         () => _i179.SpecificDoctorUsecase(gh<_i310.DrDatasource>()));
-    gh.factory<DeleteViewModelCubit>(
-        () => DeleteViewModelCubit(gh<_i220.DeleteOrderUsecase>()));
+    gh.factory<_i765.AuthRepo>(
+        () => _i654.AuthRepoImpl(gh<_i219.AuthDatasource>()));
+    gh.factory<_i199.DeleteViewModelCubit>(
+        () => _i199.DeleteViewModelCubit(gh<_i220.DeleteOrderUsecase>()));
     gh.factory<_i80.AvailableTimeCubit>(
         () => _i80.AvailableTimeCubit(gh<_i198.AvailableTimeUsecase>()));
-    gh.factory<_i765.AuthRepo>(() => AuthRepoImpl(gh<_i219.AuthDatasource>()));
+    gh.factory<_i740.CartViewModelCubit>(() => _i740.CartViewModelCubit(
+          gh<_i943.AddToCartUsecase>(),
+          gh<_i472.CartUsecase>(),
+        ));
     gh.factory<_i118.PharmcyUsecase>(
         () => _i118.PharmcyUsecase(gh<_i700.PharmacyDatasource>()));
     gh.factory<_i145.PharmcyViewModelCubit>(
         () => _i145.PharmcyViewModelCubit(gh<_i118.PharmcyUsecase>()));
-    gh.factory<_i688.UpdateMedicalHistoryUsecase>(
-        () => _i688.UpdateMedicalHistoryUsecase(gh<_i707.MedicalDatasource>()));
-    gh.factory<_i404.GenerateQrUsecase>(
-        () => _i404.GenerateQrUsecase(gh<_i707.MedicalDatasource>()));
-    gh.factory<_i984.MedicalHistoryUsecase>(
-        () => _i984.MedicalHistoryUsecase(gh<_i707.MedicalDatasource>()));
-    gh.factory<_i890.GetQRUsecase>(
-        () => _i890.GetQRUsecase(gh<_i707.MedicalDatasource>()));
+    gh.factory<_i37.UpdateCartViewModelCubit>(
+        () => _i37.UpdateCartViewModelCubit(gh<_i1.UpdateCartUsecase>()));
     gh.factory<_i680.HospitalRepo>(
         () => _i990.HospitalRepoImpl(gh<_i484.HospitalDatasource>()));
-    gh.factory<ConfirmEmailUsecase>(
-        () => ConfirmEmailUsecase(gh<_i765.AuthRepo>()));
+    gh.factory<_i584.ConfirmEmailUsecase>(
+        () => _i584.ConfirmEmailUsecase(gh<_i765.AuthRepo>()));
     gh.factory<_i970.LoginUsecase>(
         () => _i970.LoginUsecase(gh<_i765.AuthRepo>()));
     gh.factory<_i757.RegisterUsecase>(
@@ -209,10 +257,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i262.GetAppointmentUsecase>(),
           gh<_i858.CancelAppointmentUsecase>(),
         ));
-    gh.factory<_i1061.MedicalViewModelCubit>(() => _i1061.MedicalViewModelCubit(
-          gh<_i688.UpdateMedicalHistoryUsecase>(),
-          gh<_i404.GenerateQrUsecase>(),
-        ));
     gh.factory<_i358.AuthCubit>(() => _i358.AuthCubit(
           gh<_i757.RegisterUsecase>(),
           gh<_i584.ConfirmEmailUsecase>(),
@@ -220,36 +264,21 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i349.ReqResetPasswordUsecase>(),
           gh<_i289.ResetPasswordUsecase>(),
         ));
-    gh.factory<CheckoutViewmodelCubit>(() => CheckoutViewmodelCubit(
+    gh.factory<_i630.CheckoutViewmodelCubit>(() => _i630.CheckoutViewmodelCubit(
           gh<_i678.ChechkoutUsecase>(),
           gh<_i420.GetOrderUsecase>(),
           gh<_i220.DeleteOrderUsecase>(),
         ));
-    gh.factory<_i943.AddToCartUsecase>(
-        () => _i943.AddToCartUsecase(gh<_i335.CartDatasource>()));
-    gh.factory<_i472.CartUsecase>(
-        () => _i472.CartUsecase(gh<_i335.CartDatasource>()));
-    gh.factory<_i92.DeleteCartItemUsecase>(
-        () => _i92.DeleteCartItemUsecase(gh<_i335.CartDatasource>()));
-    gh.factory<_i1.UpdateCartUsecase>(
-        () => _i1.UpdateCartUsecase(gh<_i335.CartDatasource>()));
-    gh.factory<_i362.MedicalHistoryViewModelCubit>(
-        () => _i362.MedicalHistoryViewModelCubit(
-              gh<_i984.MedicalHistoryUsecase>(),
-              gh<_i890.GetQRUsecase>(),
-            ));
-    gh.factory<_i820.DeleteItemViewModelCubit>(
-        () => _i820.DeleteItemViewModelCubit(gh<_i92.DeleteCartItemUsecase>()));
     gh.factory<_i578.DoctorRepo>(() => _i580.DoctorRepoImpl(
         dummyDatasource: gh<_i563.DoctorDatasourceContract>()));
+    gh.factory<_i465.EmergencyViewModelCubit>(
+        () => _i465.EmergencyViewModelCubit(
+              gh<_i541.EmergencyRequestUsecase>(),
+              gh<_i183.EmergencyStatusUsecase>(),
+              gh<_i749.CompleteEmergencyRequestUsecase>(),
+            ));
     gh.factory<_i181.HospitalUsecase>(
         () => _i181.HospitalUsecase(gh<_i680.HospitalRepo>()));
-    gh.factory<_i740.CartViewModelCubit>(() => _i740.CartViewModelCubit(
-          gh<_i943.AddToCartUsecase>(),
-          gh<_i472.CartUsecase>(),
-        ));
-    gh.factory<_i37.UpdateCartViewModelCubit>(
-        () => _i37.UpdateCartViewModelCubit(gh<_i1.UpdateCartUsecase>()));
     gh.factory<_i684.HospitalViewModelCubit>(
         () => _i684.HospitalViewModelCubit(gh<_i181.HospitalUsecase>()));
     gh.factory<_i176.DoctorUsecase>(

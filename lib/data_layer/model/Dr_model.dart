@@ -84,7 +84,7 @@ class DrModel extends DrEntity {
       availableDays: availableDays,
       workingHours: workingHours,
       deals: deals
-      //deals: deals?.map((deal) => deal.toDealEntity()).toList(),
+      //deals: deals?.google_map((deal) => deal.toDealEntity()).toList(),
 
     );
   }

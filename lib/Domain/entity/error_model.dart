@@ -50,12 +50,12 @@ class ErrorModel {
 //   ErrorData? errors;
 
 //   Map<String, dynamic> toJson() {
-//     final map = <String, dynamic>{};
-//     map['message'] = message;
+//     final google_map = <String, dynamic>{};
+//     google_map['message'] = message;
 //     if (errors != null) {
-//       map['errors'] = errors?.toJson();
+//       google_map['errors'] = errors?.toJson();
 //     }
-//     return map;
+//     return google_map;
 //   }
 // }
 

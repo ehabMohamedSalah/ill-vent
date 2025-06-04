@@ -26,6 +26,7 @@ static const String repasswordScreen='/RepasswordScren';
   static const String medicalHistoryScreen="medicalHistoryScreen";
   static const String medicalFloatScreen="MedicalFloatScreen";
   static const String qrFloatScreen="qrFloatScreen";
+  static const String mapScreen="MapScreen";
 
 
 }

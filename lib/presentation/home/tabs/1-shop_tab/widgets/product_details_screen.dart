@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ill_vent/core/di/di.dart';
 import 'package:ill_vent/core/resuable_component/custom_button.dart';
+import 'package:ill_vent/core/resuable_component/toast_message.dart';
 import 'package:ill_vent/core/utils/Appstyle.dart';
 import 'package:ill_vent/presentation/home/tabs/1-shop_tab/ViewModel/product_view_model__cubit.dart';
 
@@ -183,15 +184,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         },
                         listener:  (context, state) {
                           if(state is AddToCartViewModelSuccess){
-                            Navigator.pushNamed(context, RouteManager.homeScreenRoutes, );
-
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text("Added Successful!")));
-                                () {};
+                        Navigator.pop(context);
+                            toastMessage(
+                                message: "Added Successful",
+                                tybeMessage: TybeMessage.positive
+                            );
                           }else if (state is AddToCartViewModelError) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(SnackBar(content: Text(state.err)));
+                            toastMessage(
+                                message: state.err,
+                                tybeMessage: TybeMessage.negative
+                            );
                           }
                         },
                     ),

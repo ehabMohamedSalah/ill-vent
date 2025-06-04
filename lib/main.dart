@@ -16,14 +16,13 @@ import 'package:ill_vent/presentation/authentication/forget_password/view/forget
 import 'package:ill_vent/presentation/authentication/forget_password/view/otp_forgetpass/forget_otp.dart';
 import 'package:ill_vent/presentation/authentication/forget_password/view/repassword/view/repassword_scren.dart';
 import 'package:ill_vent/presentation/home/drawer/medical_history/medical_history_screen.dart';
+ import 'package:ill_vent/presentation/home/emergency_screens/FindHospital/finding_hospital_screen.dart';
+import 'package:ill_vent/presentation/home/emergency_screens/FindHospital/google_map/map_screen.dart';
+import 'package:ill_vent/presentation/home/emergency_screens/FindHospital/google_map/widget/custom_google_map.dart';
+import 'package:ill_vent/presentation/home/emergency_screens/photo_of_sit/photo_screen.dart';
 import 'package:ill_vent/presentation/home/home_screen.dart';
 import 'package:ill_vent/presentation/home/home_layout/home_mobile_layout.dart';
 
-import 'package:ill_vent/presentation/home/home_tab_screenss/FindHospital/FindingHospitalScreen.dart';
-import 'package:ill_vent/presentation/home/home_tab_screenss/FindHospital/layouts/FindingMobileLayout.dart';
-import 'package:ill_vent/presentation/home/home_tab_screenss/Scan_Patient/scan_screen.dart';
-import 'package:ill_vent/presentation/home/home_tab_screenss/Scan_Patient/scan_screen.dart';
-import 'package:ill_vent/presentation/home/home_tab_screenss/photo_of_sit/photo_screen.dart';
  import 'package:ill_vent/presentation/home/medical_history/view/medical_screen.dart';
 import 'package:ill_vent/presentation/home/medical_history/view/qr_screen.dart';
 import 'package:ill_vent/presentation/home/tabs/1-shop_tab/cart/view/cart_screen.dart';
@@ -73,8 +72,8 @@ class MyApp extends StatelessWidget {
           builder: DevicePreview.appBuilder,
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
-          initialRoute:
-          isLoggedIn ? RouteManager.homeScreenRoutes : RouteManager.authScreen,
+         // home: CustomGoogleMap(),
+           initialRoute: isLoggedIn ? RouteManager.homeScreenRoutes : RouteManager.authScreen,
           routes: {
             RouteManager.authScreen: (context) => AuthScreen(),
             RouteManager.homeScreenRoutes: (context) => HomeScreen(),
@@ -83,22 +82,18 @@ class MyApp extends StatelessWidget {
             RouteManager.signUpRoutes: (context) => RegisterScreen(),
           //  RouteManager.scanScreen: (context) => ScanScreen(),
             RouteManager.photoScreen: (context) => PhotoScreen(),
-            RouteManager.findingScreen: (context) => FindingScreen(),
-            RouteManager.forgetPassword: (context) => ForgetPassword(),
+             RouteManager.forgetPassword: (context) => ForgetPassword(),
             RouteManager.homeMobileLayout: (context) => HomeMobileLayout(),
             RouteManager.doctorAppointmentsScreen: (context) => DoctorAppointmentScreen(),
             RouteManager.cartScreen: (context) => CartScreen(),
             RouteManager.ordersScreen: (context) => OrderScreen(),
-
-
              RouteManager.photoScreenMobileLayout: (context) => PhotoScreen(),
-            RouteManager.findingScreenMobileLayout: (context) =>
-                FindingMobileLayout(),
             RouteManager.forgetOTP: (context) => ForgetOtpScreen(),
             RouteManager.repasswordScreen: (context) => RepasswordScren(),
             RouteManager.medicalHistoryScreen: (context) => MedicalHistoryForm(),
             RouteManager.medicalFloatScreen: (context) => MedicalFloatScreen(),
             RouteManager.qrFloatScreen: (context) => QrFloatScreen(),
+            RouteManager.mapScreen: (context) => MapScreen(),
           },
         );
       },
