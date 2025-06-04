@@ -45,4 +45,5 @@ class LocationService {
   }
 //lazm at2kd al awl eny m3aya al permission
 //btdek al location bta3k k stream 3shan toll manta  btt7rk b al mobile ydek al location al gded
+
 }

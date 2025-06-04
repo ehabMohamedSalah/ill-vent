@@ -17,33 +17,32 @@ class EmergencyViewModelError extends EmergencyViewModelState {
   EmergencyViewModelError(this.message);
 }
 
-
-///EmergencyStatusLoading
+// حالة خاصة بتحميل حالة الطوارئ (الانتظار لاستلام تحديثات)
 class EmergencyStatusLoading extends EmergencyViewModelState {}
 
-class EmergencyStatusSuccess extends EmergencyViewModelState {
+// حالة استلام تحديث من المستشفى (لكن الحالة ليست Completed)
+class EmergencyStatusUpdated extends EmergencyViewModelState {
   final EmergencyStatusResponse statusResponse;
-  EmergencyStatusSuccess(this.statusResponse);
+  EmergencyStatusUpdated(this.statusResponse);
 }
-
 class EmergencyStatusError extends EmergencyViewModelState {
   final String message;
   EmergencyStatusError(this.message);
 }
 
 
-///hospital Found
+// حالة نجاح عند الوصول لحالة Completed (أي المستشفى تم إيجاده)
 class HospitalFound extends EmergencyViewModelState {
-  EmergencyStatusResponse hospitalData;
-  HospitalFound(this.hospitalData);
+  final EmergencyStatusResponse hospitalResponse;
+  HospitalFound(this.hospitalResponse);
 }
 
-
-///Complete Emergency Request
+// حالات اكتمال الطلب
 class CompleteEmergencyLoading extends EmergencyViewModelState {}
+
 class CompleteEmergencySuccess extends EmergencyViewModelState {
-  final CompleteRequestResponse? Response;
-  CompleteEmergencySuccess(this.Response);
+  final CompleteRequestResponse? response;
+  CompleteEmergencySuccess(this.response);
 }
 
 class CompleteEmergencyError extends EmergencyViewModelState {

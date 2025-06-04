@@ -12,21 +12,20 @@ class CustomGoogleMap extends StatefulWidget {
 }
 
 class _CustomGoogleMapState extends State<CustomGoogleMap> {
-  late CameraPosition initialCameraPostion;
-
+  CameraPosition? initialCameraPostion;
   late LocationService locationService;
-  @override
-  void initState() {
-    initialCameraPostion = const CameraPosition(
-        zoom: 17, target: LatLng(31.187084851056554, 29.928110526889437));
-    locationService = LocationService();
-    updateMyLocation();
-    super.initState();
-  }
 
   GoogleMapController? googleMapController;
 
   Set<Marker> markers = {};
+
+  @override
+  void initState() {
+    locationService = LocationService();
+    super.initState();
+    updateMyLocation();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GoogleMap(
@@ -34,10 +33,17 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
       zoomControlsEnabled: false,
       onMapCreated: (controller) {
         googleMapController = controller;
-
         initMapStyle();
+
+        // لو الـ initialCameraPostion مش محدد بعد، حددها على نقطة افتراضية
+        if (initialCameraPostion == null) {
+          initialCameraPosition: initialCameraPostion ??
+              CameraPosition(target: LatLng(30.071726, 31.220578), zoom: 18);
+          setState(() {}); // لتحديث الواجهة مع initial position
+        }
       },
-      initialCameraPosition: initialCameraPostion,
+      initialCameraPosition:
+      initialCameraPostion ?? const CameraPosition(target: LatLng(30.071726, 31.220578), zoom: 18),
     );
   }
 
@@ -45,42 +51,63 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
     var nightMapStyle = await DefaultAssetBundle.of(context)
         .loadString('assets/map_syles/night_map_style.json');
 
-    googleMapController!.setMapStyle(nightMapStyle);
+    googleMapController?.setMapStyle(nightMapStyle);
   }
 
   void updateMyLocation() async {
-    await locationService.checkAndRequestLocationService();
-    var hasPermission =
-    await locationService.checkAndRequestLocationPermission();
-    if (hasPermission) {//3shan law msh  m3ah permission my2rash al locations asln
-      locationService.getRealTimeLocationData((locationData) {
-        setMyLocationMarker(locationData);
-        setMyCameraPosition(locationData);
-      });
-    } else {}
+    bool serviceEnabled = await locationService.checkAndRequestLocationService();
+    if (!serviceEnabled) return;
+
+    bool permissionGranted = await locationService.checkAndRequestLocationPermission();
+    if (!permissionGranted) return;
+
+    locationService.getRealTimeLocationData((locationData) {
+      if (locationData.latitude != null && locationData.longitude != null) {
+        final newCameraPosition = CameraPosition(
+          target: LatLng(locationData.latitude!, locationData.longitude!),
+          zoom: 15,
+        );
+
+        if (initialCameraPostion == null) {
+          setState(() {
+            initialCameraPostion = newCameraPosition;
+            markers.clear();
+            markers.add(
+              Marker(
+                markerId: const MarkerId('my_location_marker'),
+                position: LatLng(locationData.latitude!, locationData.longitude!),
+              ),
+            );
+          });
+        } else {
+          // لو عايز تحدث الماركر والكاميرا بعدين فقط:
+          setMyLocationMarker(locationData);
+          setMyCameraPosition(locationData);
+        }
+      }
+    });
   }
 
   void setMyCameraPosition(LocationData locationData) {
-    var camerPosition = CameraPosition(
-        target: LatLng(locationData.latitude!, locationData.longitude!),
-        zoom: 15);
+    final cameraPosition = CameraPosition(
+        target: LatLng(locationData.latitude!, locationData.longitude!), zoom: 15);
 
-    googleMapController
-        ?.animateCamera(CameraUpdate.newCameraPosition(camerPosition));
+    googleMapController?.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+
+    // حدد initialCameraPostion لأول مرة لتحديث الواجهة لو ماكانش محدد
+    if (initialCameraPostion == null) {
+      initialCameraPostion = cameraPosition;
+      setState(() {});
+    }
   }
 
   void setMyLocationMarker(LocationData locationData) {
-    var myLocationMarker = Marker(
+    final myLocationMarker = Marker(
         markerId: const MarkerId('my_location_marker'),
         position: LatLng(locationData.latitude!, locationData.longitude!));
 
+    markers.clear(); // امسح الماركرات القديمة عشان ما تتكررش
     markers.add(myLocationMarker);
     setState(() {});
   }
 }
-
-
-// inquire about location service    >>btshof hya m3mloha enable wala la >on location service abl acccess al location
-// request permission
-// get location
-// display
