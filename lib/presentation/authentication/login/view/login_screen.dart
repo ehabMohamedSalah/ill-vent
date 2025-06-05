@@ -168,9 +168,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                     Constant.nameKey, state.response.userName ?? "");
                                 await cacheHelper.setData<String>(
                                     Constant.emailKey, state.response.email ?? "");
+                                Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  RouteManager.homeScreenRoutes,
+                                      (Route<dynamic> route) => false,
+                                );
 
-                                Navigator.pushNamed(
-                                    context, RouteManager.homeScreenRoutes);
 
                                 toastMessage(
                                     message: "Login Success",

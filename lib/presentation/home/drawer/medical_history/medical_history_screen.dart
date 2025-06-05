@@ -55,7 +55,7 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
 
   // Dropdown options and values
   final List<String> _bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
-  final List<String> _genders = ['Male', 'Female', 'Other'];
+  final List<String> _genders = ['Male', 'Female'];
   final List<String> _diabetesTypes = ['Type 1 Diabetes', 'Type 2 Diabetes',];
   final List<String> _birthControlMethods = ['None', 'Pill', 'IUD', 'Condom', 'Implant', 'Other'];
 

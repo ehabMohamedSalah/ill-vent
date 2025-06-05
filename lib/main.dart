@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ill_vent/config/theme/appTheme.dart';
 import 'package:ill_vent/core/api/api_manager.dart';
@@ -35,6 +36,11 @@ import 'core/cache/shared_pref.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Lock orientation to portrait only
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   configureDependencies(); // di
   ApiManager.init(); // initialize Dio
   Bloc.observer = MyBlocObserver();
