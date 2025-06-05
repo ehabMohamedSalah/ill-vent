@@ -134,8 +134,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           BlocConsumer<AuthCubit, AuthState>(
                             builder: (context, state) {
-                                if(state is LoginLoading){
-                              return Center(child: LoadingCircle());
+                              if (state is LoginLoading) {
+                                return Center(child: LoadingCircle());
                               }
                               return SizedBox(
                                 width: 150,
@@ -147,12 +147,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                   linearGradient: false,
                                   backgroundColor: ColorManager.headlineColor,
                                   onTap: () {
+                                    FocusScope.of(context).unfocus();
                                     if (formKey.currentState!.validate()) {
                                       context.read<AuthCubit>().doIntent(
-                                          LoginIntent(
-                                              email: emailContrller.text,
-                                              password:
-                                              passwordContrller.text));
+                                        LoginIntent(
+                                            email: emailContrller.text,
+                                            password: passwordContrller.text),
+                                      );
                                     }
                                   },
                                 ),
@@ -160,31 +161,25 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                             listener: (context, state) async {
                               if (state is LoginSuccess) {
-                                // Save token, name, and email
+                                FocusScope.of(context).unfocus(); // <<< قفل الكيبورد
                                 await cacheHelper.setData<String>(
-                                    Constant.tokenKey,
-                                    state.response.token ?? "");
+                                    Constant.tokenKey, state.response.token ?? "");
                                 await cacheHelper.setData<String>(
-                                    Constant.nameKey,
-                                    state.response.userName ?? "");
+                                    Constant.nameKey, state.response.userName ?? "");
                                 await cacheHelper.setData<String>(
-                                    Constant.emailKey,
-                                    state.response.email ?? "");
+                                    Constant.emailKey, state.response.email ?? "");
 
                                 Navigator.pushNamed(
                                     context, RouteManager.homeScreenRoutes);
 
                                 toastMessage(
                                     message: "Login Success",
-                                    tybeMessage:  TybeMessage.positive
-                                );
-                              }
-
-                              else if (state is LoginError) {
+                                    tybeMessage: TybeMessage.positive);
+                              } else if (state is LoginError) {
                                 toastMessage(
-                                    message: "You don't have an account or the password is incorrect.",
-                                    tybeMessage:  TybeMessage.negative
-                                );
+                                    message:
+                                    "You don't have an account or the password is incorrect.",
+                                    tybeMessage: TybeMessage.negative);
                               }
                             },
                           ),

@@ -220,8 +220,8 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(backgroundColor: ColorManager.secondaryColor),
                         onPressed: () {
-                          print("======================");
-                          print(_medicalHistory.immunizationHistory?.fluDate.toString());
+                          FocusScope.of(context).unfocus();
+                           print(_medicalHistory.immunizationHistory?.fluDate.toString());
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
                             MedicalViewModelCubit.get(context).sendMedicalHistory(

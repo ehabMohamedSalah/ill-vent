@@ -118,6 +118,7 @@ class _PhotoScreenState extends State<PhotoScreen> {
   Widget _buildNextButton() {
     return InkWell(
       onTap: () async {
+        FocusScope.of(context).unfocus();
         if (formKey.currentState?.validate() ?? false) {
           String? base64Image;
 
@@ -134,7 +135,6 @@ class _PhotoScreenState extends State<PhotoScreen> {
             );
 
           }
-
 
           Navigator.push(
             context,

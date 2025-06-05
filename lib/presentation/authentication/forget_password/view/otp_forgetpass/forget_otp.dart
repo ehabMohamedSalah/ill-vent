@@ -169,6 +169,7 @@ class _ForgetOtpScreenState extends State<ForgetOtpScreen> {
                                linearGradient: false,
                                backgroundColor: ColorManager.headlineColor,
                                onTap: () {
+                                 FocusScope.of(context).unfocus();
                                  if (formKey.currentState!.validate()) {
                                    print("====================================");
                                    print(email);

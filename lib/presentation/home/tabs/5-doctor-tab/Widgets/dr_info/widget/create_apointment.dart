@@ -210,6 +210,7 @@ class _CreateApointmentState extends State<CreateApointment> {
                           return SizedBox(
                             width: double.infinity,
                             child: CustomButton(() {
+                              FocusScope.of(context).unfocus();
                               if (_formKey.currentState!.validate()) {
                                 final patientModel = PatientModel(
                                   doctorId: int.parse(widget.drID),

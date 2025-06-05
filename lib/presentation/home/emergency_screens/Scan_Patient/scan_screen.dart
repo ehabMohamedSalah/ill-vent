@@ -154,6 +154,7 @@ log(emergencyModel.injuryDescription);
                       alignment: Alignment.centerRight,
                       child: TextButton(
                         onPressed: () {
+                          FocusScope.of(context).unfocus();
                           EmergencyViewModelCubit.get(context).emergencyRequest(
                               emergencyreq: EmergencyDataclass(
                                 injuryDescription: widget.comment??"",

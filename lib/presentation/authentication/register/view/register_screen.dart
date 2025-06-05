@@ -225,6 +225,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   linearGradient: false,
                                   backgroundColor: ColorManager.headlineColor,
                                   onTap: () {
+                                    FocusScope.of(context).unfocus();
+
                                     if (formKey.currentState!.validate()) {
                                       context.read<AuthCubit>().doIntent(
                                         RegisterUserIntent(

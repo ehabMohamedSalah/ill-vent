@@ -183,7 +183,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       }, "Confirm Order");
                     } ,
                     listener:(context, state) {
-                     if(state is ChechkoutViewmodelSuccess){
+                      FocusScope.of(context).unfocus();
+                      if(state is ChechkoutViewmodelSuccess){
                        Navigator.pushNamed(context,  RouteManager.homeScreenRoutes,);
                        ScaffoldMessenger.of(context).showSnackBar(
                            const SnackBar(
