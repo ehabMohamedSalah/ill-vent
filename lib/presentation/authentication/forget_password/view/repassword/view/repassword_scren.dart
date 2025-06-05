@@ -115,11 +115,14 @@ class _RepasswordScrenState extends State<RepasswordScren> {
                             linearGradient: false,
                             backgroundColor: ColorManager.headlineColor,
                             onTap: () {
-                              Navigator.pushNamed(
-                                  context, RouteManager.loginRoutes
-
-                              );
+                              if (formKey.currentState!.validate()) {
+                                Navigator.pushNamed(
+                                    context,
+                                    RouteManager.loginRoutes
+                                );
+                              }
                             },
+
                           ),
                         ),
 

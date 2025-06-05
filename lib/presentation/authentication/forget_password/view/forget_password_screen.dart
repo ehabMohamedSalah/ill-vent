@@ -109,11 +109,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                     linearGradient: false,
                                     backgroundColor: ColorManager.headlineColor,
                                     onTap: () {
-                               context.read<AuthCubit>().doIntent(
-                                   ReqPasswordResetIntent(email: emailContrller.text)
-                               );
-
+                                      if (formKey.currentState!.validate()) {
+                                        context.read<AuthCubit>().doIntent(
+                                            ReqPasswordResetIntent(email: emailContrller.text)
+                                        );
+                                      }
                                     },
+
 
                                   ),
                                 );

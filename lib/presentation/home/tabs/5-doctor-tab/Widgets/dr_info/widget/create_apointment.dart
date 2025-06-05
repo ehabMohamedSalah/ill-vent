@@ -68,7 +68,9 @@ class _CreateApointmentState extends State<CreateApointment> {
           child: Form(
             key: _formKey,
             child: SingleChildScrollView(
-              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
               child: ConstrainedBox(
                 constraints: BoxConstraints(
                   minHeight: MediaQuery.of(context).size.height -
@@ -86,6 +88,8 @@ class _CreateApointmentState extends State<CreateApointment> {
                             .copyWith(color: ColorManager.secondaryColor),
                         textAlign: TextAlign.center,
                       ),
+
+                      // Name
                       CustomFormField(
                         filledColor: true,
                         maxLength: 50,
@@ -94,12 +98,18 @@ class _CreateApointmentState extends State<CreateApointment> {
                         hintText: "",
                         keyboard: TextInputType.name,
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Not Valid Name";
+                          if (value == null || value.trim().isEmpty) {
+                            return "Please enter a name";
+                          }
+                          final nameRegExp = RegExp(r'^[a-zA-Z\s]+$');
+                          if (!nameRegExp.hasMatch(value.trim())) {
+                            return "Name must contain only letters";
                           }
                           return null;
                         },
                       ),
+
+                      // Phone Number
                       CustomFormField(
                         maxLength: 11,
                         title: "Phone Number",
@@ -107,26 +117,39 @@ class _CreateApointmentState extends State<CreateApointment> {
                         hintText: "",
                         keyboard: TextInputType.number,
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Not Valid phone";
+                          if (value == null || value.trim().isEmpty) {
+                            return "Please enter a phone number";
+                          }
+                          final phoneRegExp = RegExp(r'^(01)[0-9]{9}$');
+                          if (!phoneRegExp.hasMatch(value.trim())) {
+                            return "Enter a valid Egyptian phone number";
                           }
                           return null;
                         },
                       ),
+
+                      // Age
                       CustomFormField(
                         maxLength: 2,
                         title: "Age",
                         controller: patientAgeController,
                         hintText: "",
-                        keyboard: TextInputType.datetime,
+                        keyboard: TextInputType.number,
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Not Valid Age";
+                          if (value == null || value.trim().isEmpty) {
+                            return "Please enter your age";
+                          }
+                          final age = int.tryParse(value.trim());
+                          if (age == null || age < 1 || age > 100) {
+                            return "Enter a valid age between 1 and 100";
                           }
                           return null;
                         },
                       ),
+
                       SizedBox(height: 16),
+
+                      // Gender Dropdown
                       DropdownButtonFormField<String>(
                         decoration: InputDecoration(
                           labelText: 'Gender',
@@ -159,54 +182,46 @@ class _CreateApointmentState extends State<CreateApointment> {
                         },
                       ),
 
-                      // بدل Spacer استخدم Expanded فارغ عشان layout مش يعطل
                       Expanded(child: Container()),
 
                       BlocConsumer<DrViewModelCubit, DrViewModelState>(
-                        listener: (context, state) async {
+                        listener: (context, state) {
                           if (state is CreateAppointMentSuccess) {
                             Navigator.pushNamed(
                               context,
                               RouteManager.homeScreenRoutes,
                             );
-
                             toastMessage(
-                                message: "Book Successful",
-                                tybeMessage: TybeMessage.positive);
+                              message: "Book Successful",
+                              tybeMessage: TybeMessage.positive,
+                            );
                           } else if (state is CreateAppointMentError) {
                             toastMessage(
-                                message: "Already Booked",
-                                tybeMessage: TybeMessage.negative);
+                              message: "Already Booked",
+                              tybeMessage: TybeMessage.negative,
+                            );
                           }
                         },
                         builder: (context, state) {
                           if (state is CreateAppointMentLoading) {
-                            return Center(
-                              child: LoadingCircle(),
-                            );
+                            return Center(child: LoadingCircle());
                           }
+
                           return SizedBox(
                             width: double.infinity,
                             child: CustomButton(() {
-                              final patientModel = PatientModel(
-                                doctorId: int.parse(widget.drID),
-                                appointmentDate: widget.appointmentDate,
-                                patientAge: int.parse(patientAgeController.text),
-                                patientGender: selectedGender ?? "male",
-                                startTime: widget.startTime,
-                                patientName: nameController.text,
-                                patientPhoneNumber: phoneContrller.text,
-                              );
-
                               if (_formKey.currentState!.validate()) {
-                                // Print all values before submission
-                                print("doctorId: ${patientModel.doctorId}");
-                                print("appointmentDate: ${patientModel.appointmentDate}");
-                                print("patientAge: ${patientModel.patientAge}");
-                                print("patientGender: ${patientModel.patientGender}");
-                                print("startTime: ${patientModel.startTime}");
-                                print("patientName: ${patientModel.patientName}");
-                                print("patientPhoneNumber: ${patientModel.patientPhoneNumber}");
+                                final patientModel = PatientModel(
+                                  doctorId: int.parse(widget.drID),
+                                  appointmentDate: widget.appointmentDate,
+                                  patientAge:
+                                  int.parse(patientAgeController.text.trim()),
+                                  patientGender: selectedGender ?? "male",
+                                  startTime: widget.startTime,
+                                  patientName: nameController.text.trim(),
+                                  patientPhoneNumber:
+                                  phoneContrller.text.trim(),
+                                );
 
                                 DrViewModelCubit.get(context)
                                     .createAppointment(patientModel);

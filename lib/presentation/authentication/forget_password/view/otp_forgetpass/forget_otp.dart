@@ -64,7 +64,7 @@ class _ForgetOtpScreenState extends State<ForgetOtpScreen> {
         ),
         backgroundColor: ColorManager.primaryColor,
         body: Form(
-
+          key: formKey,
           child: Column(
             children: [
               SizedBox(
@@ -117,22 +117,7 @@ class _ForgetOtpScreenState extends State<ForgetOtpScreen> {
                           Align(
                               alignment: Alignment.center,
                               child: Text("A message will be sent to your e-mail\nplease fill the 6 numbers to make sure its you",style: Appstyle.small15(context),)),
-                        /*  SizedBox(height: 30,),
-                          Align(
-                              alignment: Alignment.center,
-                              child: Text("Message not sent?",style: Appstyle.small15(context),)),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                                IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back,color: Colors.white,size: 50)),
-                              Align(
-                                  alignment: Alignment.center,
-                                  child: Text("Resend-send Code",style: Appstyle.small15(context).copyWith(color: Colors.white70,decoration: TextDecoration.underline),)),
-                              IconButton(onPressed: (){
-                                Navigator.pushNamed(context, RouteManager.repasswordScreen);
-                              }, icon: Icon(Icons.arrow_forward,color: Colors.white,size: 50,)),
 
-                            ],)*/
                            CustomFormField( maxLength: 50,title: "New Password",controller: passwordContrller,hintText: "",keyboard:TextInputType.visiblePassword ,
                             obsecureText: isObsecure,
                             suffixIcon:IconButton( onPressed:(){
@@ -184,21 +169,23 @@ class _ForgetOtpScreenState extends State<ForgetOtpScreen> {
                                linearGradient: false,
                                backgroundColor: ColorManager.headlineColor,
                                onTap: () {
-                                 print("====================================");
-                                 print(email);
-                                 print(otp);
-                                 print(passwordContrller.text);
-                                 print("====================================");
+                                 if (formKey.currentState!.validate()) {
+                                   print("====================================");
+                                   print(email);
+                                   print(otp);
+                                   print(passwordContrller.text);
+                                   print("====================================");
 
-                                 context.read<AuthCubit>().doIntent(
-                                   ResetPasswordResetIntent(
-                                       email: email??"",
+                                   context.read<AuthCubit>().doIntent(
+                                     ResetPasswordResetIntent(
+                                       email: email ?? "",
                                        otp: otp,
-                                       pass: passwordContrller.text
-                                   ),
-                                 );
-
+                                       pass: passwordContrller.text,
+                                     ),
+                                   );
+                                 }
                                },
+
                              ),
                            );
                          },
