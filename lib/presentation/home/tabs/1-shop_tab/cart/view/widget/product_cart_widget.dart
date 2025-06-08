@@ -60,7 +60,7 @@ class _ProductCartWidgetState extends State<ProductCartWidget> {
           )),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
-        // spacing مش موجودة في Row، لو عايز مسافة استخدم SizedBox
+
         children: [
           Expanded(
             flex: 2,
@@ -82,7 +82,7 @@ class _ProductCartWidgetState extends State<ProductCartWidget> {
               ),
             ),
           ),
-          const SizedBox(width: 8), // فراغ بين الصورة والعمود
+          const SizedBox(width: 8),
           Expanded(
             flex: 3,
             child: Column(

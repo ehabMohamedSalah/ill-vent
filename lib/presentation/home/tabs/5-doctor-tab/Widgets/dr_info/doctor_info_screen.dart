@@ -157,8 +157,8 @@ class _DoctorInfoScreenState extends State<DoctorInfoScreen> {
                                   onTap: () async {
                                     setState(() {
                                       selectedIndex = index;
-                                      timeSelected = null; // reset time when date changes
-                                      startTime = null; // reset startTime when date changes
+                                      timeSelected = null;
+                                      startTime = null;
                                     });
                                     final date = day.date ?? DateFormat('yyyy-MM-dd').format(DateTime.now());
                                     appointmentDate = date;
@@ -174,13 +174,13 @@ class _DoctorInfoScreenState extends State<DoctorInfoScreen> {
                         ],
                       ),
                     );
-                  }
-                  else if (state is SpecificDrError) {
+                  } else if (state is SpecificDrError) {
                     return ErrorWidgett(
-                        message: state.errorMsg,
-                        onPressed: () {
-                          getIt<SpecificDoctorCubit>()..fetchDr(id: widget.drId);
-                        },);
+                      message: state.errorMsg,
+                      onPressed: () {
+                        getIt<SpecificDoctorCubit>()..fetchDr(id: widget.drId);
+                      },
+                    );
                   }
                   return LoadingCircle();
                 },
@@ -202,63 +202,66 @@ class _DoctorInfoScreenState extends State<DoctorInfoScreen> {
                             height: 140.h,
                             child: GridView.builder(
                               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3, // عدد الأعمدة
+                                crossAxisCount: 3,
                                 crossAxisSpacing: 10,
                                 mainAxisSpacing: 10,
                               ),
                               scrollDirection: Axis.horizontal,
                               itemCount: state.times.length,
                               itemBuilder: (context, index) {
+                                final time = state.times[index];
                                 final isSelectedd = index == timeSelected;
+                                final isReserved = time.isReserved;
+
                                 return GestureDetector(
                                   onTap: () {
-                                    setState(() {
-                                      timeSelected = index;
-                                      startTime = state.times[index].formattedStartTime ?? "";
-                                    });
+                                    if (!(isReserved ?? true)) {
+                                      setState(() {
+                                        timeSelected = index;
+                                        startTime = time.formattedStartTime ?? "";
+                                      });
+                                    }
                                   },
-                                  child: TimeItem(state.times[index].formattedStartTime ?? "", isSelectedd),
+                                  child: TimeItem(time.formattedStartTime ?? "", isSelectedd, isReserved),
                                 );
                               },
                             ),
                           ),
                           SizedBox(height: 10.h),
-                          (timeSelected == null)
+                          (timeSelected == null || state.times[timeSelected!].isReserved == true)
                               ? Center(
                               child: Text(
-                                "you must choose a time",
+                                "you must choose a valid time",
+                                style: TextStyle(color: Colors.red),
                               ))
                               : SizedBox(
                             height: 30.h,
                             width: double.infinity,
-                            child:CustomButton(
-                                    (){
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => CreateApointment(
-                                            startTime: startTime ?? "",
-                                            drID: widget.drId,
-                                            appointmentDate: appointmentDate ?? "",
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                    , "Appointment"
-                            )
-
-
+                            child: CustomButton(
+                                  () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CreateApointment(
+                                      startTime: startTime ?? "",
+                                      drID: widget.drId,
+                                      appointmentDate: appointmentDate ?? "",
+                                    ),
+                                  ),
+                                );
+                              },
+                              "Appointment",
+                            ),
                           )
                         ],
                       ),
                     );
-                  }
-                  else if (state is AvailableTimeError) {
+                  } else if (state is AvailableTimeError) {
                     return ErrorWidgett(
-                        message: state.errorMsg,
-                        onPressed:  () async{
-                          await AvailableTimeCubit.get(context).availableTime(drID: widget.drId, date: appointmentDate??"");
-                        },
+                      message: state.errorMsg,
+                      onPressed: () async {
+                        await AvailableTimeCubit.get(context).availableTime(drID: widget.drId, date: appointmentDate ?? "");
+                      },
                     );
                   }
                   return SizedBox();

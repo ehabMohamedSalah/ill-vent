@@ -9,6 +9,7 @@ import 'package:ill_vent/core/utils/colors_manager.dart';
 import 'package:ill_vent/core/utils/routes_manager.dart';
 import 'package:ill_vent/data_layer/model/dataclasses/chekout_model.dart';
 import 'package:ill_vent/presentation/home/tabs/1-shop_tab/checkout/view_model/chechkout_viewmodel_cubit.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../core/resuable_component/LoginCustomFormField.dart';
 import '../../../../../core/resuable_component/custom_button.dart';
@@ -23,14 +24,16 @@ class CheckoutScreen extends StatefulWidget {
   State<CheckoutScreen> createState() => _CheckoutScreenState();
 }
 
-final _formKey = GlobalKey<FormState>();
+
 
 late TextEditingController nameController;
 late TextEditingController phoneContrller;
 late TextEditingController addressController;
 late TextEditingController noteController;
+String? selectedPaymentMethod;
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
+  final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
@@ -122,6 +125,38 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     },
                   ),
                   SizedBox(height: 20.h),
+                    DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      labelText: 'Payment Method',
+                      labelStyle: TextStyle(color: Colors.white),
+                      filled: true,
+                      fillColor: ColorManager.secondaryColor,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    iconEnabledColor: Colors.white,
+                    iconDisabledColor: Colors.white,
+                    value: selectedPaymentMethod,
+                    items: ['Cash', 'Card'].map((method) {
+                      return DropdownMenuItem(
+                        value: method,
+                        child: Text(method),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedPaymentMethod = value;
+                      });
+                    },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select a payment method';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 20.h,),
 
                   // Display total with styling
                   Container(
@@ -157,39 +192,116 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       if(state is ChechkoutViewmodelLoading)return Center(child: LoadingCircle(),);
                       else if(state is ChechkoutViewmodelError)return Center(child: ErrorWidgett(
                         message:   state.err.toString(),
-                        onPressed:  () {
-                          final cubit = CheckoutViewmodelCubit.get(context);
-                          cubit..checkout(
-                              CheckoutModel(
-                                  cartItemIds: widget.cartItemId ,
+                        onPressed:  () async{
+                          if (_formKey.currentState!.validate()) {
+                            if (selectedPaymentMethod == 'Cash') {
+                              CheckoutViewmodelCubit.get(context).checkout(
+                                CheckoutModel(
+                                  cartItemIds: widget.cartItemId,
                                   createOrder: true,
                                   paymentMethod: "Cash",
-                                  shippingAddress: addressController.text
-                              )
-                          );
-                      },),);
-                      return CustomButton(() {
+                                  shippingAddress: addressController.text,
+                                ),
+                              );
+                            } else {
+                              final cubit = CheckoutViewmodelCubit.get(context);
+                              final response = await cubit.checkout(
+                                CheckoutModel(
+                                  cartItemIds: widget.cartItemId,
+                                  createOrder: true,
+                                  paymentMethod: "Card", // Visa = card
+                                  shippingAddress: addressController.text,
+                                ),
+                              );
+
+                              if (response != null && response.isNotEmpty) {
+                                final url = response; // Expected to be checkoutUrl
+                                final uri = Uri.parse(url);
+                                if (await canLaunchUrl(uri)) {
+                                  await launchUrl(uri, mode: LaunchMode.externalApplication);
+                                  toastMessage(
+                                    message: "Payment Completed!",
+                                    tybeMessage: TybeMessage.positive,
+                                  );
+                                  // بعد الرجوع من صفحة الدفع
+                                  Navigator.pushReplacementNamed(context, RouteManager.homeScreenRoutes);
+
+                                } else {
+                                  toastMessage(
+                                    message: "Could not launch payment page",
+                                    tybeMessage: TybeMessage.negative,
+                                  );
+                                }
+                              } else {
+                                toastMessage(
+                                  message: "Failed to initiate payment",
+                                  tybeMessage: TybeMessage.negative,
+                                );
+                              }
+                            }
+                          }
+
+                        },),);
+                      return CustomButton(() async {
                         if (_formKey.currentState!.validate()) {
-                          CheckoutViewmodelCubit.get(context).checkout(
-                            CheckoutModel(
-                                cartItemIds: widget.cartItemId ,
+                          if (selectedPaymentMethod == 'Cash') {
+                            CheckoutViewmodelCubit.get(context).checkout(
+                              CheckoutModel(
+                                cartItemIds: widget.cartItemId,
                                 createOrder: true,
                                 paymentMethod: "Cash",
-                                shippingAddress: addressController.text
-                            )
-                          );
+                                shippingAddress: addressController.text,
+                              ),
+                            );
+                          } else {
+                            final cubit = CheckoutViewmodelCubit.get(context);
+                            final response = await cubit.checkout(
+                              CheckoutModel(
+                                cartItemIds: widget.cartItemId,
+                                createOrder: true,
+                                paymentMethod: "Card", // Visa = card
+                                shippingAddress: addressController.text,
+                              ),
+                            );
 
+                            if (response != null && response.isNotEmpty) {
+                              final url = response; // Expected to be checkoutUrl
+                              final uri = Uri.parse(url);
+                              if (await canLaunchUrl(uri)) {
+                                await launchUrl(uri, mode: LaunchMode.externalApplication);
+                                toastMessage(
+                                  message: "Payment Completed!",
+                                  tybeMessage: TybeMessage.positive,
+                                );
+                                // بعد الرجوع من صفحة الدفع
+                                Navigator.pushReplacementNamed(context, RouteManager.homeScreenRoutes);
+
+                              } else {
+                                toastMessage(
+                                  message: "Could not launch payment page",
+                                  tybeMessage: TybeMessage.negative,
+                                );
+                              }
+                            } else {
+                              toastMessage(
+                                message: "Failed to initiate payment",
+                                tybeMessage: TybeMessage.negative,
+                              );
+                            }
+                          }
                         }
                       }, "Confirm Order");
+
                     } ,
                     listener:(context, state) {
                       FocusScope.of(context).unfocus();
                       if(state is ChechkoutViewmodelSuccess){
                        Navigator.pushNamed(context,  RouteManager.homeScreenRoutes,);
-                       ScaffoldMessenger.of(context).showSnackBar(
-                           const SnackBar(
-                               content: Text("Order Successful!")));
-                           () {};
+                       toastMessage(
+                           message: "Order Successful!",
+                           tybeMessage: TybeMessage.positive
+                       );
+
                      }
                     } ,
 

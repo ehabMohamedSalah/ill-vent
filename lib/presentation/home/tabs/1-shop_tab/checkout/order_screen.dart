@@ -10,6 +10,7 @@ import 'package:ill_vent/presentation/home/tabs/1-shop_tab/checkout/view_model/d
 import '../../../../../core/di/di.dart';
 import '../../../../../core/resuable_component/error_message.dart';
 import '../../../../../core/resuable_component/loading_circle.dart';
+import '../../../../../core/resuable_component/toast_message.dart';
 import '../../../../../core/utils/Appstyle.dart';
 import '../../../../../core/utils/colors_manager.dart';
 import '../../../../../core/utils/routes_manager.dart';
@@ -35,16 +36,20 @@ class OrderScreen extends StatelessWidget {
         listener: (context, deleteState) {
           if (deleteState is DeleteOrderViewmodelSuccess) {
             if (context.mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Order Deleted Successfully!")),
+              toastMessage(
+                  message: "Order Deleted Successfully!",
+                  tybeMessage: TybeMessage.positive
               );
+
             }
             // بعد الحذف نحدث الطلبات
             context.read<CheckoutViewmodelCubit>().getOrder();
           } else if (deleteState is DeleteOrderViewmodelError) {
             if (context.mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Error: ${deleteState.err}")),
+
+              toastMessage(
+                  message: "Error: ${deleteState.err}",
+                  tybeMessage: TybeMessage.negative
               );
             }
           }
