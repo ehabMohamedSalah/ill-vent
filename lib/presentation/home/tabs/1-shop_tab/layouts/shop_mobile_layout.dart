@@ -55,44 +55,53 @@ class ShopMobileLayout extends StatelessWidget {
             ],
           ),
 
-          body: Column(
-            children: [
-              const SizedBox(height: 13),
-              TextWidget( text:StringsManager.shop,),
-          BlocBuilder<ProductViewModelCubit,ProductViewModelState>(
-              builder:  (context, state) {
-                if(state is ProductViewModelError){
-                  return ErrorWidgett( onPressed: () {
-                    final cubit = ProductViewModelCubit.get(context);
-                    cubit..getProducts();
-                  },message: state.err);
-                }
-                else if(state is ProductViewModelSuccess){
-          List<ProductsResponse> products=state.products;
-          return Expanded(
-            child: ListView.separated(
-              itemBuilder:  (context, index) => ProductContainer(model: products[index],),
-              separatorBuilder: (context, index) =>
-                  Container(
-                    height: 5.h,
-                    decoration: BoxDecoration(
-                      color: ColorManager.primaryColor,
+          body: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(image: AssetImage(
+                "assets/images/background.png",
+              ),
+              fit: BoxFit.fill
+              ),
+            ),
+            child: Column(
+              children: [
+                const SizedBox(height: 13),
+                TextWidget( text:StringsManager.shop,),
+            BlocBuilder<ProductViewModelCubit,ProductViewModelState>(
+                builder:  (context, state) {
+                  if(state is ProductViewModelError){
+                    return ErrorWidgett( onPressed: () {
+                      final cubit = ProductViewModelCubit.get(context);
+                      cubit..getProducts();
+                    },message: state.err);
+                  }
+                  else if(state is ProductViewModelSuccess){
+            List<ProductsResponse> products=state.products;
+            return Expanded(
+              child: ListView.separated(
+                itemBuilder:  (context, index) => ProductContainer(model: products[index],),
+                separatorBuilder: (context, index) =>
+                    Container(
+                      height: 5.h,
+                      decoration: BoxDecoration(
+                        color: ColorManager.primaryColor,
+
+                      ),
 
                     ),
-
-                  ),
-              itemCount: products.length,
-            ),
-          );
-                }
-                else if (state is ProductViewModelLoading){
+                itemCount: products.length,
+              ),
+            );
+                  }
+                  else if (state is ProductViewModelLoading){
+                    return Center(child: LoadingCircle());
+                  }
                   return Center(child: LoadingCircle());
-                }
-                return Center(child: LoadingCircle());
-              },
-          )
+                },
+            )
 
-            ],
+              ],
+            ),
           ),
         ),
       ),

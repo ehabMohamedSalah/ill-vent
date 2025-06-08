@@ -32,105 +32,146 @@ class OrderScreen extends StatelessWidget {
           create: (context) => getIt<DeleteViewModelCubit>(),
         ),
       ],
-      child: BlocConsumer<DeleteViewModelCubit, DeleteViewModelState>(
-        listener: (context, deleteState) {
-          if (deleteState is DeleteOrderViewmodelSuccess) {
-            if (context.mounted) {
-              toastMessage(
-                  message: "Order Deleted Successfully!",
-                  tybeMessage: TybeMessage.positive
-              );
+      child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(image: AssetImage("assets/images/background.png" ),
+          fit: BoxFit.fill
+          )
+        ),
+        child: BlocConsumer<DeleteViewModelCubit, DeleteViewModelState>(
+          listener: (context, deleteState) {
+            if (deleteState is DeleteOrderViewmodelSuccess) {
+              if (context.mounted) {
+                toastMessage(
+                    message: "Order Deleted Successfully!",
+                    tybeMessage: TybeMessage.positive
+                );
 
-            }
-            // بعد الحذف نحدث الطلبات
-            context.read<CheckoutViewmodelCubit>().getOrder();
-          } else if (deleteState is DeleteOrderViewmodelError) {
-            if (context.mounted) {
+              }
+              // بعد الحذف نحدث الطلبات
+              context.read<CheckoutViewmodelCubit>().getOrder();
+            } else if (deleteState is DeleteOrderViewmodelError) {
+              if (context.mounted) {
 
-              toastMessage(
-                  message: "Error: ${deleteState.err}",
-                  tybeMessage: TybeMessage.negative
-              );
-            }
-          }
-        },
-        builder: (context, deleteState) {
-          return BlocBuilder<CheckoutViewmodelCubit, ChechkoutViewmodelState>(
-            builder: (context, state) {
-              if (state is GetorderViewmodelError) {
-                return Scaffold(
-                  backgroundColor: ColorManager.primaryColor,
-
-                  body: ErrorWidgett(
-                    message: state.err,
-                    onPressed: () {
-                      context.read<CheckoutViewmodelCubit>().getOrder();
-                    },
-                  ),
+                toastMessage(
+                    message: "Error: ${deleteState.err}",
+                    tybeMessage: TybeMessage.negative
                 );
               }
-              if (state is GetorderViewmodelSuccess) {
-                var orders = (state.response ?? []).where((order) => order.orderStatus != "Cancelled").toList();
-                return Scaffold(
-                  appBar: AppBar(
-                    leading: IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: Icon(
-                        Icons.arrow_back_ios_new_outlined,
-                        color: ColorManager.secondaryColor,
-                      ),
-                    ),
-                    centerTitle: true,
-                    title: Text(
-                      "Orders",
-                      style: Appstyle.small20(context)
-                          .copyWith(color: ColorManager.secondaryColor),
-                    ),
-                  ),
-                  body: orders.isNotEmpty
-                      ? ListView.builder(
-                    itemCount: orders.length,
-                    itemBuilder: (context, index) {
-                      final order = orders[index];
-                      return Slidable(
-                        key: ValueKey(order.orderId),
-                        endActionPane: ActionPane(
-                          motion: DrawerMotion(),
-                          extentRatio: 0.25,
-                          children: [
-                            SlidableAction(
-                              onPressed: (context) {
-                                context
-                                    .read<DeleteViewModelCubit>()
-                                    .deleteOrder(orderId: order.orderId.toString());
-                              },
-                              backgroundColor: Colors.red,
-                              foregroundColor: Colors.white,
-                              icon: Icons.delete,
-                              label: 'Delete',
-                            ),
-                          ],
-                        ),
-                        child: buildOrderCard(context, order),
-                      );
-                    },
+            }
+          },
+          builder: (context, deleteState) {
+            return Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(image: AssetImage("assets/images/background.png" ),
+                      fit: BoxFit.fill
                   )
-                      : Center(
-                    child: Text(
-                      "You haven’t booked anything yet!",
-                      style: Appstyle.small20(context)
-                          .copyWith(color: ColorManager.secondaryColor),
-                    ),
-                  ),
-                );
-              }
-              return Scaffold(
-                  backgroundColor: ColorManager.primaryColor,
-
-                  body: LoadingCircle());
-            },
-          );
-        },
+              ),
+              child: BlocBuilder<CheckoutViewmodelCubit, ChechkoutViewmodelState>(
+                builder: (context, state) {
+                  if (state is GetorderViewmodelError) {
+                    return Scaffold(
+                      backgroundColor: ColorManager.primaryColor,
+appBar: AppBar(
+  backgroundColor: ColorManager.secondaryColor,
+  leading: Icon(Icons.arrow_back_ios_new_outlined,color: ColorManager.secondaryColor,),
+),
+                      body: Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(image: AssetImage("assets/images/background.png" ),
+                                fit: BoxFit.fill
+                            )
+                        ),
+                        child: ErrorWidgett(
+                          message: state.err,
+                          onPressed: () {
+                            context.read<CheckoutViewmodelCubit>().getOrder();
+                          },
+                        ),
+                      ),
+                    );
+                  }
+                  if (state is GetorderViewmodelSuccess) {
+                    var orders = (state.response ?? []).where((order) => order.orderStatus != "Cancelled").toList();
+                    return Scaffold(
+                      appBar: AppBar(
+                        backgroundColor: ColorManager.secondaryColor,
+                        leading: IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: Icon(
+                            Icons.arrow_back_ios_new_outlined,
+                            color: ColorManager.white,
+                          ),
+                        ),
+                        centerTitle: true,
+                        title: Text(
+                          "Orders",
+                          style: Appstyle.small20(context)
+                              .copyWith(color: ColorManager.white),
+                        ),
+                      ),
+                      body: Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(image: AssetImage("assets/images/background.png" ),
+                                fit: BoxFit.fill
+                            )
+                        ),
+                        child: orders.isNotEmpty
+                            ? ListView.builder(
+                          itemCount: orders.length,
+                          itemBuilder: (context, index) {
+                            final order = orders[index];
+                            return Slidable(
+                              key: ValueKey(order.orderId),
+                              endActionPane: ActionPane(
+                                motion: DrawerMotion(),
+                                extentRatio: 0.25,
+                                children: [
+                                  SlidableAction(
+                                    onPressed: (context) {
+                                      context
+                                          .read<DeleteViewModelCubit>()
+                                          .deleteOrder(orderId: order.orderId.toString());
+                                    },
+                                    backgroundColor: Colors.red,
+                                    foregroundColor: Colors.white,
+                                    icon: Icons.delete,
+                                    label: 'Delete',
+                                  ),
+                                ],
+                              ),
+                              child: buildOrderCard(context, order),
+                            );
+                          },
+                        )
+                            : Center(
+                          child: Text(
+                            "You haven’t booked anything yet!",
+                            style: Appstyle.small20(context)
+                                .copyWith(color: ColorManager.secondaryColor),
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                  return Scaffold(
+                      backgroundColor: ColorManager.primaryColor,
+appBar: AppBar(
+  backgroundColor: ColorManager.secondaryColor,
+  leading: Icon(Icons.arrow_back_ios_new_outlined,color: Colors.white,),
+),
+                      body: Container(
+                          decoration: BoxDecoration(
+                              image: DecorationImage(image: AssetImage("assets/images/background.png" ),
+                                  fit: BoxFit.fill
+                              )
+                          ),
+                          child: LoadingCircle()));
+                },
+              ),
+            );
+          },
+        ),
       ),
     );
   }

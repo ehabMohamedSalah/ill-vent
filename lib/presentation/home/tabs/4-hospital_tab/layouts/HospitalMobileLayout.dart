@@ -27,33 +27,40 @@ class HospitalMobileLayout extends StatelessWidget {
           cubit.doIntent(GetHospitalIntent());
           return cubit;
         },
-        child: BlocBuilder<HospitalViewModelCubit, HospitalViewModelState>(
-          builder: (context, state) {
-            if (state is HospitalViewModelLoading) {
-              return LoadingCircle();
-            } else if (state is HospitalViewModelSuccess) {
-              final hospitals = state.response;
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(image:
+            AssetImage("assets/images/background.png"),fit: BoxFit.fill
+            ),
+          ),
+          child: BlocBuilder<HospitalViewModelCubit, HospitalViewModelState>(
+            builder: (context, state) {
+              if (state is HospitalViewModelLoading) {
+                return LoadingCircle();
+              } else if (state is HospitalViewModelSuccess) {
+                final hospitals = state.response;
 
-              if (hospitals.isEmpty) {
-                return Center(child: Text("لا توجد مستشفيات حالياً."));
+                if (hospitals.isEmpty) {
+                  return Center(child: Text("لا توجد مستشفيات حالياً."));
+                }
+
+                return Column(
+                  children: [
+                    const SizedBox(height: 13),
+                    TextWidget(text: StringsManager.hospital),
+                    TabVertItem(modelList: hospitals),
+                  ],
+                );
+              } else if (state is HospitalViewModelError) {
+                return ErrorWidgett( onPressed: () {
+                  HospitalViewModelCubit.get(context)
+                      .doIntent(GetHospitalIntent());
+                },message: state.errorMsg);
+              } else {
+                return const Center(child: Text("لا توجد بيانات."));
               }
-
-              return Column(
-                children: [
-                  const SizedBox(height: 13),
-                  TextWidget(text: StringsManager.hospital),
-                  TabVertItem(modelList: hospitals),
-                ],
-              );
-            } else if (state is HospitalViewModelError) {
-              return ErrorWidgett( onPressed: () {
-                HospitalViewModelCubit.get(context)
-                    .doIntent(GetHospitalIntent());
-              },message: state.errorMsg);
-            } else {
-              return const Center(child: Text("لا توجد بيانات."));
-            }
-          },
+            },
+          ),
         ),
       ),
     );

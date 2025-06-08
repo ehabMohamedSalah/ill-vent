@@ -45,13 +45,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             return Scaffold(
               backgroundColor: ColorManager.primaryColor,
               appBar: AppBar(
+                backgroundColor: ColorManager.secondaryColor,
                 leading: IconButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
                   icon: Icon(
                     Icons.arrow_back_ios_new_outlined,
-                    color: ColorManager.secondaryColor,
+                    color: ColorManager.white,
                   ),
                 ),
                 centerTitle: true,
@@ -60,145 +61,154 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     Text(
                       product.name ?? "",
                       style: TextStyle(
-                        color: ColorManager.secondaryColor,
+                        color: ColorManager.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
                 ),
               ),
-              body: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        height: 180.h,
-                        width: 180.w,
-                        child: CachedNetworkImage(
-                          imageUrl: product.imageUrl ?? "",
-                          imageBuilder: (context, imageProvider) => Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.fill,
+              body: Container(
+                decoration: BoxDecoration(
+                  image:
+                    DecorationImage(image: AssetImage(
+                      "assets/images/background.png",
+                    ),
+                    fit: BoxFit.fill)
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          height: 180.h,
+                          width: 180.w,
+                          child: CachedNetworkImage(
+                            imageUrl: product.imageUrl ?? "",
+                            imageBuilder: (context, imageProvider) => Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                            placeholder: (context, url) =>
+                                Center(child: CircularProgressIndicator()),
+                            errorWidget: (context, url, error) => Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Colors.grey[300],
+                              ),
+                              child: Icon(Icons.image_not_supported,
+                                  size: 40, color: Colors.grey),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          child: Padding(
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 10),
+                            child: RatingStars(
+                              rating: rating,
+                              starSize: 30.0,
+                              color: Colors.yellow,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20.h),
+                      Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text("Description : ",style: Appstyle.small20(context).copyWith(color: Colors.black),)),
+                      Text(product.description??"",maxLines: 5,style: Appstyle.small20(context).copyWith(color: Colors.black54,),),
+
+                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children:
+                        [
+                          Text("Qty :",style: Appstyle.small20(context).copyWith(color: ColorManager.secondaryColor),),
+                          Padding(
+                            padding:   EdgeInsets.all(10.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Colors.black,width: 2)
+
+                              ),
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                    icon: Icon(Icons.remove, color: ColorManager.secondaryColor),
+                                    onPressed: () {
+                                      if (quantity > 1 ) {
+                                        quantity--;
+                                        setState(() {
+
+                                        });
+                                      }
+                                    },
+                                  ),
+                                  Text("${quantity}",style: Appstyle.small20(context).copyWith(color: ColorManager.secondaryColor),),
+                                  IconButton(
+                                    icon: Icon(Icons.add, color: ColorManager.secondaryColor),
+                                    onPressed: () {
+                                      if (quantity < (product.stockQuantity ?? 999)) {
+                                        setState(() {
+                                          quantity++;
+                                        });
+                                      }
+                                    },
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                          placeholder: (context, url) =>
-                              Center(child: CircularProgressIndicator()),
-                          errorWidget: (context, url, error) => Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.grey[300],
-                            ),
-                            child: Icon(Icons.image_not_supported,
-                                size: 40, color: Colors.grey),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Center(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                        child: Padding(
-                          padding:
-                          const EdgeInsets.symmetric(horizontal: 10),
-                          child: RatingStars(
-                            rating: rating,
-                            starSize: 30.0,
-                            color: Colors.yellow,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20.h),
-                    Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text("Description : ",style: Appstyle.small20(context).copyWith(color: Colors.black),)),
-                    Text(product.description??"",maxLines: 5,style: Appstyle.small20(context).copyWith(color: Colors.black54,),),
+                        ],),
 
-                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children:
-                      [
-                        Text("Qty :",style: Appstyle.small20(context).copyWith(color: ColorManager.secondaryColor),),
-                        Padding(
-                          padding:   EdgeInsets.all(10.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.black,width: 2)
+                      Spacer(),
+                      BlocConsumer<CartViewModelCubit,CartViewModelState>(
+                          builder:  (context, state) {
+                            return    CustomButton(
+                                    (){
+                                  final cartCubit = CartViewModelCubit.get(context);
+                                  cartCubit.addToCart(
+                                    productId: "${product.productId}" ,
+                                    quantity: quantity.toString(),
+                                  );
 
-                            ),
-                            child: Row(
-                              children: [
-                                IconButton(
-                                  icon: Icon(Icons.remove, color: ColorManager.secondaryColor),
-                                  onPressed: () {
-                                    if (quantity > 1 ) {
-                                      quantity--;
-                                      setState(() {
-
-                                      });
-                                    }
-                                  },
-                                ),
-                                Text("${quantity}",style: Appstyle.small20(context).copyWith(color: ColorManager.secondaryColor),),
-                                IconButton(
-                                  icon: Icon(Icons.add, color: ColorManager.secondaryColor),
-                                  onPressed: () {
-                                    if (quantity < (product.stockQuantity ?? 999)) {
-                                      setState(() {
-                                        quantity++;
-                                      });
-                                    }
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],),
-
-                    Spacer(),
-                    BlocConsumer<CartViewModelCubit,CartViewModelState>(
-                        builder:  (context, state) {
-                          return    CustomButton(
-                                  (){
-                                final cartCubit = CartViewModelCubit.get(context);
-                                cartCubit.addToCart(
-                                  productId: "${product.productId}" ,
-                                  quantity: quantity.toString(),
-                                );
-
-                              }
-                              ,
-                              "Add To Cart"
-                          );
-                        },
-                        listener:  (context, state) {
-                          if(state is AddToCartViewModelSuccess){
-                        Navigator.pop(context);
-                            toastMessage(
-                                message: "Added Successful",
-                                tybeMessage: TybeMessage.positive
+                                }
+                                ,
+                                "Add To Cart"
                             );
-                          }else if (state is AddToCartViewModelError) {
-                            toastMessage(
-                                message: state.err,
-                                tybeMessage: TybeMessage.negative
-                            );
-                          }
-                        },
-                    ),
+                          },
+                          listener:  (context, state) {
+                            if(state is AddToCartViewModelSuccess){
+                          Navigator.pop(context);
+                              toastMessage(
+                                  message: "Added Successful",
+                                  tybeMessage: TybeMessage.positive
+                              );
+                            }else if (state is AddToCartViewModelError) {
+                              toastMessage(
+                                  message: state.err,
+                                  tybeMessage: TybeMessage.negative
+                              );
+                            }
+                          },
+                      ),
 
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );
@@ -206,9 +216,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             return Center(child: Text(state.err));
           }
           return Scaffold(
-              backgroundColor: ColorManager.primaryColor,
-
-              body:     LoadingCircle(),);
+            appBar: AppBar(
+              backgroundColor: ColorManager.secondaryColor,
+              leading: Icon(Icons.arrow_back_ios_new_outlined,color: Colors.white,),
+            ),
+              body:  Container(
+                  decoration: BoxDecoration(
+                      image:
+                      DecorationImage(image: AssetImage(
+                        "assets/images/background.png",
+                      ),
+                          fit: BoxFit.fill)
+                  ),
+                  child: LoadingCircle()),);
         },
       ),
     );

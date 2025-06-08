@@ -38,49 +38,71 @@ class _PhotoScreenState extends State<PhotoScreen> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
     return Scaffold(
       backgroundColor: ColorManager.primaryColor,
       appBar: CustomAppBar(navigatorScreen: RouteManager.homeScreenRoutes),
-      body: SingleChildScrollView(
-        child: Form(
-          key: formKey,
-          child: Column(
-            children: [
-              SizedBox(height: size.height * 0.15),
-              ImagePickerWidget(
-                onImagePicked: (File image) {
-                  setState(() {
-                    pickedImage = image;
-                  });
-                },
-              ),
-              SizedBox(height: 20),
-              _buildTitleText(),
-              SizedBox(height: 20),
-              _buildDivider(),
-              SizedBox(height: 30),
-              CustomHomeTextfield(
-                controller: commentController,
-                suffixIcon: Icon(Icons.local_hospital, color: ColorManager.secondaryColor),
-                labelText: "Write a Comment For the Situation",
-                hintText: "Write a Comment For a Situation....",
-                keyboardType: TextInputType.text,
-                obscureText: false,
-                validator: (value) {
-                 /* if (value == null || value.isEmpty) {
-                    return 'Please enter a comment';
-                  }
-                  return null;*/
-                },
-              ),
-              SizedBox(height: 20.h),
-              _buildNextButton(),
-              SizedBox(height: 20),
-            ],
+      body: Stack(
+        children: [
+          // Background image fills the entire screen
+          Positioned.fill(
+            child: Image.asset(
+              "assets/images/background.png",
+              fit: BoxFit.cover, // Cover is usually more suitable than fill
+            ),
           ),
-        ),
+
+          // Scrollable content with full height
+          LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight,
+                  ),
+                  child: Form(
+                    key: formKey,
+                    child: IntrinsicHeight(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          children: [
+                            SizedBox(height: MediaQuery.of(context).size.height * 0.15),
+                            ImagePickerWidget(
+                              onImagePicked: (File image) {
+                                setState(() {
+                                  pickedImage = image;
+                                });
+                              },
+                            ),
+                            SizedBox(height: 20),
+                            _buildTitleText(),
+                            SizedBox(height: 20),
+                            _buildDivider(),
+                            SizedBox(height: 30),
+                            CustomHomeTextfield(
+                              controller: commentController,
+                              suffixIcon: Icon(Icons.local_hospital, color: ColorManager.secondaryColor),
+                              labelText: "Write a Comment For the Situation",
+                              hintText: "Write a Comment For a Situation....",
+                              keyboardType: TextInputType.text,
+                              obscureText: false,
+                              validator: (value) {},
+                            ),
+                            SizedBox(height: 20.h),
+                            _buildNextButton(),
+                            SizedBox(height: 20),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

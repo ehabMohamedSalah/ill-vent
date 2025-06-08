@@ -32,7 +32,18 @@ import '../Widgets/doctor_card.dart';
 
             builder: (context, state) {
               if (state is DrLoading) {
-                return LoadingCircle();
+                     return Scaffold(
+                  backgroundColor: ColorManager.primaryColor,
+                  body: Container(
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/background.png"),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: const Center(child: LoadingCircle()),
+                  ),
+                );
               }
               if(state is DrSuccess){
                 return Scaffold(
@@ -44,19 +55,26 @@ import '../Widgets/doctor_card.dart';
                     },
                     child: Icon(Icons.calendar_today), // or any icon you prefer
                   ),
-                  body: Column(
-                    children: [
-                      const SizedBox(height: 13),
-                      TextWidget( text:StringsManager.doctor,),
-                      Expanded(
-                        child: ListView.separated(
-                        itemBuilder:  (context, index) => DoctorCard(model: state.drEntity[index],),
-                        separatorBuilder: (context, index) => SizedBox(height: 8,),
-                        itemCount: state.drEntity.length,
-                        ),
-                    ),
+                  body: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/background.png"), // path lel sora
+                        fit: BoxFit.cover, // cover | fill | contain | etc
+                      ), ),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 13),
+                        TextWidget( text:StringsManager.doctor,),
+                        Expanded(
+                          child: ListView.separated(
+                          itemBuilder:  (context, index) => DoctorCard(model: state.drEntity[index],),
+                          separatorBuilder: (context, index) => SizedBox(height: 8,),
+                          itemCount: state.drEntity.length,
+                          ),
+                      ),
 
-                    ],
+                      ],
+                    ),
                   ),
                 );
               }

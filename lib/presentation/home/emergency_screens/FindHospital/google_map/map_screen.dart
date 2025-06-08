@@ -24,77 +24,105 @@ class MapScreen extends StatelessWidget {
       create: (context) => getIt<EmergencyViewModelCubit>(),
       child: Scaffold(
         appBar: CustomAppBar(navigatorScreen: RouteManager.homeScreenRoutes),
-        bottomNavigationBar: Padding(
-          padding: EdgeInsets.all(16.w),
-          child: BlocConsumer<EmergencyViewModelCubit,EmergencyViewModelState>(
-            listener: (context, state) {
-              if(state is CompleteEmergencySuccess){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ThanksScreen(),));
-                return toastMessage(
-                    message: "The Ambulance Arrive",
-                    tybeMessage: TybeMessage.positive
-                );
-
-              }else if(state is CompleteEmergencyError){
-                return toastMessage(
-                    message: "Try Again",
-                    tybeMessage: TybeMessage.negative
-                );
-              }
-            },
-            builder: (context, state) {
-              if(state is CompleteEmergencyLoading){
-                return LoadingCircle();
-              }
-              return SizedBox(
-                height: 55.h,
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    EmergencyViewModelCubit.get(context)..completeEmergencyRequest(requestID);
-                  },
-                  label: Text(
-                    "Ambulance reach you?",
-                    style: TextStyle(fontSize: 18.sp, color: Colors.white),
+        backgroundColor: ColorManager.primaryColor,
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/background.png"),
+              fit: BoxFit.fill,
+            ),
+          ),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return Column(
+                children: [
+                  SizedBox(
+                    height: constraints.maxHeight * 0.4,
+                    width: double.infinity,
+                    child: CustomGoogleMap(),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorManager.secondaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.r),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            "assets/images/3_home&bottoms/afterScan/Ambulance-amico 1.png",
+                            height: 300,
+                          ),
+                          // Other scrollable content
+                        ],
+                      ),
                     ),
                   ),
-                ),
+                ],
               );
             },
-
           ),
         ),
-        backgroundColor: ColorManager.primaryColor,
-        body: LayoutBuilder(
-          builder: (context, constraints) {
-            return Column(
-              children: [
-                SizedBox(
-                  height: constraints.maxHeight * 0.4,
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/background.png"),
+              fit: BoxFit.fill,
+            ),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(16.w),
+            child: BlocConsumer<EmergencyViewModelCubit, EmergencyViewModelState>(
+              listener: (context, state) {
+                if (state is CompleteEmergencySuccess) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ThanksScreen()),
+                  );
+                  return toastMessage(
+                    message: "The Ambulance Arrive",
+                    tybeMessage: TybeMessage.positive,
+                  );
+                } else if (state is CompleteEmergencyError) {
+                  return toastMessage(
+                    message: "Try Again",
+                    tybeMessage: TybeMessage.negative,
+                  );
+                }
+              },
+              builder: (context, state) {
+                return SizedBox(
+                  height: 55.h,
                   width: double.infinity,
-                  child: CustomGoogleMap(),
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          "assets/images/3_home&bottoms/afterScan/Ambulance-amico 1.png",
-                          height: 300,
-                        ),
-                        // Add any other scrollable content here
-                      ],
+                  child: state is CompleteEmergencyLoading
+                      ?      Scaffold(
+                  backgroundColor: ColorManager.primaryColor,
+                  body: Container(
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/background.png"),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: const Center(child: LoadingCircle()),
+                  ),
+                )
+                      : ElevatedButton.icon(
+                    onPressed: () {
+                      EmergencyViewModelCubit.get(context)
+                        ..completeEmergencyRequest(requestID);
+                    },
+                    label: Text(
+                      "Ambulance reach you?",
+                      style: TextStyle(fontSize: 18.sp, color: Colors.white),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorManager.secondaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            );
-          },
+                );
+              },
+            ),
+          ),
         ),
       ),
     );

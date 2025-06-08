@@ -23,36 +23,43 @@ class PharmacyMobileLayout extends StatelessWidget {
           cubit.doIntent(GetPharmcyIntent());
           return cubit;
         },
-        child: BlocBuilder<PharmcyViewModelCubit, PharmcyViewModelState>(
-          builder: (context, state) {
-            if (state is PharmcyViewModelLoading) {
-              return Center(
-                child:LoadingCircle(),
-              );
-            } else if (state is PharmcyViewModelSuccess) {
-              final pharmcy = state.response;
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(image:
+            AssetImage("assets/images/background.png"),fit: BoxFit.fill
+            ),
+          ),
+          child: BlocBuilder<PharmcyViewModelCubit, PharmcyViewModelState>(
+            builder: (context, state) {
+              if (state is PharmcyViewModelLoading) {
+                return Center(
+                  child:LoadingCircle(),
+                );
+              } else if (state is PharmcyViewModelSuccess) {
+                final pharmcy = state.response;
 
-              if (pharmcy.isEmpty) {
-                return Center(child: Text("No Pharmcy Available"));
+                if (pharmcy.isEmpty) {
+                  return Center(child: Text("No Pharmcy Available"));
+                }
+
+                return Column(
+                  children: [
+                    const SizedBox(height: 13),
+                    TextWidget(text: "Pharmcy"),
+                    TabVertItem(modelList: pharmcy),
+                  ],
+                );
+              } else if (state is PharmcyViewModelError) {
+                return ErrorWidgett( onPressed: () {
+                  final cubit = PharmcyViewModelCubit.get(context);
+                  cubit.doIntent(GetPharmcyIntent());
+                },message: state.message);
+
+              } else {
+                return Center(child: Text('No Available Data'));
               }
-
-              return Column(
-                children: [
-                  const SizedBox(height: 13),
-                  TextWidget(text: "Pharmcy"),
-                  TabVertItem(modelList: pharmcy),
-                ],
-              );
-            } else if (state is PharmcyViewModelError) {
-              return ErrorWidgett( onPressed: () {
-                final cubit = PharmcyViewModelCubit.get(context);
-                cubit.doIntent(GetPharmcyIntent());
-              },message: state.message);
-
-            } else {
-              return Center(child: Text('No Available Data'));
-            }
-          },
+            },
+          ),
         ),
       ),
     );

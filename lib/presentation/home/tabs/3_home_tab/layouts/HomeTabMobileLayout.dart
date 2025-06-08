@@ -63,31 +63,39 @@ class _HomeTabMobileLayoutState extends State<HomeTabMobileLayout> {
         ],
       )
           : null,
-      body: Column(
-        children: [
-          LottieWidget(
-            Animation: 'assets/images/lottie/hospital.json',
-            StaticImage: 'assets/images/lottie/hospital_image.png',
-          ),
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              Text(
-                'Click Here',
-                style: Appstyle.small20(context).copyWith(color: Colors.red),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, RouteManager.photoScreen);
-                },
-                child: Image.asset(
-                  "assets/images/Emergency Button.png",
-                  height: height * 0.32,
+      body: Container(
+    decoration: BoxDecoration(
+    image: DecorationImage(
+    image: AssetImage("assets/images/background.png"), // path lel sora
+    fit: BoxFit.cover, // cover | fill | contain | etc
+    ), ),
+
+        child: Column(
+          children: [
+            LottieWidget(
+              Animation: 'assets/images/lottie/hospital.json',
+              StaticImage: 'assets/images/lottie/hospital_image.png',
+            ),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Text(
+                  'Click Here',
+                  style: Appstyle.small20(context).copyWith(color: Colors.red),
                 ),
-              ),
-            ],
-          ),
-        ],
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, RouteManager.photoScreen);
+                  },
+                  child: Image.asset(
+                    "assets/images/Emergency Button.png",
+                    height: height * 0.32,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

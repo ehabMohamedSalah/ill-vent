@@ -13,7 +13,6 @@ import '../tabs/5-doctor-tab/dr_Screen.dart';
 import '../tabs/5-doctor-tab/layouts/DoctorMobileLayout.dart';
 
 class HomeMobileLayout extends StatefulWidget {
-  const HomeMobileLayout({super.key});
 
   @override
   State<HomeMobileLayout> createState() => _HomeMobileLayoutState();

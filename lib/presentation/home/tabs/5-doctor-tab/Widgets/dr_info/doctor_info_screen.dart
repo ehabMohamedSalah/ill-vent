@@ -15,7 +15,6 @@ import 'package:ill_vent/presentation/home/tabs/5-doctor-tab/Widgets/dr_info/wid
 import '../../../../../../core/di/di.dart';
 import '../../../../../../core/resuable_component/rating_dialog.dart';
 import '../../../../../../core/utils/colors_manager.dart';
-import '../../../../../../data_layer/model/dr_response/available_time/AvailableTimeResponse.dart';
 
 class DoctorInfoScreen extends StatefulWidget {
   final String drId;
@@ -45,15 +44,16 @@ class _DoctorInfoScreenState extends State<DoctorInfoScreen> {
         ),
       ],
       child: Scaffold(
-        backgroundColor: ColorManager.primaryColor,
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
+          backgroundColor: ColorManager.secondaryColor,
           leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
             },
             icon: Icon(
               Icons.arrow_back_ios_new_outlined,
-              color: ColorManager.secondaryColor,
+              color: ColorManager.white,
             ),
           ),
           centerTitle: true,
@@ -65,7 +65,7 @@ class _DoctorInfoScreenState extends State<DoctorInfoScreen> {
                     Text(
                       state.drEntity!.name ?? "Doctor Name",
                       style: TextStyle(
-                        color: ColorManager.secondaryColor,
+                        color: ColorManager.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -80,195 +80,210 @@ class _DoctorInfoScreenState extends State<DoctorInfoScreen> {
             },
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              BlocBuilder<SpecificDoctorCubit, SpecificDoctorState>(
-                builder: (context, state) {
-                  if (state is SpecificDrSuccess) {
-                    double rating = (state.drEntity!.rating ?? 0.0).toDouble();
-                    return Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        children: [
-                          Align(
-                            alignment: Alignment.center,
-                            child: SizedBox(
-                              height: 180.h,
-                              width: 180.w,
-                              child: CachedNetworkImage(
-                                imageUrl: state.drEntity!.imageUrl ?? "",
-                                imageBuilder: (context, imageProvider) => Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    image: DecorationImage(
-                                      image: imageProvider,
-                                      fit: BoxFit.fill,
+        body: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/background.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  BlocBuilder<SpecificDoctorCubit, SpecificDoctorState>(
+                    builder: (context, state) {
+                      if (state is SpecificDrSuccess) {
+                        double rating = (state.drEntity!.rating ?? 0.0).toDouble();
+                        return Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.center,
+                                child: SizedBox(
+                                  height: 180.h,
+                                  width: 180.w,
+                                  child: CachedNetworkImage(
+                                    imageUrl: state.drEntity!.imageUrl ?? "",
+                                    imageBuilder: (context, imageProvider) => Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    ),
+                                    placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                    errorWidget: (context, url, error) => Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: Colors.grey[300],
+                                      ),
+                                      child: Icon(Icons.image_not_supported, size: 40, color: Colors.grey),
                                     ),
                                   ),
                                 ),
-                                placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-                                errorWidget: (context, url, error) => Container(
+                              ),
+                              SizedBox(height: 20.h),
+                              Center(
+                                child: Container(
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: Colors.grey[300],
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(40),
                                   ),
-                                  child: Icon(Icons.image_not_supported, size: 40, color: Colors.grey),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                                    child: RatingStars(
+                                      rating: rating,
+                                      starSize: 30.0,
+                                      color: Colors.yellow,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          SizedBox(height: 20.h),
-                          Center(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(40),
+                              SizedBox(height: 15.h),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Icon(Icons.date_range, color: ColorManager.secondaryColor, size: 30),
+                                  Text("Schedule", style: TextStyle(color: ColorManager.secondaryColor, fontSize: 25)),
+                                ],
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10),
-                                child: RatingStars(
-                                  rating: rating,
-                                  starSize: 30.0,
-                                  color: Colors.yellow,
+                              SizedBox(
+                                height: 110.h,
+                                child: ListView.separated(
+                                  separatorBuilder: (context, index) => SizedBox(width: 10),
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: state.drEntity!.availableDays!.length,
+                                  itemBuilder: (context, index) {
+                                    final isSelected = index == selectedIndex;
+                                    final day = state.drEntity!.availableDays![index];
+
+                                    return GestureDetector(
+                                      onTap: () async {
+                                        setState(() {
+                                          selectedIndex = index;
+                                          timeSelected = null;
+                                          startTime = null;
+                                        });
+                                        final date = day.date ?? DateFormat('yyyy-MM-dd').format(DateTime.now());
+                                        appointmentDate = date;
+                                        await AvailableTimeCubit.get(context).availableTime(drID: widget.drId, date: date);
+                                      },
+                                      child: ScheduleItem(day.formattedDate ?? "", isSelected),
+                                    );
+                                  },
                                 ),
                               ),
-                            ),
-                          ),
-                          SizedBox(height: 15.h),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Icon(Icons.date_range, color: ColorManager.secondaryColor, size: 30),
-                              Text("Schedule", style: TextStyle(color: ColorManager.secondaryColor, fontSize: 25)),
+                              SizedBox(height: 20.h),
+                              Text("Available Times", style: TextStyle(color: ColorManager.secondaryColor, fontSize: 25)),
                             ],
                           ),
-                          SizedBox(
-                            height: 110.h,
-                            child: ListView.separated(
-                              separatorBuilder: (context, index) => SizedBox(width: 10),
-                              scrollDirection: Axis.horizontal,
-                              itemCount: state.drEntity!.availableDays!.length,
-                              itemBuilder: (context, index) {
-                                final isSelected = index == selectedIndex;
-                                final day = state.drEntity!.availableDays![index];
-
-                                return GestureDetector(
-                                  onTap: () async {
-                                    setState(() {
-                                      selectedIndex = index;
-                                      timeSelected = null;
-                                      startTime = null;
-                                    });
-                                    final date = day.date ?? DateFormat('yyyy-MM-dd').format(DateTime.now());
-                                    appointmentDate = date;
-                                    await AvailableTimeCubit.get(context).availableTime(drID: widget.drId, date: date);
-                                  },
-                                  child: ScheduleItem(day.formattedDate ?? "", isSelected),
-                                );
-                              },
-                            ),
-                          ),
-                          SizedBox(height: 20.h),
-                          Text("Available Times", style: TextStyle(color: ColorManager.secondaryColor, fontSize: 25)),
-                        ],
-                      ),
-                    );
-                  } else if (state is SpecificDrError) {
-                    return ErrorWidgett(
-                      message: state.errorMsg,
-                      onPressed: () {
-                        getIt<SpecificDoctorCubit>()..fetchDr(id: widget.drId);
-                      },
-                    );
-                  }
-                  return LoadingCircle();
-                },
-              ),
-              BlocBuilder<AvailableTimeCubit, AvailableTimeState>(
-                builder: (context, state) {
-                  if (state is AvailableTimeSuccess) {
-                    return Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        children: [
-                          (selectedIndex == null)
-                              ? Center(
-                              child: Text(
-                                "you must choose a day",
-                                style: TextStyle(color: Colors.red),
-                              ))
-                              : SizedBox(
-                            height: 140.h,
-                            child: GridView.builder(
-                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
-                                crossAxisSpacing: 10,
-                                mainAxisSpacing: 10,
-                              ),
-                              scrollDirection: Axis.horizontal,
-                              itemCount: state.times.length,
-                              itemBuilder: (context, index) {
-                                final time = state.times[index];
-                                final isSelectedd = index == timeSelected;
-                                final isReserved = time.isReserved;
-
-                                return GestureDetector(
-                                  onTap: () {
-                                    if (!(isReserved ?? true)) {
-                                      setState(() {
-                                        timeSelected = index;
-                                        startTime = time.formattedStartTime ?? "";
-                                      });
-                                    }
-                                  },
-                                  child: TimeItem(time.formattedStartTime ?? "", isSelectedd, isReserved),
-                                );
-                              },
-                            ),
-                          ),
-                          SizedBox(height: 10.h),
-                          (timeSelected == null || state.times[timeSelected!].isReserved == true)
-                              ? Center(
-                              child: Text(
-                                "you must choose a valid time",
-                                style: TextStyle(color: Colors.red),
-                              ))
-                              : SizedBox(
-                            height: 30.h,
-                            width: double.infinity,
-                            child: CustomButton(
-                                  () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CreateApointment(
-                                      startTime: startTime ?? "",
-                                      drID: widget.drId,
-                                      appointmentDate: appointmentDate ?? "",
-                                    ),
+                        );
+                      }
+                      else if (state is SpecificDrError) {
+                        return ErrorWidgett(
+                          message: state.errorMsg,
+                          onPressed: () {
+                            getIt<SpecificDoctorCubit>().fetchDr(id: widget.drId);
+                          },
+                        );
+                      }
+                      return SizedBox();
+                    },
+                  ),
+                  BlocBuilder<AvailableTimeCubit, AvailableTimeState>(
+                    builder: (context, state) {
+                      if (state is AvailableTimeSuccess) {
+                        return Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              (selectedIndex == null)
+                                  ? Center(
+                                  child: Text(
+                                    "you must choose a day",
+                                    style: TextStyle(color: Colors.red),
+                                  ))
+                                  : SizedBox(
+                                height: 140.h,
+                                child: GridView.builder(
+                                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 10,
+                                    mainAxisSpacing: 10,
                                   ),
-                                );
-                              },
-                              "Appointment",
-                            ),
-                          )
-                        ],
-                      ),
-                    );
-                  } else if (state is AvailableTimeError) {
-                    return ErrorWidgett(
-                      message: state.errorMsg,
-                      onPressed: () async {
-                        await AvailableTimeCubit.get(context).availableTime(drID: widget.drId, date: appointmentDate ?? "");
-                      },
-                    );
-                  }
-                  return SizedBox();
-                },
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: state.times.length,
+                                  itemBuilder: (context, index) {
+                                    final time = state.times[index];
+                                    final isSelectedd = index == timeSelected;
+                                    final isReserved = time.isReserved;
+
+                                    return GestureDetector(
+                                      onTap: () {
+                                        if (!(isReserved ?? true)) {
+                                          setState(() {
+                                            timeSelected = index;
+                                            startTime = time.formattedStartTime ?? "";
+                                          });
+                                        }
+                                      },
+                                      child: TimeItem(time.formattedStartTime ?? "", isSelectedd, isReserved),
+                                    );
+                                  },
+                                ),
+                              ),
+                              SizedBox(height: 10.h),
+                              (timeSelected == null || state.times[timeSelected!].isReserved == true)
+                                  ? Center(
+                                  child: Text(
+                                    "you must choose a valid time",
+                                    style: TextStyle(color: Colors.red),
+                                  ))
+                                  : SizedBox(
+                                height: 30.h,
+                                width: double.infinity,
+                                child: CustomButton(
+                                      () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => CreateApointment(
+                                          startTime: startTime ?? "",
+                                          drID: widget.drId,
+                                          appointmentDate: appointmentDate ?? "",
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  "Appointment",
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      }
+                      else if (state is AvailableTimeError) {
+                        return ErrorWidgett(
+                          message: state.errorMsg,
+                          onPressed: () async {
+                            await AvailableTimeCubit.get(context)
+                                .availableTime(drID: widget.drId, date: appointmentDate ?? "");
+                          },
+                        );
+                      }
+                      return LoadingCircle();
+                    },
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

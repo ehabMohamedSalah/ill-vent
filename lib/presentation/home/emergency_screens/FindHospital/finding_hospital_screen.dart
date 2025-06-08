@@ -30,50 +30,61 @@ class _FindingHospitalScreenState extends State<FindingHospitalScreen> {
       child: Scaffold(
         backgroundColor: ColorManager.primaryColor,
         appBar: CustomAppBar(navigatorScreen: RouteManager.homeScreenRoutes),
-        body: BlocListener<EmergencyViewModelCubit, EmergencyViewModelState>(
-          listener: (context, state) {
-            if (state is HospitalFound && !hasNavigated) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AcceptedHospitalScreen(state!.hospitalResponse),
-                ),
-              );
-            }
+        body: Stack(
 
-          },
-          child: BlocBuilder<EmergencyViewModelCubit, EmergencyViewModelState>(
-            builder: (context, state) {
-              if (state is EmergencyStatusLoading) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset("assets/images/3_home&bottoms/afterScan/finding_hospital.png"),
-                      SizedBox(height: 20),
-                      Text(
-                        "Finding Nearest Hospital...",
+          children: [
+            Positioned.fill(
+              child: Image.asset(
+                "assets/images/background.png",
+                fit: BoxFit.fill,
+              ),
+            ),
+            BlocListener<EmergencyViewModelCubit, EmergencyViewModelState>(
+              listener: (context, state) {
+                if (state is HospitalFound && !hasNavigated) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AcceptedHospitalScreen(state!.hospitalResponse),
+                    ),
+                  );
+                }
+
+              },
+              child: BlocBuilder<EmergencyViewModelCubit, EmergencyViewModelState>(
+                builder: (context, state) {
+                  if (state is EmergencyStatusLoading) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset("assets/images/3_home&bottoms/afterScan/finding_hospital.png"),
+                          SizedBox(height: 20),
+                          Text(
+                            "Finding Nearest Hospital...",
+                            style: Appstyle.medium25(context).copyWith(color: ColorManager.secondaryColor),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            "Please wait until we get the quickest response.",
+                            style: Appstyle.small20(context).copyWith(color: ColorManager.secondaryColor),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    );
+                  }   else {
+                    return Center(
+                      child: Text(
+                        "Waiting for hospital response...",
                         style: Appstyle.medium25(context).copyWith(color: ColorManager.secondaryColor),
                       ),
-                      SizedBox(height: 10),
-                      Text(
-                        "Please wait until we get the quickest response.",
-                        style: Appstyle.small20(context).copyWith(color: ColorManager.secondaryColor),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                );
-              }   else {
-                return Center(
-                  child: Text(
-                    "Waiting for hospital response...",
-                    style: Appstyle.medium25(context).copyWith(color: ColorManager.secondaryColor),
-                  ),
-                );
-              }
-            },
-          ),
+                    );
+                  }
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

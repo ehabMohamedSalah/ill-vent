@@ -18,10 +18,11 @@ class QrFloatScreen extends StatelessWidget {
       getIt<MedicalHistoryViewModelCubit>()..getQRMedicalHistory(),
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: ColorManager.secondaryColor,
           title: Text(
             "Your Qr & userFriendlyToken",
             style: Appstyle.small20(context)
-                .copyWith(color: ColorManager.secondaryColor),
+                .copyWith(color: ColorManager.white),
           ),
           leading: IconButton(
             onPressed: () {
@@ -29,63 +30,70 @@ class QrFloatScreen extends StatelessWidget {
             },
             icon: Icon(
               Icons.arrow_back_ios_new_outlined,
-              color: ColorManager.secondaryColor,
+              color: ColorManager.white,
             ),
           ),
         ),
         backgroundColor: ColorManager.primaryColor,
-        body: BlocConsumer<MedicalHistoryViewModelCubit,
-            MedicalHistoryViewModelState>(
-          listener: (context, state) {},
-          builder: (context, state) {
-            if (state is GetQrError) {
-              return ErrorWidgett(
-                message: state.err,
-                onPressed: () {
-                  context.read<MedicalHistoryViewModelCubit>()
-                    ..getQRMedicalHistory();
-                },
-              );
-            }
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/background.png"), // path lel sora
+              fit: BoxFit.cover, // cover | fill | contain | etc
+            ), ),
+          child: BlocConsumer<MedicalHistoryViewModelCubit,
+              MedicalHistoryViewModelState>(
+            listener: (context, state) {},
+            builder: (context, state) {
+              if (state is GetQrError) {
+                return ErrorWidgett(
+                  message: state.err,
+                  onPressed: () {
+                    context.read<MedicalHistoryViewModelCubit>()
+                      ..getQRMedicalHistory();
+                  },
+                );
+              }
 
-            if (state is GetQrSuccess) {
-              final data = state.response;
-              return SingleChildScrollView(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,  // هنا بدل start
-                  mainAxisAlignment: MainAxisAlignment.center,    // اختياري، لو عايز توسيط عمودي
-                  children: [
-                    Text(
-                      "🧾 QR Code:",
-                      style: Appstyle.small20(context).copyWith(color: Colors.black),
-                      textAlign: TextAlign.center, // لضمان إن النص كمان في النص
-                    ),
-                    SizedBox(height: 16),
-                    Image.memory(base64Decode(data!.qrCodeData ?? "")),
-                    SizedBox(height: 24),
-                    Text(
-                      "User Friendly Token:",
-                      style: Appstyle.small20(context).copyWith(color: Colors.black),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      data.userFriendlyToken ?? "",
-                      style: Appstyle.small20(context).copyWith(
-                        color: ColorManager.secondaryColor,
-                        fontWeight: FontWeight.bold,
+              if (state is GetQrSuccess) {
+                final data = state.response;
+                return SingleChildScrollView(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,  // هنا بدل start
+                    mainAxisAlignment: MainAxisAlignment.center,    // اختياري، لو عايز توسيط عمودي
+                    children: [
+                      Text(
+                        "🧾 QR Code:",
+                        style: Appstyle.small20(context).copyWith(color: Colors.black),
+                        textAlign: TextAlign.center, // لضمان إن النص كمان في النص
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              );
+                      SizedBox(height: 16),
+                      Image.memory(base64Decode(data!.qrCodeData ?? "")),
+                      SizedBox(height: 24),
+                      Text(
+                        "User Friendly Token:",
+                        style: Appstyle.small20(context).copyWith(color: Colors.black),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        data.userFriendlyToken ?? "",
+                        style: Appstyle.small20(context).copyWith(
+                          color: ColorManager.secondaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                );
 
-            }
+              }
 
-            return Center(child: LoadingCircle());
-          },
+              return Center(child: LoadingCircle());
+            },
+          ),
         ),
       ),
     );

@@ -93,163 +93,171 @@ class _MedicalHistoryFormState extends State<MedicalHistoryForm> {
       child: Scaffold(
         backgroundColor: ColorManager.primaryColor,
         appBar: AppBar(
-          title: Text('Medical History Form', style: Appstyle.medium25(context).copyWith(color: ColorManager.secondaryColor)),
+          backgroundColor: ColorManager.secondaryColor,
+          title: Text('Medical History Form', style: Appstyle.medium25(context).copyWith(color: ColorManager.white)),
           leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(Icons.arrow_back_ios_new_outlined, color: ColorManager.secondaryColor),
+            icon: Icon(Icons.arrow_back_ios_new_outlined, color: ColorManager.white),
           ),
         ),
-        body: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            controller: _scrollController,
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Basic Information
-                _buildSectionHeader('Basic Information'),
-                _buildTextFormField('Address', _addressController, (value) => _medicalHistory.address = value),
-                _buildDropdownFormField('Blood Type', _bloodTypes, (value) {
-                  _medicalHistory.bloodType = value;
-                  _selectedBloodType = value;
-                }, initialValue: _selectedBloodType),
-                _buildNumberFormField('Age', (value) => _medicalHistory.age = value?.toInt()),
-                _buildNumberFormField('Weight (kg)', (value) => _medicalHistory.weight = value?.toInt()),
-                _buildNumberFormField('Height (cm)', (value) => _medicalHistory.height = value?.toInt()),
-                _buildDropdownFormField('Gender', _genders, (value) {
-                  _medicalHistory.gender = value;
-                  _selectedGender = value;
-                }, initialValue: _selectedGender),
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(image:
+            AssetImage("assets/images/background.png"),fit: BoxFit.fill
+            ),
+          ),
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Basic Information
+                  _buildSectionHeader('Basic Information'),
+                  _buildTextFormField('Address', _addressController, (value) => _medicalHistory.address = value),
+                  _buildDropdownFormField('Blood Type', _bloodTypes, (value) {
+                    _medicalHistory.bloodType = value;
+                    _selectedBloodType = value;
+                  }, initialValue: _selectedBloodType),
+                  _buildNumberFormField('Age', (value) => _medicalHistory.age = value?.toInt()),
+                  _buildNumberFormField('Weight (kg)', (value) => _medicalHistory.weight = value?.toInt()),
+                  _buildNumberFormField('Height (cm)', (value) => _medicalHistory.height = value?.toInt()),
+                  _buildDropdownFormField('Gender', _genders, (value) {
+                    _medicalHistory.gender = value;
+                    _selectedGender = value;
+                  }, initialValue: _selectedGender),
 
-                // Medical Conditions
-                _buildSectionHeader('Medical Conditions'),
-                _buildSwitchFormField(
-                  'High Blood Pressure',
-                  _medicalHistory.hasHighBloodPressure ?? false,
-                      (value) => setState(() => _medicalHistory.hasHighBloodPressure = value),
-                ),
-                _buildSwitchFormField(
-                  'Low Blood Pressure',
-                  _medicalHistory.hasLowBloodPressure ?? false,
-                      (value) => setState(() => _medicalHistory.hasLowBloodPressure = value),
-                ),
-                _buildSwitchFormField(
-                  'Diabetes',
-                  _medicalHistory.hasDiabetes ?? false,
-                      (value) => setState(() => _medicalHistory.hasDiabetes = value),
-                ),
-                if (_medicalHistory.hasDiabetes == true)
+                  // Medical Conditions
+                  _buildSectionHeader('Medical Conditions'),
+                  _buildSwitchFormField(
+                    'High Blood Pressure',
+                    _medicalHistory.hasHighBloodPressure ?? false,
+                        (value) => setState(() => _medicalHistory.hasHighBloodPressure = value),
+                  ),
+                  _buildSwitchFormField(
+                    'Low Blood Pressure',
+                    _medicalHistory.hasLowBloodPressure ?? false,
+                        (value) => setState(() => _medicalHistory.hasLowBloodPressure = value),
+                  ),
+                  _buildSwitchFormField(
+                    'Diabetes',
+                    _medicalHistory.hasDiabetes ?? false,
+                        (value) => setState(() => _medicalHistory.hasDiabetes = value),
+                  ),
+                  if (_medicalHistory.hasDiabetes == true)
+                    _buildDropdownFormField(
+                      'Diabetes Type',
+                      _diabetesTypes,
+                          (value) {
+                        _medicalHistory.diabetesType = value;
+                        _selectedDiabetesType = value;
+                      },
+                      initialValue: _selectedDiabetesType,
+                    ),
+
+                  // Other Medical Conditions
+                  _buildSectionHeader('Other Medical Conditions'),
+                  ..._medicalHistory.medicalConditions!.map((condition) => _buildMedicalConditionCard(condition)).toList(),
+                  _buildAddMedicalConditionSection(),
+
+                  // Allergies
+                  _buildSectionHeader('Allergies'),
+                  _buildSwitchFormField(
+                    'Has Allergies',
+                    _medicalHistory.hasAllergies ?? false,
+                        (value) => setState(() => _medicalHistory.hasAllergies = value),
+                  ),
+                  if (_medicalHistory.hasAllergies == true)
+                    _buildTextFormField('Allergies Details', _allergiesDetailsController, (value) => _medicalHistory.allergiesDetails = value),
+
+                  // Family History
+                  _buildSectionHeader('Family History'),
+                  _buildFamilyHistorySection(),
+
+                  // Surgical History
+                  _buildSectionHeader('Surgical History'),
+                  _buildSwitchFormField(
+                    'Has Surgery History',
+                    _medicalHistory.hasSurgeryHistory ?? false,
+                        (value) => setState(() => _medicalHistory.hasSurgeryHistory = value),
+                  ),
+                  if (_medicalHistory.hasSurgeryHistory == true) ...[
+                    ..._medicalHistory.surgicalHistories!.map((surgery) => _buildSurgicalHistoryCard(surgery)).toList(),
+                    _buildAddSurgicalHistorySection(),
+                  ],
+
+                  // Birth Control
+                  _buildSectionHeader('Birth Control'),
                   _buildDropdownFormField(
-                    'Diabetes Type',
-                    _diabetesTypes,
+                    'Birth Control Method',
+                    _birthControlMethods,
                         (value) {
-                      _medicalHistory.diabetesType = value;
-                      _selectedDiabetesType = value;
+                      _medicalHistory.birthControlMethod = value;
+                      _selectedBirthControlMethod = value;
                     },
-                    initialValue: _selectedDiabetesType,
+                    initialValue: _selectedBirthControlMethod,
                   ),
 
-                // Other Medical Conditions
-                _buildSectionHeader('Other Medical Conditions'),
-                ..._medicalHistory.medicalConditions!.map((condition) => _buildMedicalConditionCard(condition)).toList(),
-                _buildAddMedicalConditionSection(),
+                  // Blood Transfusion
+                  _buildSectionHeader('Blood Transfusion'),
+                  _buildSwitchFormField(
+                    'Has Blood Transfusion Objection',
+                    _medicalHistory.hasBloodTransfusionObjection ?? false,
+                        (value) => setState(() => _medicalHistory.hasBloodTransfusionObjection = value),
+                  ),
 
-                // Allergies
-                _buildSectionHeader('Allergies'),
-                _buildSwitchFormField(
-                  'Has Allergies',
-                  _medicalHistory.hasAllergies ?? false,
-                      (value) => setState(() => _medicalHistory.hasAllergies = value),
-                ),
-                if (_medicalHistory.hasAllergies == true)
-                  _buildTextFormField('Allergies Details', _allergiesDetailsController, (value) => _medicalHistory.allergiesDetails = value),
+                  // Immunization History
+                  _buildSectionHeader('Immunization History'),
+                  _buildImmunizationHistorySection(),
 
-                // Family History
-                _buildSectionHeader('Family History'),
-                _buildFamilyHistorySection(),
+                  // Social History
+                  _buildSectionHeader('Social History'),
+                  _buildSocialHistorySection(),
 
-                // Surgical History
-                _buildSectionHeader('Surgical History'),
-                _buildSwitchFormField(
-                  'Has Surgery History',
-                  _medicalHistory.hasSurgeryHistory ?? false,
-                      (value) => setState(() => _medicalHistory.hasSurgeryHistory = value),
-                ),
-                if (_medicalHistory.hasSurgeryHistory == true) ...[
-                  ..._medicalHistory.surgicalHistories!.map((surgery) => _buildSurgicalHistoryCard(surgery)).toList(),
-                  _buildAddSurgicalHistorySection(),
+                  // Submit Button
+                  SizedBox(height: 20),
+                  BlocConsumer<MedicalViewModelCubit, MedicalViewModelState>(
+                    builder: (context, state) {
+
+                      return Center(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(backgroundColor: ColorManager.secondaryColor),
+                          onPressed: () {
+                            FocusScope.of(context).unfocus();
+                             print(_medicalHistory.immunizationHistory?.fluDate.toString());
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+                              MedicalViewModelCubit.get(context).sendMedicalHistory(
+                                patientModel: _medicalHistory,
+                              );
+                            }
+                          },
+                          child: state is MedicalViewModelLoading
+                              ? Center(child: LoadingCircle(),)
+                              : Text('Submit Medical History'),
+                        ),
+                      );
+                    },
+                    listener: (context, state) {
+                      if (state is MedicalViewModelSuccess) {
+
+                        toastMessage(
+                            message: "Medical history submitted successfully",
+                            tybeMessage: TybeMessage.positive);
+                        Navigator.pushNamed(context, RouteManager.homeScreenRoutes);
+                      } else if (state is MedicalViewModelError) {
+                        toastMessage(
+                            message: "Please Enter Right Data!!!",
+                            tybeMessage: TybeMessage.negative);
+                      }
+                    },
+                  ),
                 ],
-
-                // Birth Control
-                _buildSectionHeader('Birth Control'),
-                _buildDropdownFormField(
-                  'Birth Control Method',
-                  _birthControlMethods,
-                      (value) {
-                    _medicalHistory.birthControlMethod = value;
-                    _selectedBirthControlMethod = value;
-                  },
-                  initialValue: _selectedBirthControlMethod,
-                ),
-
-                // Blood Transfusion
-                _buildSectionHeader('Blood Transfusion'),
-                _buildSwitchFormField(
-                  'Has Blood Transfusion Objection',
-                  _medicalHistory.hasBloodTransfusionObjection ?? false,
-                      (value) => setState(() => _medicalHistory.hasBloodTransfusionObjection = value),
-                ),
-
-                // Immunization History
-                _buildSectionHeader('Immunization History'),
-                _buildImmunizationHistorySection(),
-
-                // Social History
-                _buildSectionHeader('Social History'),
-                _buildSocialHistorySection(),
-
-                // Submit Button
-                SizedBox(height: 20),
-                BlocConsumer<MedicalViewModelCubit, MedicalViewModelState>(
-                  builder: (context, state) {
-
-                    return Center(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(backgroundColor: ColorManager.secondaryColor),
-                        onPressed: () {
-                          FocusScope.of(context).unfocus();
-                           print(_medicalHistory.immunizationHistory?.fluDate.toString());
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-                            MedicalViewModelCubit.get(context).sendMedicalHistory(
-                              patientModel: _medicalHistory,
-                            );
-                          }
-                        },
-                        child: state is MedicalViewModelLoading
-                            ? Center(child: LoadingCircle(),)
-                            : Text('Submit Medical History'),
-                      ),
-                    );
-                  },
-                  listener: (context, state) {
-                    if (state is MedicalViewModelSuccess) {
-
-                      toastMessage(
-                          message: "Medical history submitted successfully",
-                          tybeMessage: TybeMessage.positive);
-                      Navigator.pushNamed(context, RouteManager.homeScreenRoutes);
-                    } else if (state is MedicalViewModelError) {
-                      toastMessage(
-                          message: "Please Enter Right Data!!!",
-                          tybeMessage: TybeMessage.negative);
-                    }
-                  },
-                ),
-              ],
+              ),
             ),
           ),
         ),
