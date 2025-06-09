@@ -43,7 +43,7 @@ static const String repasswordScreen='repassword';
   static const String notValidBmonth="this feild cant be empty";
   static const String notValidBday="this feild cant be empty";
   static const String notValidAge="this feild cant be empty";
-
+ static const String emptyValidation="This field can't be empty";
 
 
 

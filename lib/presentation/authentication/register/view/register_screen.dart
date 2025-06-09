@@ -137,11 +137,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           SizedBox(height: 20,),
 
                           RegisterCustomFormField(title: StringsManager.emailAddress, hintText:  StringsManager.emailHint, keyboard: TextInputType.emailAddress, controller: emailController, maxLength: 30,
-                              validator: (value) {
-                                if (!RegExp(Constant.regExValidateEmail).hasMatch(value ?? "")) {
-                                  return StringsManager.notValidEmail;
-                                }
+                            validator: (value) {
+                              if(value!.isEmpty){
+                                return "this field cant be empty";
                               }
+                              if (!RegExp(Constant.regExValidateEmail)
+                                  .hasMatch(value ?? "")) {
+                                return StringsManager.notValidEmail;
+                              }
+                            },
+
                           ),
                           SizedBox(height: 20,),
 
@@ -185,6 +190,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   color: Colors.white,
                                 ) ) ,
                             validator: (value){
+                              if(value!.isEmpty){
+                                return "This field cannot be empty and must match the password";
+                              }
                               if(value != passwordController.text ||value==null||value.isEmpty){
                                 return StringsManager.notValidRepassword ;
                               }

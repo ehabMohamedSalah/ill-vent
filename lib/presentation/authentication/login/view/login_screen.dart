@@ -101,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             keyboard: TextInputType.emailAddress,
                             validator: (value) {
                               if(value!.isEmpty){
-                                return "this field cant be empty";
+                                return StringsManager.emptyValidation;
                               }
                               if (!RegExp(Constant.regExValidateEmail)
                                   .hasMatch(value ?? "")) {
@@ -184,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               } else if (state is LoginError) {
                                 toastMessage(
                                     message:
-                                    "You don't have an account or the password is incorrect.",
+                                    state.error,
                                     tybeMessage: TybeMessage.negative);
                               }
                             },
@@ -192,8 +192,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(height: 10),
                           InkWell(
                             onTap: () {
-                              Navigator.pushNamed(
-                                  context, RouteManager.homeScreenRoutes);
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, RouteManager.homeScreenRoutes,(route) => false,);
                             },
                             child: Align(
                               alignment: Alignment.center,

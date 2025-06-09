@@ -28,6 +28,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   late TextEditingController emailContrller;
   late TextEditingController passwordContrller;
 
+
   @override
   void initState() {
     // TODO: implement initState
@@ -91,6 +92,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           SizedBox(height: 20,),
                           CustomFormField( maxLength: 50,title: StringsManager.email,controller: emailContrller,hintText: StringsManager.enterYourEmail,keyboard:TextInputType.emailAddress ,
                             validator: (value){
+                            if(value!.isEmpty){
+                              return StringsManager.emptyValidation;
+                            }
                               if (!RegExp(Constant.regExValidateEmail).hasMatch(value ?? "")) {
                                 return StringsManager.notValidEmail;
                               }

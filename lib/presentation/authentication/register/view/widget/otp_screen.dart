@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ill_vent/core/di/di.dart';
+import 'package:ill_vent/core/resuable_component/loading_circle.dart';
+import 'package:ill_vent/core/resuable_component/toast_message.dart';
 import 'package:ill_vent/presentation/authentication/view_model/cubit/auth_cubit.dart';
 import 'package:ill_vent/presentation/authentication/view_model/cubit/auth_intent.dart';
 
@@ -22,6 +24,15 @@ class OtpScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => getIt<AuthCubit>(),
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          leading: IconButton(
+          onPressed: (){
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_ios_new_outlined,color: ColorManager.black),
+          ),
+        ),
         backgroundColor: ColorManager.primaryColor,
         body: Form(
           child: Column(
@@ -48,12 +59,13 @@ class OtpScreen extends StatelessWidget {
                           listener: (context, state) {
                             if (state is ConfirmEmailSuccess) {
                               Navigator.pushNamed(context, RouteManager.loginRoutes);
-                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Registration Successful!")));
-                            } else if (state is ConfirmEmailError) {
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error)));
+                              toastMessage(message: state.response.message??"", tybeMessage: TybeMessage.positive);
+                             } else if (state is ConfirmEmailError) {
+                              toastMessage(message: state.error??"", tybeMessage: TybeMessage.negative);
                             }
                           },
                           builder: (context, state) {
+                            if(state is ConfirmEmailLoading)return Center(child: LoadingCircle(),);
                             return SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: OtpTextField(

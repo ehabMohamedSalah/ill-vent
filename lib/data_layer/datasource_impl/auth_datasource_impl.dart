@@ -70,10 +70,14 @@ class AuthDatasourceImpl extends AuthDatasource{
    }
    );
    var result= LoginResponse.fromJson(response.data);
+   if(result.success==false){
+     return MessageErrorApiResult(
+         result.message ?? "An unknown error occurred");
+   }
      if(result.success==true){
        return SuccessApiResult(result) ;
-     } return ErrorApiResult(
-       Exception(result.message ?? "An unknown error occurred"));
+     } return MessageErrorApiResult(
+      result.message ?? "An unknown error occurred");
 
 
 

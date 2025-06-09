@@ -97,8 +97,8 @@ class AuthCubit extends Cubit<AuthState> {
       await cacheHelper.setData<bool>("is_logged_in", true);
 
       emit(LoginSuccess(response.data!));
-    } else if (response is ErrorApiResult<LoginResponse>) {
-      emit(LoginError(response.exception.toString()));
+    } else if (response is MessageErrorApiResult<LoginResponse>) {
+      emit(LoginError(response.message.toString()));
     } else {
       emit(LoginError("UnKnow error occurred"));
     }

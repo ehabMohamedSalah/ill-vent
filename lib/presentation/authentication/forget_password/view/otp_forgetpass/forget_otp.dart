@@ -24,43 +24,38 @@ class ForgetOtpScreen extends StatefulWidget {
 }
 
 class _ForgetOtpScreenState extends State<ForgetOtpScreen> {
-  @override
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  bool isObsecure=true;
-  late TextEditingController emailContrller;
-  late TextEditingController passwordContrller;
-  late TextEditingController RePasswordController;
-  late String otp;
+  bool isObsecure = true;
+  bool confirmIsObsecure=true;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    emailContrller=TextEditingController();
-    passwordContrller=TextEditingController();
-    RePasswordController=TextEditingController();
+  final TextEditingController emailContrller = TextEditingController();
+  final TextEditingController passwordContrller = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
-  }
+  String otp = "";
+
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
     emailContrller.dispose();
+    passwordContrller.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
   }
+
+  @override
   Widget build(BuildContext context) {
     final email = ModalRoute.of(context)?.settings.arguments as String?;
-    var height=MediaQuery.of(context).size.height;
-    var width=MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
+
     return BlocProvider(
       create: (context) => getIt<AuthCubit>(),
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-              onPressed: (){
-                Navigator.pop(context);
-              },
-              icon: Icon(Icons.arrow_back)),
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back),
+          ),
         ),
         backgroundColor: ColorManager.primaryColor,
         body: Form(
@@ -68,155 +63,171 @@ class _ForgetOtpScreenState extends State<ForgetOtpScreen> {
           child: Column(
             children: [
               SizedBox(
-                  height:height * 0.35,
-                  width: double.infinity,
-                  child: Image.asset("assets/images/auth/login&email.png")),
+                height: height * 0.35,
+                width: double.infinity,
+                child: Image.asset("assets/images/auth/login&email.png"),
+              ),
               Expanded(
                 child: Container(
-
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    border: Border.all(
-                      color:  ColorManager.secondaryColor,
+                    border: Border.all(color: ColorManager.secondaryColor),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(40),
+                      topRight: Radius.circular(40),
                     ),
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(40),topRight: Radius.circular(40) ),
                     color: ColorManager.secondaryColor,
                   ),
                   child: SingleChildScrollView(
-
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          SizedBox(height: 30,),
-                          Align(
-                              alignment: Alignment.center,
-                              child: Text("Enter Authentication\nCode to finish",style: Appstyle.medium25(context),)),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: OtpTextField(
-                              numberOfFields: 6,
-                              borderColor: Colors.grey, // لون الحدود العادي
-                              fillColor: Colors.white, // لون الخلفية داخل الحقول
-                              enabledBorderColor: Colors.blue, // لون الحدود عند التفعيل
-                              disabledBorderColor: Colors.grey.shade400, // لون الحدود عند التعطيل
-                              filled: true,
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              fieldWidth: 52,
-                              fieldHeight: 52,
-                              borderWidth: 2,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              margin: EdgeInsets.symmetric(vertical: 24, horizontal: 5.5),
-                              showFieldAsBox: true,
-                              onSubmit: (String verificationCode) {
-                                otp=verificationCode;
-                                //VerificationViewModelCubit.get(context).Verify(resetCode: verificationCode.toString());
-                              },
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 30),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Enter Authentication\nCode to finish",
+                            style: Appstyle.medium25(context),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: OtpTextField(
+                            numberOfFields: 6,
+                            borderColor: Colors.grey,
+                            fillColor: Colors.white,
+                            enabledBorderColor: Colors.blue,
+                            disabledBorderColor: Colors.grey.shade400,
+                            filled: true,
+                            borderRadius: const BorderRadius.all(Radius.circular(10)),
+                            fieldWidth: 52,
+                            fieldHeight: 52,
+                            borderWidth: 2,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            margin: const EdgeInsets.symmetric(vertical: 24, horizontal: 5.5),
+                            showFieldAsBox: true,
+                            onSubmit: (String verificationCode) {
+                              otp = verificationCode;
+                            },
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            "A message will be sent to your e-mail\nplease fill the 6 numbers to make sure it's you",
+                            style: Appstyle.small15(context),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        CustomFormField(
+                          maxLength: 50,
+                          title: "New Password",
+                          controller: passwordContrller,
+                          hintText: "",
+                          keyboard: TextInputType.visiblePassword,
+                          obsecureText: isObsecure,
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isObsecure = !isObsecure;
+                              });
+                            },
+                            icon: Icon(
+                              isObsecure ? Icons.visibility_off : Icons.visibility,
+                              size: 24,
+                              color: Colors.white,
                             ),
                           ),
-                          Align(
-                              alignment: Alignment.center,
-                              child: Text("A message will be sent to your e-mail\nplease fill the 6 numbers to make sure its you",style: Appstyle.small15(context),)),
-
-                           CustomFormField( maxLength: 50,title: "New Password",controller: passwordContrller,hintText: "",keyboard:TextInputType.visiblePassword ,
-                            obsecureText: isObsecure,
-                            suffixIcon:IconButton( onPressed:(){
-
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "This field can't be empty";
+                            }
+                            if (value.length < 8) {
+                              return StringsManager.notValidPassword;
+                            }
+                            return null;
+                          },
+                        ),
+                        CustomFormField(
+                          maxLength: 50,
+                          title: "Confirm Password",
+                          controller: confirmPasswordController,
+                          hintText: "",
+                          keyboard: TextInputType.visiblePassword,
+                          obsecureText: confirmIsObsecure,
+                          suffixIcon: IconButton(
+                            onPressed: () {
                               setState(() {
-                                isObsecure=!isObsecure;
+                                confirmIsObsecure = !confirmIsObsecure;
                               });
-                            } ,
-                                icon:Icon(
-                                  isObsecure? Icons.visibility_off:Icons.visibility,
-                                  size: 24,
-                                  color: Colors.white,
-                                ) ) ,
-                            validator: (value){
-                              if(value!.length < 8){
-                                return StringsManager.notValidPassword;
-                              }
-                            },),
-                           CustomFormField( maxLength: 50,title: "Confirm Password",controller: passwordContrller,hintText: "",keyboard:TextInputType.visiblePassword ,
-                            obsecureText: isObsecure,
-                            suffixIcon:IconButton( onPressed:(){
-
-                              setState(() {
-                                isObsecure=!isObsecure;
-                              });
-                            } ,
-                                icon:Icon(
-                                  isObsecure? Icons.visibility_off:Icons.visibility,
-                                  size: 24,
-                                  color: Colors.white,
-                                ) ) ,
-                            validator: (value){
-                              if(passwordContrller!=RePasswordController){
-                                return "Password Not Equal Re-Password";
-                              }
-                            },),
-                     BlocConsumer<AuthCubit,AuthState>(
-                         builder: (context, state) {
-                           if(state is ResetPasswordLoading){
-                             return Center(child: LoadingCircle(),);
-                           }
-                           return  SizedBox(
-                             width: 150,
-                             height: 50,
-                             child: SignButton(
-                               text: "Continue",
-                               TextColor: ColorManager.white,
-                               borderColor: Colors.transparent,
-                               linearGradient: false,
-                               backgroundColor: ColorManager.headlineColor,
-                               onTap: () {
-                                 FocusScope.of(context).unfocus();
-                                 if (formKey.currentState!.validate()) {
-                                   print("====================================");
-                                   print(email);
-                                   print(otp);
-                                   print(passwordContrller.text);
-                                   print("====================================");
-
-                                   context.read<AuthCubit>().doIntent(
-                                     ResetPasswordResetIntent(
-                                       email: email ?? "",
-                                       otp: otp,
-                                       pass: passwordContrller.text,
-                                     ),
-                                   );
-                                 }
-                               },
-
-                             ),
-                           );
-                         },
-                         listener: (context, state) {
-                           if(state is ResetPasswordSuccess){
-                             Navigator.pushNamed(
-                                 context, RouteManager.homeScreenRoutes);
-                             toastMessage(
-                                 message: "Successful",
-                                 tybeMessage:  TybeMessage.positive
-                             );
-
-                           }else if(state is ResetPasswordError){
-                             toastMessage(
-                                 message: state.error,
-                                 tybeMessage:  TybeMessage.negative
-                             );
-                           }
-                         },
-                     ),
-
-
-                        ],
-                      ),
+                            },
+                            icon: Icon(
+                              confirmIsObsecure ? Icons.visibility_off : Icons.visibility,
+                              size: 24,
+                              color: Colors.white,
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "This field can't be empty";
+                            }
+                            if (passwordContrller.text != confirmPasswordController.text) {
+                              return "Passwords do not match";
+                            }
+                            return null;
+                          },
+                        ),
+                        BlocConsumer<AuthCubit, AuthState>(
+                          builder: (context, state) {
+                            if (state is ResetPasswordLoading) {
+                              return const Center(child: LoadingCircle());
+                            }
+                            return SizedBox(
+                              width: 150,
+                              height: 50,
+                              child: SignButton(
+                                text: "Continue",
+                                TextColor: ColorManager.white,
+                                borderColor: Colors.transparent,
+                                linearGradient: false,
+                                backgroundColor: ColorManager.headlineColor,
+                                onTap: () {
+                                  FocusScope.of(context).unfocus();
+                                  if (formKey.currentState!.validate()) {
+                                    context.read<AuthCubit>().doIntent(
+                                      ResetPasswordResetIntent(
+                                        email: email ?? "",
+                                        otp: otp,
+                                        pass: passwordContrller.text,
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
+                            );
+                          },
+                          listener: (context, state) {
+                            if (state is ResetPasswordSuccess) {
+                              Navigator.pushNamed(context, RouteManager.loginRoutes);
+                              toastMessage(
+                                message: "Successful",
+                                tybeMessage: TybeMessage.positive,
+                              );
+                            } else if (state is ResetPasswordError) {
+                              toastMessage(
+                                message: state.error,
+                                tybeMessage: TybeMessage.negative,
+                              );
+                            }
+                          },
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
             ],
-
           ),
         ),
       ),
