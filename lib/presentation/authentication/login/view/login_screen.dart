@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: Icon(Icons.arrow_back)),
+              icon: Icon(Icons.arrow_back_ios_new_outlined)),
         ),
         backgroundColor: ColorManager.primaryColor,
         body: Form(
@@ -100,6 +100,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             hintText: StringsManager.enterYourEmail,
                             keyboard: TextInputType.emailAddress,
                             validator: (value) {
+                              if(value!.isEmpty){
+                                return "this field cant be empty";
+                              }
                               if (!RegExp(Constant.regExValidateEmail)
                                   .hasMatch(value ?? "")) {
                                 return StringsManager.notValidEmail;

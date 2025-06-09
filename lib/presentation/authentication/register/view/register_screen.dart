@@ -85,7 +85,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               onPressed: (){
                 Navigator.pop(context);
               },
-              icon: Icon(Icons.arrow_back)),
+              icon: Icon(Icons.arrow_back_ios_new_outlined)),
         ),
         backgroundColor: ColorManager.primaryColor,
         body: Form(

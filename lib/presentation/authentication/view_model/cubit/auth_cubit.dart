@@ -92,7 +92,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(LoginLoading());
     var response = await loginUsecase.call(email: Intent.email, password: Intent.password);
     if (response is SuccessApiResult<LoginResponse>) {
-      // حفظ حالة تسجيل الدخول
+
       final cacheHelper = getIt<CacheHelper>();
       await cacheHelper.setData<bool>("is_logged_in", true);
 

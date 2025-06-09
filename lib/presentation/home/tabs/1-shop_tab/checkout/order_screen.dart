@@ -156,10 +156,10 @@ appBar: AppBar(
                   }
                   return Scaffold(
                       backgroundColor: ColorManager.primaryColor,
-appBar: AppBar(
-  backgroundColor: ColorManager.secondaryColor,
-  leading: Icon(Icons.arrow_back_ios_new_outlined,color: Colors.white,),
-),
+                            appBar: AppBar(
+                              backgroundColor: ColorManager.secondaryColor,
+                              leading: Icon(Icons.arrow_back_ios_new_outlined,color: Colors.white,),
+                            ),
                       body: Container(
                           decoration: BoxDecoration(
                               image: DecorationImage(image: AssetImage("assets/images/background.png" ),
