@@ -191,9 +191,22 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           SizedBox(height: 10),
                           InkWell(
-                            onTap: () {
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context, RouteManager.homeScreenRoutes,(route) => false,);
+                            onTap: () async{
+                              final token = await cacheHelper.getData<String>(Constant.tokenKey);
+                              if (token != null && token.isNotEmpty) {
+                                Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  RouteManager.homeScreenRoutes,
+                                      (route) => false,
+                                );
+                              } else {
+                                toastMessage(
+                                  message: "You must login at least one time",
+                                  tybeMessage: TybeMessage.negative,
+                                );
+                              }
+
+
                             },
                             child: Align(
                               alignment: Alignment.center,
