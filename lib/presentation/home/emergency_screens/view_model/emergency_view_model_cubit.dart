@@ -71,6 +71,13 @@ class EmergencyViewModelCubit extends Cubit<EmergencyViewModelState> {
       if (_pollCount > 120) {
         timer.cancel();
         emit(EmergencyStatusRejected(null)); // null or dummy response if needed
+        if (_reqId != null) {
+          final requestIdAsInt = int.tryParse(_reqId!);
+          if (requestIdAsInt != null) {
+            await completeEmergencyRequest(requestIdAsInt);
+          }
+        }
+
         return;
       }
 
