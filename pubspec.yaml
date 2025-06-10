@@ -74,6 +74,7 @@ dependencies:
   google_maps_flutter: any
   location: any
   flutter_launcher_icons: ^0.14.3
+  signalr_core: ^1.1.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

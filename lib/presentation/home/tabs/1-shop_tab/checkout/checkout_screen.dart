@@ -74,9 +74,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     controller: nameController,
                     hintText: "Ehab",
                     keyboard: TextInputType.name,
+
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Please enter a valid name";
+                      if (value == null || value.trim().isEmpty) {
+                        return "Please enter a name";
+                      }
+                      final nameRegExp = RegExp(r'^[a-zA-Z\s]+$');
+                      if (!nameRegExp.hasMatch(value.trim())) {
+                        return "Name must contain only letters";
                       }
                       return null;
                     },
@@ -90,8 +95,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     hintText: "01143668719",
                     keyboard: TextInputType.phone,
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Please enter a valid phone number";
+                      if (value == null || value.trim().isEmpty) {
+                        return "Please enter a phone number";
+                      }
+                      final phoneRegExp = RegExp(r'^(01)[0-9]{9}$');
+                      if (!phoneRegExp.hasMatch(value.trim())) {
+                        return "Enter a valid Egyptian phone number";
                       }
                       return null;
                     },

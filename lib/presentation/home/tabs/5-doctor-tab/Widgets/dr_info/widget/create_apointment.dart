@@ -217,7 +217,7 @@ class _CreateApointmentState extends State<CreateApointment> {
                   );
                 } else if (state is CreateAppointMentError) {
                   toastMessage(
-                    message: "Already Booked",
+                    message: state.errorMsg,
                     tybeMessage: TybeMessage.negative,
                   );
                 }

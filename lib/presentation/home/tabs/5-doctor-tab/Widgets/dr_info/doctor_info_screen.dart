@@ -210,7 +210,7 @@ class _DoctorInfoScreenState extends State<DoctorInfoScreen> {
                                     style: TextStyle(color: Colors.red),
                                   ))
                                   : SizedBox(
-                                height: 140.h,
+                                height: 180.h,
                                 child: GridView.builder(
                                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 3,

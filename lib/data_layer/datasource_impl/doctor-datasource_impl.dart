@@ -100,7 +100,9 @@ class DrDatasourceImpl extends DrDatasource {
         },
       );
       var result = CreateAppointmentResponse.fromJson(response.data);
-
+if(result.success==false){
+  return ErrorApiResult(Exception(result.message.toString()));
+}
       return SuccessApiResult(result);
     } catch (error) {
       return ErrorApiResult(Exception(error.toString()));
@@ -136,6 +138,9 @@ class DrDatasourceImpl extends DrDatasource {
         'Authorization': "Bearer $token",
       },);
       var result= CancelAppointmentResponse.fromJson(response.data);
+      if(result.success==false){
+        return ErrorApiResult(Exception(result.message.toString()));
+      }
       return SuccessApiResult(result);
     }catch(errMsg){
       return ErrorApiResult(Exception(errMsg.toString()));

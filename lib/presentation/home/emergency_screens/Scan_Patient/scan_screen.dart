@@ -205,26 +205,28 @@ log(emergencyModel.injuryDescription);
                                 );
                               },
                               listener: (context, state) {
-                                if(state is EmergencyViewModelError){
-                                  return toastMessage(
-                                      message: " please Try Again",
-                                      tybeMessage: TybeMessage.negative
-                                  );}
-                                else if (state is EmergencyViewModelSuccess){
+                                if (state is EmergencyViewModelError) {
                                   toastMessage(
-                                      message: "Request send Successful please wait until any hospital accept",
-                                      tybeMessage: TybeMessage.positive
+                                    message: state.message,
+                                    tybeMessage: TybeMessage.negative,
                                   );
-                                  Navigator.push(context, MaterialPageRoute(builder:  (context) {
-                                    return FindingHospitalScreen(state.response!.data!.requestId.toString());
-                                  },));
-                                  /* Navigator.pushNamed(
-                                   context,
-                                   RouteManager.findingScreen,
-                                   arguments: {'patientID': idController.text},
-                                 );*/
+                                } else if (state is EmergencyViewModelSuccess) {
+                                  toastMessage(
+                                    message: "Request send Successful please wait until any hospital accept",
+                                    tybeMessage: TybeMessage.positive,
+                                  );
+
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => FindingHospitalScreen(
+                                        state.response?.data?.requestId.toString() ?? "",
+                                      ),
+                                    ),
+                                  );
                                 }
                               },
+
 
                             ),
                             SizedBox(height: 30),

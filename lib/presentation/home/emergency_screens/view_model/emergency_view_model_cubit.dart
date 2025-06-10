@@ -40,7 +40,7 @@ class EmergencyViewModelCubit extends Cubit<EmergencyViewModelState> {
     if (response is SuccessApiResult<EmergencyRequestResponse>) {
       emit(EmergencyViewModelSuccess(response.data));
     } else if (response is ErrorApiResult<EmergencyRequestResponse>) {
-      emit(EmergencyViewModelError(response.exception.toString()));
+      emit(EmergencyViewModelError(response.exception?.toString() ?? "Unknown error"));
     } else {
       emit(EmergencyViewModelError("Unknown error"));
     }
@@ -67,10 +67,10 @@ class EmergencyViewModelCubit extends Cubit<EmergencyViewModelState> {
 
       _pollCount++;
 
-      // Handle timeout after 500 attempts (500 seconds)
-      if (_pollCount > 500) {
+      // ⏱️ Stop after 120 seconds
+      if (_pollCount > 120) {
         timer.cancel();
-        emit(EmergencyViewModelError("Polling timeout"));
+        emit(EmergencyStatusRejected(null)); // null or dummy response if needed
         return;
       }
 
@@ -81,23 +81,20 @@ class EmergencyViewModelCubit extends Cubit<EmergencyViewModelState> {
           final hospitalResponse = response.data;
           final currentStatus = hospitalResponse?.data?.status;
 
-          if (currentStatus == "Completed") {
+          if (currentStatus == "Completed" || currentStatus == "Accepted") {
             timer.cancel();
             emit(HospitalFound(hospitalResponse!));
-          }
-          else if (currentStatus == "Accepted") {
+          } else if (currentStatus == "Rejected" || currentStatus == "AllRejected") {
             timer.cancel();
-            emit(HospitalFound(hospitalResponse!));
-          }
-          else if (_lastStatus != currentStatus) {
+            emit(EmergencyStatusRejected(hospitalResponse!));
+          } else if (_lastStatus != currentStatus) {
             _lastStatus = currentStatus;
             emit(EmergencyStatusUpdated(hospitalResponse!));
           }
-          // No emit if status hasn't changed
-        }
-        else if (response is ErrorApiResult<EmergencyStatusResponse>) {
+          // else: don't emit if status hasn't changed
+        } else if (response is ErrorApiResult<EmergencyStatusResponse>) {
           timer.cancel();
-          emit(EmergencyStatusError(response.exception.toString()));
+          emit(EmergencyStatusError(response.exception?.toString() ?? "Unknown error"));
         }
       } catch (e) {
         timer.cancel();
@@ -105,6 +102,7 @@ class EmergencyViewModelCubit extends Cubit<EmergencyViewModelState> {
       }
     });
   }
+
   @override
   Future<void> close() {
     _pollingTimer?.cancel();
@@ -119,7 +117,7 @@ class EmergencyViewModelCubit extends Cubit<EmergencyViewModelState> {
     if (response is SuccessApiResult<CompleteRequestResponse>) {
       emit(CompleteEmergencySuccess(response.data));
     } else if (response is ErrorApiResult<CompleteRequestResponse>) {
-      emit(CompleteEmergencyError(response.exception.toString()));
+      emit(CompleteEmergencyError(response.exception?.toString() ?? "Unknown error"));
     } else {
       emit(CompleteEmergencyError("Unknown error"));
     }

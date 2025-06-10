@@ -49,3 +49,9 @@ class CompleteEmergencyError extends EmergencyViewModelState {
   final String message;
   CompleteEmergencyError(this.message);
 }
+class EmergencyStatusRejected extends EmergencyViewModelState {
+  final EmergencyStatusResponse? response;
+
+  EmergencyStatusRejected(this.response);
+}
+

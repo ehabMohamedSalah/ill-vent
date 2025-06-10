@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ill_vent/Domain/usecase/pharmcy_usecase.dart';
 import 'package:ill_vent/core/api/api_result.dart';
-import 'package:ill_vent/data_layer/model/PharmacyResponse.dart';
+import 'package:ill_vent/data_layer/model/Pharmacy_response.dart';
 import 'package:ill_vent/presentation/home/tabs/2-Pharmacy_tab/ViewModel/pharmcy_intent.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';

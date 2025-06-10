@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ill_vent/core/utils/Appstyle.dart';
+import 'package:ill_vent/data_layer/model/Hospital_response.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../../data_layer/model/Pharmacy_response.dart';
+
 class VerItemWidget extends StatefulWidget {
+  bool isPharmcy;
+  HospitalResponse? hospitalResponse;
+  PharmacyResponse? pharmacyResponseResponse;
   final dynamic model;
-  const VerItemWidget({super.key, required this.model});
+    VerItemWidget({super.key, required this.model,this.isPharmcy=false,});
 
   @override
   State<VerItemWidget> createState() => _VerItemWidgetState();
@@ -132,7 +138,7 @@ class _VerItemWidgetState extends State<VerItemWidget>
             ),
             InkWell(
               onTap: () async {
-                final url = "https://www.mohp.gov.eg"; // موقع وزارة الصحة المصرية
+                final url = widget.model.websiteUrl??"https://www.mohp.gov.eg"; // موقع وزارة الصحة المصرية
                 final uri = Uri.parse(url);
                 debugPrint("View More tapped");
                 if (await canLaunchUrl(uri)) {

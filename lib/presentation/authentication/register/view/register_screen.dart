@@ -119,19 +119,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           SizedBox(height: 20,),
 
                           RegisterCustomFormField(title: StringsManager.firstName, hintText: StringsManager.fNameHint, keyboard: TextInputType.text, controller: firstNameController, maxLength: 30,
-                              validator:(value){
-                                if(value==null||value.isEmpty){
-                                  return StringsManager.notValidName;
-                                }}
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "Please enter a name";
+                              }
+                              final nameRegExp = RegExp(r'^[a-zA-Z\s]+$');
+                              if (!nameRegExp.hasMatch(value.trim())) {
+                                return "Name must contain only letters";
+                              }
+                              return null;
+                            },
+
 
                           ),
                           SizedBox(height: 20,),
 
                           RegisterCustomFormField(title: StringsManager.lastName, hintText:  StringsManager.lNameHint , keyboard: TextInputType.text, controller: lastNameController, maxLength: 30,
-                              validator:(value){
-                                if(value==null||value.isEmpty){
-                                  return StringsManager.notValidName;
-                                }}
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "Please enter a name";
+                              }
+                              final nameRegExp = RegExp(r'^[a-zA-Z\s]+$');
+                              if (!nameRegExp.hasMatch(value.trim())) {
+                                return "Name must contain only letters";
+                              }
+                              return null;
+                            },
 
                           ),
                           SizedBox(height: 20,),

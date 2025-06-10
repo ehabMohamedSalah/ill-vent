@@ -36,6 +36,9 @@ class EmergencyDatasourceImpl extends EmergencyDatasource{
          },
      );
     var result=EmergencyRequestResponse.fromJson(response.data);
+    if(result.success==false){
+      return ErrorApiResult(Exception(result.message.toString()));
+    }
     return SuccessApiResult(result);
      }catch(err){
        return ErrorApiResult(Exception(err.toString()));
