@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:ill_vent/core/di/di.dart';
 import 'package:ill_vent/core/resuable_component/LoginCustomFormField.dart';
@@ -244,11 +243,10 @@ class _CreateApointmentState extends State<CreateApointment> {
 
                       DrViewModelCubit.get(context).createAppointment(patientModel);
                     } else {
-                      Fluttertoast.showToast(
-                        msg: "Please correct the errors.",
-                        backgroundColor: Colors.orange,
-                        textColor: Colors.white,
-                      );
+                      toastMessage(
+                          message: "Please correct the errors.",
+                          tybeMessage: TybeMessage.negative);
+
                     }
                   }, "Appointment"),
                 );
